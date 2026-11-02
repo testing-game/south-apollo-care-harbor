@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Landing page sections live in src/components/landing; design images are CDN pointers in src/assets/site resolved via asset() in src/lib/asset.ts, so images stay out of the repo.

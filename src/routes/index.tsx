@@ -1,24 +1,46 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/landing/Header";
+import { Hero } from "@/components/landing/Hero";
+import { WhyChoose, Specialities } from "@/components/landing/Specialities";
+import { Packages, AskBanner, Posts } from "@/components/landing/Content";
+import { Corporate, MapSection, Footer } from "@/components/landing/Footer";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "South Apollo Medical College Hospital" },
+      {
+        name: "description",
+        content:
+          "South Apollo Medical College Hospital — find a doctor, book appointments, health check packages and world-class specialities.",
+      },
+      { property: "og:title", content: "South Apollo Medical College Hospital" },
+      {
+        property: "og:description",
+        content: "Find a doctor, book appointments and explore our specialities and health packages.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background font-sans">
+      <Header />
+      <main>
+        <Hero />
+        <WhyChoose />
+        <Specialities />
+        <Packages />
+        <AskBanner />
+        <Posts />
+        <Corporate />
+        <MapSection />
+      </main>
+      <Footer />
     </div>
   );
 }

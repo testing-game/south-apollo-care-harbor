@@ -142,3 +142,209 @@
     color: var(--color-foreground);
   }
 }
+
+/* Figma design tokens */
+:root {
+  --token-color-azure-61: hsl(217 89% 61%);
+  --token-color-red-56: hsl(4 80% 56%);
+  --token-color-orange-50: hsl(45 96% 50%);
+  --token-color-spring-green-43: hsl(136 53% 43%);
+  --token-color-white-02: hsl(0 0% 100%);
+  --token-tw-ring-offset-color: hsl(0 0% 100%);
+  --token-color-azure-63: hsl(195 74% 63%);
+  --token-color-azure-17: hsl(215 100% 17%);
+  --token-color-azure-5: hsl(223 84% 5%);
+  --token-color-chartreuse-green-35: hsl(80 100% 35%);
+  --token-color-orange-89: hsl(40 10% 89%);
+  --token-color-cyan-61: hsl(195 90% 61%);
+  --token-color-black-0: hsl(0 0% 0%);
+  --token-color-grey-98: hsl(210 40% 98%);
+  --token-color-grey-98-3: hsl(218 80% 98%);
+  --token-color-grey-91: hsl(214 32% 91%);
+  --token-color-violet-56: hsl(267 29% 56%);
+  --token-color-grey-98-4: hsl(216 100% 98%);
+  --token-color-grey-97: hsl(220 43% 97%);
+  --token-color-grey-87: hsl(0 0% 87%);
+  --token-color-grey-50: hsl(0 0% 50%);
+  --token-color-grey-96: hsl(0 0% 96%);
+  --token-color-black-solid: hsl(0 0% 0%);
+  --token-color-azure-14: hsl(219 57% 14%);
+  --token-color-azure-23-50: hsl(218 49% 23%);
+  --token-color-azure-61-2: hsl(195 89% 61%);
+  --token-color-azure-35-80: hsl(218 35% 35%);
+  --token-color-grey-98-5: hsl(210 20% 98%);
+  --token-color-azure-27: hsl(219 42% 27%);
+  --token-color-azure-84-40: hsl(216 12% 84%);
+  --token-item-spacing-2519: 25.190000534057617px;
+  --token-item-spacing-s: 24px;
+  --token-item-spacing-252: 25.200000762939453px;
+  --token-radius: 8px;
+  --token-item-spacing-36: 36px;
+  --token-item-spacing-l: 48px;
+  --token-item-spacing-001: 0.009999999776482582px;
+  --token-stroke-weight-2: 2px;
+  --token-stroke-weight-4: 4px;
+  --token-item-spacing-m: 32px;
+  --token-item-spacing-172: 172px;
+  --token-item-spacing-53804: 538.0399780273438px;
+  --token-item-spacing-253: 253px;
+  --token-corner-radius-9999: 9999px;
+  --token-corner-radius-12: 12px;
+  --token-corner-radius-3: 3px;
+  --token-corner-radius-6: 6px;
+  --token-font-size-16: 16px;
+  --token-line-height-20: 20;
+  --token-line-height-28: 28;
+  --token-light: 300;
+  --token-bold: 700;
+  --token-regular: 400;
+  --token-medium: 500;
+  --token-black: 900;
+  --token-inter: Inter;
+  --token-roboto: Roboto;
+}
+
+
+@theme inline {
+  /* Tailwind 4 theme: semantic colors + Figma design tokens (parity with Tailwind 3 config + tokens.css) */
+  /* Theme vars reference source vars (--token-*) so utilities like bg-* / text-* respond to mode blocks below. */
+  /* Design tokens from Figma: theme vars reference source vars so utilities respond to mode */
+  --color-wwwevercarebdcom-alto: var(--token-wwwevercarebdcom-alto);
+  --color-wwwevercarebdcom-amethyst: var(--token-wwwevercarebdcom-amethyst);
+  --color-wwwevercarebdcom-athens-gray: var(--token-wwwevercarebdcom-athens-gray);
+  --color-wwwevercarebdcom-big-stone-10: var(--token-wwwevercarebdcom-big-stone-10);
+  --color-wwwevercarebdcom-black: var(--token-wwwevercarebdcom-black);
+  --color-wwwevercarebdcom-black-0: var(--token-wwwevercarebdcom-black-0);
+  --color-wwwevercarebdcom-black-pearl: var(--token-wwwevercarebdcom-black-pearl);
+  --color-wwwevercarebdcom-bunting: var(--token-wwwevercarebdcom-bunting);
+  --color-wwwevercarebdcom-catskill-white: var(--token-wwwevercarebdcom-catskill-white);
+  --color-wwwevercarebdcom-catskill-white-80: var(--token-wwwevercarebdcom-catskill-white-80);
+  --color-wwwevercarebdcom-cello-50: var(--token-wwwevercarebdcom-cello-50);
+  --color-wwwevercarebdcom-chateau-green: var(--token-wwwevercarebdcom-chateau-green);
+  --color-wwwevercarebdcom-cinnabar: var(--token-wwwevercarebdcom-cinnabar);
+  --color-wwwevercarebdcom-concrete: var(--token-wwwevercarebdcom-concrete);
+  --color-wwwevercarebdcom-cornflower-blue: var(--token-wwwevercarebdcom-cornflower-blue);
+  --color-wwwevercarebdcom-denim: var(--token-wwwevercarebdcom-denim);
+  --color-wwwevercarebdcom-dove-gray: var(--token-wwwevercarebdcom-dove-gray);
+  --color-wwwevercarebdcom-east-bay-80: var(--token-wwwevercarebdcom-east-bay-80);
+  --color-wwwevercarebdcom-emperor: var(--token-wwwevercarebdcom-emperor);
+  --color-wwwevercarebdcom-gray: var(--token-wwwevercarebdcom-gray);
+  --color-wwwevercarebdcom-limeade: var(--token-wwwevercarebdcom-limeade);
+  --color-wwwevercarebdcom-mischka-40: var(--token-wwwevercarebdcom-mischka-40);
+  --color-wwwevercarebdcom-mystic: var(--token-wwwevercarebdcom-mystic);
+  --color-wwwevercarebdcom-picton-blue: var(--token-wwwevercarebdcom-picton-blue);
+  --color-wwwevercarebdcom-prussian-blue: var(--token-wwwevercarebdcom-prussian-blue);
+  --color-wwwevercarebdcom-rhino: var(--token-wwwevercarebdcom-rhino);
+  --color-wwwevercarebdcom-royal-blue: var(--token-wwwevercarebdcom-royal-blue);
+  --color-wwwevercarebdcom-selago: var(--token-wwwevercarebdcom-selago);
+  --color-wwwevercarebdcom-selective-yellow: var(--token-wwwevercarebdcom-selective-yellow);
+  --color-wwwevercarebdcom-turquoise-blue: var(--token-wwwevercarebdcom-turquoise-blue);
+  --color-wwwevercarebdcom-westar: var(--token-wwwevercarebdcom-westar);
+  --color-wwwevercarebdcom-white: var(--token-wwwevercarebdcom-white);
+  --color-wwwevercarebdcom-white-02: var(--token-wwwevercarebdcom-white-02);
+  --color-wwwevercarebdcom-white-80: var(--token-wwwevercarebdcom-white-80);
+  --color-wwwevercarebdcom-white-lilac: var(--token-wwwevercarebdcom-white-lilac);
+  --color-wwwevercarebdcom-wild-sand: var(--token-wwwevercarebdcom-wild-sand);
+  --color-wwwevercarebdcom-wisteria: var(--token-wwwevercarebdcom-wisteria);
+  --color-wwwevercarebdcom-zircon: var(--token-wwwevercarebdcom-zircon);
+  --color-color-azure-61: var(--token-color-azure-61);
+  --color-color-red-56: var(--token-color-red-56);
+  --color-color-orange-50: var(--token-color-orange-50);
+  --color-color-spring-green-43: var(--token-color-spring-green-43);
+  --color-color-white-02: var(--token-color-white-02);
+  --color-tw-ring-offset-color: var(--token-tw-ring-offset-color);
+  --color-color-azure-63: var(--token-color-azure-63);
+  --color-color-azure-17: var(--token-color-azure-17);
+  --color-color-azure-5: var(--token-color-azure-5);
+  --color-color-chartreuse-green-35: var(--token-color-chartreuse-green-35);
+  --color-color-orange-89: var(--token-color-orange-89);
+  --color-color-cyan-61: var(--token-color-cyan-61);
+  --color-color-black-0: var(--token-color-black-0);
+  --color-color-grey-98: var(--token-color-grey-98);
+  --color-color-grey-98-3: var(--token-color-grey-98-3);
+  --color-color-grey-91: var(--token-color-grey-91);
+  --color-color-violet-56: var(--token-color-violet-56);
+  --color-color-grey-98-4: var(--token-color-grey-98-4);
+  --color-color-grey-97: var(--token-color-grey-97);
+  --color-color-grey-87: var(--token-color-grey-87);
+  --color-color-grey-50: var(--token-color-grey-50);
+  --color-color-grey-96: var(--token-color-grey-96);
+  --color-color-black-solid: var(--token-color-black-solid);
+  --color-color-azure-14: var(--token-color-azure-14);
+  --color-color-azure-23-50: var(--token-color-azure-23-50);
+  --color-color-azure-61-2: var(--token-color-azure-61-2);
+  --color-color-azure-35-80: var(--token-color-azure-35-80);
+  --color-color-grey-98-5: var(--token-color-grey-98-5);
+  --color-color-azure-27: var(--token-color-azure-27);
+  --color-color-azure-84-40: var(--token-color-azure-84-40);
+  --spacing-item-spacing-2519: var(--token-item-spacing-2519);
+  --spacing-item-spacing-s: var(--token-item-spacing-s);
+  --spacing-item-spacing-252: var(--token-item-spacing-252);
+  --spacing-radius: var(--token-radius);
+  --spacing-item-spacing-36: var(--token-item-spacing-36);
+  --spacing-item-spacing-l: var(--token-item-spacing-l);
+  --spacing-item-spacing-001: var(--token-item-spacing-001);
+  --spacing-stroke-weight-2: var(--token-stroke-weight-2);
+  --spacing-stroke-weight-4: var(--token-stroke-weight-4);
+  --spacing-item-spacing-m: var(--token-item-spacing-m);
+  --spacing-item-spacing-172: var(--token-item-spacing-172);
+  --spacing-item-spacing-53804: var(--token-item-spacing-53804);
+  --spacing-item-spacing-253: var(--token-item-spacing-253);
+  --radius-corner-radius-9999: var(--token-corner-radius-9999);
+  --radius-corner-radius-12: var(--token-corner-radius-12);
+  --radius-corner-radius-3: var(--token-corner-radius-3);
+  --radius-corner-radius-6: var(--token-corner-radius-6);
+  --font-size-font-size-16: var(--token-font-size-16);
+  --line-height-line-height-20: var(--token-line-height-20);
+  --line-height-line-height-28: var(--token-line-height-28);
+  --font-weight-light: var(--token-light);
+  --font-weight-bold: var(--token-bold);
+  --font-weight-regular: var(--token-regular);
+  --font-weight-medium: var(--token-medium);
+  --font-weight-black: var(--token-black);
+  --font-inter: var(--token-inter);
+  --font-roboto: var(--token-roboto);
+}
+
+
+/* South Apollo semantic brand tokens */
+:root {
+  --brand-navy: oklch(0.27 0.11 258);
+  --brand-navy-deep: oklch(0.22 0.09 258);
+  --brand-sky: oklch(0.74 0.13 230);
+  --brand-lime: oklch(0.66 0.17 128);
+  --brand-violet: oklch(0.55 0.08 300);
+  --surface-soft: oklch(0.975 0.01 255);
+  --surface-card: oklch(0.985 0.005 255);
+  --line-soft: oklch(0.92 0.015 255);
+  --gradient-card: linear-gradient(180deg, color-mix(in oklab, var(--brand-navy) 10%, transparent) 30%, color-mix(in oklab, var(--brand-navy) 85%, transparent));
+  --gradient-strip: linear-gradient(90deg, var(--brand-navy), var(--brand-violet), oklch(0.6 0.2 25));
+  --shadow-card: 0 8px 24px -12px color-mix(in oklab, var(--brand-navy) 30%, transparent);
+  --primary: var(--brand-navy);
+  --foreground: var(--brand-navy);
+}
+@theme inline {
+  --color-navy: var(--brand-navy);
+  --color-navy-deep: var(--brand-navy-deep);
+  --color-sky: var(--brand-sky);
+  --color-lime: var(--brand-lime);
+  --color-violet: var(--brand-violet);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-card: var(--surface-card);
+  --color-line-soft: var(--line-soft);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+@utility bg-card-fade { background-image: var(--gradient-card); }
+@utility bg-strip { background-image: var(--gradient-strip); }
+@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility container-site {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (min-width: 768px) { padding-inline: 2rem; }
+}
+@utility section-title {
+  font-size: 1.75rem; line-height: 1.2; font-weight: 700; color: var(--brand-navy);
+  @media (min-width: 768px) { font-size: 2.25rem; }
+}

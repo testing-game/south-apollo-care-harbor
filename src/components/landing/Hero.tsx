@@ -25,7 +25,7 @@ export function Hero() {
           <a
             key={q.label}
             href="#"
-            className="group flex items-center justify-between gap-3 border border-line-soft bg-background px-5 py-5 transition-colors hover:bg-navy"
+            className="group flex items-center justify-between gap-3 border border-line-soft bg-background px-5 py-3 lg:py-5 transition-colors hover:bg-navy"
           >
             <span className="text-sm font-bold leading-tight text-navy group-hover:text-primary-foreground">{q.label}</span>
             <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-navy">

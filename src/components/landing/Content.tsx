@@ -1,6 +1,6 @@
 import { asset } from "@/lib/asset";
 
-const PACKAGES = [
+const PACKAGES: [string, string, string][] = [
   ["EXECUTIVE HEALTH CHECK", "(MALE / FEMALE)", "executive-health-check-male-female.png"],
   ["HEART CHECK", "(FOR MEN)", "heart-check-for-men.png"],
   ["HEART CHECK", "(FOR WOMEN)", "heart-check-for-women.png"],
@@ -63,7 +63,7 @@ export function Packages() {
       <div className="container-site max-w-[1060px]">
         <h2 className="section-title">Health Check Packages</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {PACKAGES.map(([t, s, img]: string[]) => (
+          {PACKAGES.map(([t, s, img]) => (
             <a key={img} href="#" className="group relative block aspect-[29/32] overflow-hidden">
               <img src={asset(img)} alt={`${t} ${s}`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="bg-card-fade absolute inset-0" />

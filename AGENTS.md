@@ -9,3 +9,4 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 - Landing page sections live in src/components/landing; design images are CDN pointers in src/assets/site resolved via asset() in src/lib/asset.ts, so images stay out of the repo.
+- Footer scroll reveals use a one-shot IntersectionObserver with CSS transitions and reduced-motion overrides, keeping animations dependency-free and accessible.

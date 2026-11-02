@@ -322,7 +322,10 @@
   --shadow-card: 0 8px 24px -12px color-mix(in oklab, var(--brand-navy) 30%, transparent);
   --footer-glow: 0 5px 18px color-mix(in oklab, var(--brand-sky) 22%, transparent);
   --footer-text-glow: 0 0 14px color-mix(in oklab, var(--brand-sky) 35%, transparent);
-  --footer-headline-gradient: linear-gradient(110deg, var(--primary-foreground) 15%, var(--brand-sky) 40%, var(--primary-foreground) 60%, var(--brand-sky) 85%);
+  --footer-gold: oklch(0.83 0.1 85);
+  --footer-headline-gradient: linear-gradient(110deg, var(--brand-sky) 0%, var(--footer-gold) 28%, var(--primary-foreground) 45%, var(--footer-gold) 55%, var(--brand-sky) 75%, var(--footer-gold) 100%);
+  --footer-logo-light: radial-gradient(ellipse at center, color-mix(in oklab, var(--brand-sky) 28%, transparent), color-mix(in oklab, var(--footer-gold) 12%, transparent) 45%, transparent 72%);
+  --footer-border-gradient: linear-gradient(90deg, transparent, var(--brand-sky), var(--footer-gold), var(--brand-sky), transparent);
   --primary: var(--brand-navy);
   --foreground: var(--brand-navy);
 }
@@ -352,24 +355,28 @@
   @media (min-width: 768px) { font-size: 2.25rem; }
 }
 
-.hospital-footer .footer-reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 850ms ease, transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+.hospital-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--footer-border-gradient);
+  background-size: 200% 100%;
+  box-shadow: var(--footer-glow);
+  animation: footer-shimmer 9s linear infinite;
+  pointer-events: none;
 }
-.hospital-footer.footer-visible .footer-reveal {
-  opacity: 1;
-  transform: translateY(0);
+.footer-logo-backlight::before {
+  content: "";
+  position: absolute;
+  inset: -24px;
+  z-index: -1;
+  background: var(--footer-logo-light);
+  animation: footer-logo-pulse 5s ease-in-out infinite;
+  pointer-events: none;
 }
-.footer-brand { transition-delay: 120ms; }
-.footer-address { transition-delay: 240ms; }
-.hospital-footer .footer-reveal > .footer-reveal:nth-child(2) { transition-delay: 160ms; }
-.hospital-footer .footer-reveal > .footer-reveal:nth-child(3) { transition-delay: 240ms; }
-.hospital-footer .footer-reveal > .footer-reveal:nth-child(4) { transition-delay: 320ms; }
-.footer-navigation { transition-delay: 360ms; }
-.footer-statement { transition-delay: 480ms; }
 .hospital-footer .footer-link {
-  transition: color 250ms ease, translate 250ms ease, filter 250ms ease, box-shadow 250ms ease, background-color 250ms ease, opacity 850ms ease, transform 850ms ease;
+  transition: color 250ms ease, translate 250ms ease, scale 300ms ease, rotate 300ms ease, filter 250ms ease, box-shadow 250ms ease, background-color 250ms ease;
 }
 .hospital-footer .footer-link:hover,
 .hospital-footer .footer-link:focus-visible {
@@ -382,6 +389,20 @@
   background: color-mix(in oklab, var(--brand-sky) 12%, transparent);
   box-shadow: var(--footer-glow);
 }
+.hospital-footer .footer-social:is(:hover, :focus-visible),
+.hospital-footer .footer-phone:is(:hover, :focus-visible) { scale: 1.1; rotate: -3deg; }
+.footer-nav-link { position: relative; padding-block: 3px; }
+.footer-nav-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: var(--footer-border-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms ease;
+}
+.footer-nav-link:is(:hover, :focus-visible)::after { transform: scaleX(1); }
 .footer-premium-text {
   color: var(--primary-foreground);
   background-image: var(--footer-headline-gradient);
@@ -389,16 +410,20 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: footer-shimmer 12s ease-in-out infinite;
+  animation: footer-shimmer 8s linear infinite;
   overflow-wrap: break-word;
 }
 @keyframes footer-shimmer {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  from { background-position: 200% 50%; }
+  to { background-position: 0% 50%; }
+}
+@keyframes footer-logo-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(0.96); }
+  50% { opacity: 0.9; transform: scale(1.04); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hospital-footer .footer-reveal { opacity: 1; transform: none; transition: none; }
   .hospital-footer .footer-link { transition: none; }
-  .hospital-footer .footer-link:hover, .hospital-footer .footer-link:focus-visible { translate: none; }
-  .footer-premium-text { animation: none; }
+  .hospital-footer .footer-link:is(:hover, :focus-visible) { translate: none; scale: none; rotate: none; }
+  .footer-nav-link::after { transition: none; }
+  .footer-premium-text, .hospital-footer::before, .footer-logo-backlight::before { animation: none; }
 }

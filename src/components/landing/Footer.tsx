@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, Mail, Phone } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { Button } from "@/components/ui/button";
@@ -51,58 +52,50 @@ export function MapSection() {
 }
 
 export function Footer() {
-  const footerRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const footer = footerRef.current;
-    if (!footer) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setIsVisible(true);
-      return;
-    }
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry?.isIntersecting) {
-        setIsVisible(true);
-        observer.disconnect();
-      }
-    }, { threshold: 0.08 });
-    observer.observe(footer);
-    return () => observer.disconnect();
-  }, []);
+  const reducedMotion = useReducedMotion();
+  const stagger: Variants = {
+    hidden: {},
+    visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.09 } },
+  };
+  const reveal: Variants = {
+    hidden: { opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: reducedMotion ? 0 : 0.7, ease: [0.22, 1, 0.36, 1] } },
+  };
 
   return (
-    <footer ref={footerRef} className={`hospital-footer relative overflow-hidden bg-navy-deep text-primary-foreground ${isVisible ? "footer-visible" : ""}`}>
+    <motion.footer initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.08 }} variants={stagger} className="hospital-footer relative overflow-hidden bg-navy-deep text-primary-foreground">
       <img src={asset("patient-care.png")} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-10" />
       <div className="container-site relative max-w-[1060px] pt-14">
-        <div className="grid gap-10 md:grid-cols-3 md:items-start">
-          <div className="footer-reveal footer-contact space-y-3 text-sm">
-            <p className="footer-reveal font-bold">South Apollo Tele Online</p>
-            <a href="mailto:info@southapollo.com" className="footer-reveal footer-link flex w-fit items-center gap-2"><Mail className="h-4 w-4" /> info@southapollo.com</a>
-            <a href="tel:+8801913240139" className="footer-reveal footer-link flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4" /> +880 1913-240139</a>
-            <div className="footer-reveal flex flex-wrap gap-3 pt-1">
+        <motion.div variants={stagger} className="grid gap-10 md:grid-cols-3 md:items-start">
+          <motion.div variants={stagger} className="footer-contact space-y-3 text-sm">
+            <motion.p variants={reveal} className="font-bold">South Apollo Tele Online</motion.p>
+            <motion.a variants={reveal} href="mailto:info@southapollo.com" className="footer-link flex w-fit items-center gap-2"><Mail className="h-4 w-4" /> info@southapollo.com</motion.a>
+            <motion.a variants={reveal} href="tel:+8801913240139" className="footer-link footer-phone flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4" /> +880 1913-240139</motion.a>
+            <motion.div variants={stagger} className="flex flex-wrap gap-3 pt-1">
               {SOCIAL.map((s) => (
-                <a key={s} href="#" aria-label="Social link" className="footer-link footer-social grid h-8 w-8 place-items-center rounded-full"><img src={asset(s)} alt="" className="h-5 w-5" /></a>
+                <motion.a variants={reveal} key={s} href="#" aria-label="Social link" className="footer-link footer-social grid h-8 w-8 place-items-center rounded-full"><img src={asset(s)} alt="" className="h-5 w-5" /></motion.a>
               ))}
-            </div>
-          </div>
-          <div className="footer-reveal footer-brand flex flex-col items-center gap-4">
-            <img src={asset("south-apollo-footer-logo.png")} alt="South Apollo Medical College Hospital" className="footer-reveal h-40 w-40 object-contain" />
-            <Button asChild className="footer-reveal footer-link rounded-full bg-sky px-8 text-primary-foreground hover:bg-sky/90"><a href="#">Send Query</a></Button>
-          </div>
-          <div className="footer-reveal footer-address space-y-3 text-sm md:text-right">
-            <p className="footer-reveal font-bold">Barishal</p>
-            <p className="footer-reveal leading-relaxed">South Apollo Medical College Hospital, Jagua, Kalijira, Barishal Sadar, Barishal</p>
-            <p className="footer-reveal text-xs opacity-80">© Copyright 2026 South Apollo. All rights reserved.</p>
-          </div>
-        </div>
-        <nav className="footer-reveal footer-navigation mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-3 text-xs">
-          {LINKS.map((l) => <a key={l} href="#" className="footer-link">{l}</a>)}
-        </nav>
-        <div className="footer-reveal footer-statement mx-auto mt-12 max-w-5xl pb-10 text-center">
-          <p className="footer-premium-text text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">Only Private Medical College and Hospital in Barishal Division</p>
-        </div>
+            </motion.div>
+          </motion.div>
+          <motion.div variants={stagger} className="footer-brand flex flex-col items-center gap-4">
+            <motion.div variants={reveal} className="footer-logo-backlight relative isolate h-40 w-40">
+              <img src={asset("south-apollo-footer-logo.png")} alt="South Apollo Medical College Hospital" className="relative h-full w-full object-contain" />
+            </motion.div>
+            <motion.div variants={reveal}><Button asChild className="footer-link rounded-full bg-sky px-8 text-primary-foreground hover:bg-sky/90"><a href="#">Send Query</a></Button></motion.div>
+          </motion.div>
+          <motion.div variants={stagger} className="footer-address space-y-3 text-sm md:text-right">
+            <motion.p variants={reveal} className="font-bold">Barishal</motion.p>
+            <motion.p variants={reveal} className="leading-relaxed">South Apollo Medical College Hospital, Jagua, Kalijira, Barishal Sadar, Barishal</motion.p>
+            <motion.p variants={reveal} className="text-xs opacity-80">© Copyright 2026 South Apollo. All rights reserved.</motion.p>
+          </motion.div>
+        </motion.div>
+        <motion.nav variants={stagger} className="footer-navigation mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-3 text-xs">
+          {LINKS.map((l) => <motion.a variants={reveal} key={l} href="#" className="footer-link footer-nav-link">{l}</motion.a>)}
+        </motion.nav>
+        <motion.div variants={reveal} className="footer-statement mx-auto mt-12 max-w-5xl pb-10 text-center">
+          <p className="footer-premium-text text-xl font-bold leading-relaxed sm:whitespace-nowrap sm:text-sm md:text-base lg:text-2xl">Only Private Medical College and Hospital in Barishal Division</p>
+        </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

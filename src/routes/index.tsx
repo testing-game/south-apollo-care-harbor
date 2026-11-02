@@ -1,24 +1,56 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import LandingPage from "@/figma/LandingPage";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "South Apollo Medical College Hospital" },
+      {
+        name: "description",
+        content:
+          "South Apollo Medical College Hospital — find a doctor, book appointments, health check packages and world-class specialities.",
+      },
+      { property: "og:title", content: "South Apollo Medical College Hospital" },
+      {
+        property: "og:description",
+        content: "Find a doctor, book appointments and explore our specialities and health packages.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const DESIGN_WIDTH = 1920;
+
 function Index() {
+  const inner = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [height, setHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    const update = () => {
+      const s = window.innerWidth / DESIGN_WIDTH;
+      setScale(s);
+      if (inner.current) setHeight(inner.current.offsetHeight * s);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    if (inner.current) ro.observe(inner.current);
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="w-full overflow-hidden" style={{ height }}>
+      <div ref={inner} className="page-scaler font-inter" style={{ transform: `scale(${scale})` }}>
+        <LandingPage />
+      </div>
+    </main>
   );
 }

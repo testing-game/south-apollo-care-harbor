@@ -1,4 +1,5 @@
-import vt19 from "../assets/vt-19.png";
+import vt19Asset from "../assets/vt-19.png.asset.json";
+const vt19 = vt19Asset.url;
 
 interface Component10Props {
   className?: string;

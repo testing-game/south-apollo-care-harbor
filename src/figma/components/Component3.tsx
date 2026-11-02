@@ -1,8 +1,13 @@
-import findADoctor from "../assets/find-a-doctor.png";
-import requestAnAppointment from "../assets/request-an-appointment.png";
-import onlineReport from "../assets/online-report.png";
-import teleOnline from "../assets/tele-online.png";
-import patientVisitorsGuide from "../assets/patient-visitors-guide.png";
+import findADoctorAsset from "../assets/find-a-doctor.png.asset.json";
+const findADoctor = findADoctorAsset.url;
+import requestAnAppointmentAsset from "../assets/request-an-appointment.png.asset.json";
+const requestAnAppointment = requestAnAppointmentAsset.url;
+import onlineReportAsset from "../assets/online-report.png.asset.json";
+const onlineReport = onlineReportAsset.url;
+import teleOnlineAsset from "../assets/tele-online.png.asset.json";
+const teleOnline = teleOnlineAsset.url;
+import patientVisitorsGuideAsset from "../assets/patient-visitors-guide.png.asset.json";
+const patientVisitorsGuide = patientVisitorsGuideAsset.url;
 
 interface Component3Props {
   className?: string;

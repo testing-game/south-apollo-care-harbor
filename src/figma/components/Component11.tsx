@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 import Component1 from "./Component1";
 
 interface Component11Props {

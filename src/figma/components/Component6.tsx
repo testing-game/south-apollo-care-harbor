@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 interface Component6Props {
   className?: string;
   text: string;

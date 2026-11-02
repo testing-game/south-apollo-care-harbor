@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 import component1Asset from "../assets/component-1.png.asset.json";
 const component1 = component1Asset.url;
 import variant2Asset from "../assets/variant2.png.asset.json";

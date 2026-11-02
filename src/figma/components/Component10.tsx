@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 import vt19Asset from "../assets/vt-19.png.asset.json";
 const vt19 = vt19Asset.url;
 

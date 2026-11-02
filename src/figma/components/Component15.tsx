@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 import Component1 from "./Component1";
 import Component14 from "./Component14";
 

@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 import sliderAsset from "./assets/slider.png.asset.json";
 const slider = sliderAsset.url;
 import evercarebdSpecialitiesAsset from "./assets/evercarebd-specialities.png.asset.json";

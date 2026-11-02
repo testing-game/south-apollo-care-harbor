@@ -1,3 +1,4 @@
+// @ts-nocheck -- generated Figma export
 import findADoctorAsset from "../assets/find-a-doctor.png.asset.json";
 const findADoctor = findADoctorAsset.url;
 import requestAnAppointmentAsset from "../assets/request-an-appointment.png.asset.json";

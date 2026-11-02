@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import LandingPage from "@/figma/LandingPage";
+import { Header } from "@/components/landing/Header";
+import { Hero } from "@/components/landing/Hero";
+import { WhyChoose, Specialities } from "@/components/landing/Specialities";
+import { Packages, AskBanner, Posts } from "@/components/landing/Content";
+import { Corporate, MapSection, Footer } from "@/components/landing/Footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,34 +26,21 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const DESIGN_WIDTH = 1920;
-
 function Index() {
-  const inner = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-  const [height, setHeight] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    const update = () => {
-      const s = window.innerWidth / DESIGN_WIDTH;
-      setScale(s);
-      if (inner.current) setHeight(inner.current.offsetHeight * s);
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    if (inner.current) ro.observe(inner.current);
-    window.addEventListener("resize", update);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", update);
-    };
-  }, []);
-
   return (
-    <main className="w-full overflow-hidden" style={{ height }}>
-      <div ref={inner} className="page-scaler font-inter" style={{ transform: `scale(${scale})` }}>
-        <LandingPage />
-      </div>
-    </main>
+    <div className="min-h-screen bg-background font-sans">
+      <Header />
+      <main>
+        <Hero />
+        <WhyChoose />
+        <Specialities />
+        <Packages />
+        <AskBanner />
+        <Posts />
+        <Corporate />
+        <MapSection />
+      </main>
+      <Footer />
+    </div>
   );
 }

@@ -1,6 +1,7 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Mail, Phone } from "lucide-react";
 import { asset } from "@/lib/asset";
+import { Button } from "@/components/ui/button";
 
 const LOGOS = ["", "-2", "-3", "-4", "-5"].map((s) => `evercare-partner-logo${s}.png`);
 const SOCIAL = ["variant72.png", "variant73.png", "variant74.png", "variant75.png", "variant76.png", "variant77.png"];
@@ -50,38 +51,57 @@ export function MapSection() {
 }
 
 export function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const footer = footerRef.current;
+    if (!footer) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setIsVisible(true);
+      return;
+    }
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry?.isIntersecting) {
+        setIsVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.08 });
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer className="relative overflow-hidden bg-navy-deep text-primary-foreground">
+    <footer ref={footerRef} className={`hospital-footer relative overflow-hidden bg-navy-deep text-primary-foreground ${isVisible ? "footer-visible" : ""}`}>
       <img src={asset("patient-care.png")} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-10" />
       <div className="container-site relative max-w-[1060px] pt-14">
         <div className="grid gap-10 md:grid-cols-3 md:items-start">
-          <div className="space-y-3 text-sm">
-            <p className="font-bold">South Apollo Tele Online</p>
-            <a href="mailto:info@southapollo.com" className="flex items-center gap-2"><Mail className="h-4 w-4" /> info@southapollo.com</a>
-            <a href="tel:10678" className="flex items-center gap-2 font-bold"><Phone className="h-4 w-4" /> 10678</a>
-            <a href="#" className="block pt-3 text-xs underline">Privacy Policy</a>
-            <div className="flex gap-3 pt-1">
+          <div className="footer-reveal footer-contact space-y-3 text-sm">
+            <p className="footer-reveal font-bold">South Apollo Tele Online</p>
+            <a href="mailto:info@southapollo.com" className="footer-reveal footer-link flex w-fit items-center gap-2"><Mail className="h-4 w-4" /> info@southapollo.com</a>
+            <a href="tel:+8801913240139" className="footer-reveal footer-link flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4" /> +880 1913-240139</a>
+            <div className="footer-reveal flex flex-wrap gap-3 pt-1">
               {SOCIAL.map((s) => (
-                <a key={s} href="#" aria-label="Social link"><img src={asset(s)} alt="" className="h-5 w-5" /></a>
+                <a key={s} href="#" aria-label="Social link" className="footer-link footer-social grid h-8 w-8 place-items-center rounded-full"><img src={asset(s)} alt="" className="h-5 w-5" /></a>
               ))}
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4">
-            <img src={asset("evercare-hospital.png")} alt="South Apollo Medical College Hospital" className="h-24 w-auto" />
-            <a href="#" className="rounded-full bg-sky px-8 py-2.5 text-sm font-semibold transition-opacity hover:opacity-90">Send Query</a>
+          <div className="footer-reveal footer-brand flex flex-col items-center gap-4">
+            <img src={asset("south-apollo-footer-logo.png")} alt="South Apollo Medical College Hospital" className="footer-reveal h-40 w-40 object-contain" />
+            <Button asChild className="footer-reveal footer-link rounded-full bg-sky px-8 text-primary-foreground hover:bg-sky/90"><a href="#">Send Query</a></Button>
           </div>
-          <div className="space-y-3 text-sm md:text-right">
-            <p className="font-bold">Dhaka</p>
-            <p className="leading-relaxed">Plot # 81, Block-E,<br />Bashundhara R/A, Dhaka 1229, Bangladesh.</p>
-            <p className="text-xs opacity-80">© Copyright 2026 South Apollo. All rights reserved.</p>
+          <div className="footer-reveal footer-address space-y-3 text-sm md:text-right">
+            <p className="footer-reveal font-bold">Barishal</p>
+            <p className="footer-reveal leading-relaxed">South Apollo Medical College Hospital, Jagua, Kalijira, Barishal Sadar, Barishal</p>
+            <p className="footer-reveal text-xs opacity-80">© Copyright 2026 South Apollo. All rights reserved.</p>
           </div>
         </div>
-        <nav className="mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-3 text-xs">
-          {LINKS.map((l) => <a key={l} href="#" className="hover:text-sky">{l}</a>)}
+        <nav className="footer-reveal footer-navigation mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-3 text-xs">
+          {LINKS.map((l) => <a key={l} href="#" className="footer-link">{l}</a>)}
         </nav>
-        <p className="mt-10 select-none text-center text-[clamp(2.5rem,9vw,7.5rem)] font-black leading-none tracking-wide text-primary-foreground/10">
-          Transforming Healthcare
-        </p>
+        <div className="footer-reveal footer-statement mx-auto mt-12 max-w-5xl pb-10 text-center">
+          <p className="footer-premium-text text-3xl font-bold leading-tight sm:text-4xl md:text-5xl">Only Private Medical College and Hospital in Barishal Division</p>
+        </div>
       </div>
     </footer>
   );

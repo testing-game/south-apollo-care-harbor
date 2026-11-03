@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
+import { Menu, Phone, Search, X } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { useScrollHeader } from "@/hooks/use-scroll-header";
 import { Button } from "@/components/ui/button";

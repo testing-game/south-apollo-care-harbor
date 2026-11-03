@@ -3,11 +3,12 @@ import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
 import { asset } from "@/lib/asset";
 
 const NAV = ["Home", "About Us", "Specialities", "Health Check", "Online Report", "Patient Stories", "Career"];
+const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 bg-background shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-line-soft bg-background shadow-sm">
       {/* Top bar */}
       <div className="bg-navy text-primary-foreground">
         <div className="container-site flex h-9 items-center justify-between gap-4 text-xs">
@@ -38,25 +39,46 @@ export function Header() {
       </div>
       {/* Main nav */}
       <div className="container-site flex h-20 items-center justify-between gap-6 md:h-24">
-        <a href="#" className="shrink-0">
-          <img src={asset("logo.png")} alt="South Apollo Medical College Hospital" className="h-14 w-auto md:h-[70px]" />
+        <a href="#" className="shrink-0" aria-label="South Apollo Medical College Hospital — Home">
+          <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital" className="h-14 w-auto md:h-[68px]" />
         </a>
         <nav className="hidden items-center gap-1 lg:flex">
-          {NAV.map((n, i) => (
-            <a
-              key={n}
-              href="#"
-              className={`flex items-center gap-1 px-3 py-2.5 text-sm transition-colors ${i === 0 ? "bg-sky text-primary-foreground" : "text-navy hover:text-sky"}`}
-            >
-              {n}
-              {n === "Specialities" && <ChevronDown className="h-3.5 w-3.5" />}
-            </a>
-          ))}
+          {NAV.map((n, i) => {
+            const className = `flex items-center gap-1 px-3 py-2.5 text-sm ${
+              i === 0 ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
+            }`;
+            const label = (
+              <>
+                {n}
+                {n === "Specialities" && <ChevronDown className="h-3.5 w-3.5" />}
+              </>
+            );
+            return n === "Online Report" ? (
+              <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={className}>
+                {label}
+              </a>
+            ) : (
+              <a key={n} href="#" className={className}>
+                {label}
+              </a>
+            );
+          })}
           <a href="#" className="ml-4 bg-navy px-6 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-sky">
             Send Query
           </a>
         </nav>
-        <img src={asset("seal.png")} alt="JCI accredited seal" className="hidden h-14 w-auto lg:block" />
+        {/* DGHS approval badge */}
+        <div
+          className="hidden shrink-0 items-center gap-2 lg:flex"
+          title="Approved by the Directorate General of Health Services (DGHS)"
+        >
+          <img src={asset("dghs-approved.png")} alt="DGHS approved emblem" className="h-16 w-auto" />
+          <span className="text-[9px] font-semibold leading-[1.35] text-navy">
+            Directorate General of<br />
+            Health Services (DGHS)<br />
+            Approved
+          </span>
+        </div>
         <button className="text-navy lg:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           {open ? <X /> : <Menu />}
         </button>
@@ -64,9 +86,21 @@ export function Header() {
       {open && (
         <nav className="border-t border-line-soft bg-background lg:hidden">
           <div className="container-site flex flex-col py-2">
-            {NAV.map((n) => (
-              <a key={n} href="#" className="border-b border-line-soft py-3 text-sm text-navy">{n}</a>
-            ))}
+            {NAV.map((n) =>
+              n === "Online Report" ? (
+                <a
+                  key={n}
+                  href={REPORT_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-b border-line-soft py-3 text-sm text-navy"
+                >
+                  {n}
+                </a>
+              ) : (
+                <a key={n} href="#" className="border-b border-line-soft py-3 text-sm text-navy">{n}</a>
+              ),
+            )}
             <a href="#" className="my-3 bg-navy py-3 text-center text-sm font-medium text-primary-foreground">Send Query</a>
           </div>
         </nav>

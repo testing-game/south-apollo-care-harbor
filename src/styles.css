@@ -469,3 +469,32 @@
   .topbar-phone, .topbar-phone:is(:hover, :focus-visible) { scale: none; transition: none; }
   .topbar-phone:is(:hover, :focus-visible) span { animation: none; }
 }
+
+/* Main nav: soft color switch + bottom-border glow on hover */
+.main-nav-link {
+  position: relative;
+  transition: color 220ms ease, background-color 220ms ease;
+}
+.main-nav-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 14px 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--footer-border-gradient);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--brand-sky) 70%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 250ms ease, opacity 250ms ease;
+}
+.main-nav-link:is(:hover, :focus-visible) {
+  color: var(--brand-sky);
+}
+.main-nav-link:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+.main-nav-link.is-active::after { content: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .main-nav-link, .main-nav-link::after { transition: none; }
+}

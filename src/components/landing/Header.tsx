@@ -17,17 +17,22 @@ export function Header() {
             </span>
             <span className="hidden sm:inline">Welcome to South Apollo Medical College Hospital.</span>
           </div>
-          <div className="flex items-center gap-4">
-            <label className="hidden items-center rounded-sm bg-background px-2 py-1 text-foreground lg:flex">
+          <div className="flex items-center gap-3 md:gap-6">
+            <label className="hidden items-center gap-2 rounded-sm bg-background px-2 py-1 text-foreground lg:flex">
               <input placeholder="Search" className="w-36 bg-transparent text-xs outline-hidden" />
               <Search className="h-3.5 w-3.5" />
             </label>
-            <a href="#" className="hidden md:inline">Publications</a>
-            <a href="#" className="hidden items-center gap-1 md:flex">View All Locations <ChevronDown className="h-3 w-3" /></a>
-            <a href="tel:10678" className="flex items-center gap-1 font-semibold">
-              <span className="grid h-5 w-5 place-items-center rounded-full bg-background text-navy"><Phone className="h-3 w-3" /></span>10678
+            <a
+              href="https://www.samcb.edu.bd"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="topbar-college-link hidden md:inline"
+            >
+              College Website
             </a>
-            <button className="hidden items-center gap-1 sm:flex">English <ChevronDown className="h-3 w-3" /></button>
+            <a href="tel:01913240139" className="topbar-phone flex items-center gap-1 font-semibold">
+              <span className="grid h-5 w-5 place-items-center rounded-full bg-background text-navy"><Phone className="h-3 w-3" /></span>01913240139
+            </a>
           </div>
         </div>
       </div>

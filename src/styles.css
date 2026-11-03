@@ -427,3 +427,45 @@
   .footer-nav-link::after { transition: none; }
   .footer-premium-text, .hospital-footer::before, .footer-logo-backlight::before { animation: none; }
 }
+
+/* Top bar: College Website link + phone button effects */
+.topbar-college-link {
+  position: relative;
+}
+.topbar-college-link::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -2px;
+  height: 1px;
+  background: var(--footer-border-gradient);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 250ms ease;
+}
+.topbar-college-link:is(:hover, :focus-visible) {
+  color: var(--brand-sky);
+  filter: drop-shadow(var(--footer-text-glow));
+}
+.topbar-college-link:is(:hover, :focus-visible)::after { transform: scaleX(1); }
+
+.topbar-phone {
+  transition: scale 250ms ease, color 250ms ease, filter 250ms ease;
+}
+.topbar-phone:is(:hover, :focus-visible) {
+  scale: 1.08;
+  color: var(--brand-sky);
+  filter: drop-shadow(var(--footer-text-glow));
+}
+.topbar-phone:is(:hover, :focus-visible) span {
+  animation: phone-beacon 1.2s ease-in-out infinite;
+}
+@keyframes phone-beacon {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-sky) 55%, transparent); }
+  50% { box-shadow: 0 0 0 4px color-mix(in oklab, var(--brand-sky) 25%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar-college-link::after { transition: none; }
+  .topbar-phone, .topbar-phone:is(:hover, :focus-visible) { scale: none; transition: none; }
+  .topbar-phone:is(:hover, :focus-visible) span { animation: none; }
+}

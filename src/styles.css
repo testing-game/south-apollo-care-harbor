@@ -314,6 +314,9 @@
   --brand-sky: oklch(0.74 0.13 230);
   --brand-lime: oklch(0.66 0.17 128);
   --brand-violet: oklch(0.55 0.08 300);
+  --dghs-dot: oklch(0.55 0.19 145);
+  --dghs-line: color-mix(in oklab, oklch(0.55 0.19 145) 32%, transparent);
+  --dghs-tint: color-mix(in oklab, oklch(0.55 0.19 145) 7%, white);
   --surface-soft: oklch(0.975 0.01 255);
   --surface-card: oklch(0.985 0.005 255);
   --line-soft: oklch(0.92 0.015 255);
@@ -337,6 +340,9 @@
   --color-violet: var(--brand-violet);
   --color-surface-soft: var(--surface-soft);
   --color-surface-card: var(--surface-card);
+  --color-dghs-dot: var(--dghs-dot);
+  --color-dghs-line: var(--dghs-line);
+  --color-dghs-tint: var(--dghs-tint);
   --color-line-soft: var(--line-soft);
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }

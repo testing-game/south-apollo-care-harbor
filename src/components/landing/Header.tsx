@@ -8,7 +8,7 @@ const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 export function Header() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-50 border-b border-line-soft bg-background shadow-sm">
+    <header className="relative border-b border-line-soft bg-background shadow-sm">
       {/* Top bar */}
       <div className="bg-navy text-primary-foreground">
         <div className="container-site flex h-9 items-center justify-between gap-4 text-xs">
@@ -67,13 +67,16 @@ export function Header() {
             Send Query
           </a>
         </nav>
-        {/* DGHS approval badge */}
+        {/* DGHS approval notice */}
         <div
-          className="hidden shrink-0 items-center gap-2 lg:flex"
+          className="hidden shrink-0 items-center gap-2 rounded-full border border-dghs-line bg-dghs-tint px-4 py-2 lg:flex"
           title="Approved by the Directorate General of Health Services (DGHS)"
         >
-          <img src={asset("dghs-approved.png")} alt="DGHS approved emblem" className="h-16 w-auto" />
-          <span className="text-[9px] font-semibold leading-[1.35] text-navy">
+          <span className="relative flex h-2.5 w-2.5 shrink-0">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-dghs-dot opacity-60" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-dghs-dot" />
+          </span>
+          <span className="text-[11px] font-semibold leading-[1.35] tracking-wide text-navy">
             Directorate General of<br />
             Health Services (DGHS)<br />
             Approved

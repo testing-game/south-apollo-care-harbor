@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
 import { asset } from "@/lib/asset";
+import { useScrollHeader } from "@/hooks/use-scroll-header";
+import { Button } from "@/components/ui/button";
 
 const NAV = ["Home", "About Us", "Specialities", "Health Check", "Online Report", "Patient Stories", "Career"];
 const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const { hidden, scrolled } = useScrollHeader();
   return (
-    <header className="relative border-b border-line-soft bg-background shadow-sm">
+    <>
+    <div aria-hidden="true" className="h-[117px] md:h-[133px]" />
+    <header
+      inert={hidden}
+      className={`fixed inset-x-0 top-0 z-50 border-b border-line-soft bg-background transition-transform duration-300 ease-in-out motion-reduce:transition-none ${hidden ? "-translate-y-full pointer-events-none" : "translate-y-0"} ${scrolled ? "shadow-card backdrop-blur-sm" : "shadow-sm"}`}
+    >
       {/* Top bar */}
       <div className="bg-navy text-primary-foreground">
         <div className="container-site flex h-9 items-center justify-between gap-4 text-xs">
@@ -82,12 +90,12 @@ export function Header() {
             Approved
           </span>
         </div>
-        <button className="text-navy lg:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+        <Button variant="ghost" size="icon" className="text-navy lg:hidden" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open} aria-controls="mobile-navigation">
           {open ? <X /> : <Menu />}
-        </button>
+        </Button>
       </div>
       {open && (
-        <nav className="border-t border-line-soft bg-background lg:hidden">
+        <nav id="mobile-navigation" className="max-h-[calc(100dvh-133px)] overflow-y-auto border-t border-line-soft bg-background lg:hidden">
           <div className="container-site flex flex-col py-2">
             {NAV.map((n) =>
               n === "Online Report" ? (
@@ -109,5 +117,6 @@ export function Header() {
         </nav>
       )}
     </header>
+    </>
   );
 }

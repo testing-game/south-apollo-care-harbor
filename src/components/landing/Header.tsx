@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Menu, Phone, Search, X } from "lucide-react";
+import { Menu, Phone, Search, X } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { useScrollHeader } from "@/hooks/use-scroll-header";
 import { Button } from "@/components/ui/button";
@@ -55,12 +55,7 @@ export function Header() {
             const className = `flex items-center gap-1 px-3 py-2.5 text-sm ${
               i === 0 ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
             }`;
-            const label = (
-              <>
-                {n}
-                {n === "Specialities" && <ChevronDown className="h-3.5 w-3.5" />}
-              </>
-            );
+            const label = <>{n}</>;
             return n === "Online Report" ? (
               <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={className}>
                 {label}

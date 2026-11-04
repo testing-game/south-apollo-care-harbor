@@ -5,7 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { SpecialityCard } from "@/components/specialities/SpecialityCard";
 import { SPECIALITIES, SPECIALITIES_PAGE_SIZE, specialityBatch } from "@/lib/specialities";
-import { asset } from "@/lib/asset";
+import specialitiesDoctorPatient from "@/assets/specialities-doctor-patient.jpg";
 
 export function WhyChoose() {
   const reducedMotion = useReducedMotion();

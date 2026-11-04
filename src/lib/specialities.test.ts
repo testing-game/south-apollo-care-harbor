@@ -9,8 +9,8 @@ describe("Specialities browsing", () => {
     }
   });
   it("moves forward and clamps the first and last batches", () => {
-    expect(specialityBatch(0)[0].title).toBe("Accident & Emergency");
-    expect(specialityBatch(1)[0].title).toBe("Critical Care Units");
+    expect(specialityBatch(0)[0]?.title).toBe("Accident & Emergency");
+    expect(specialityBatch(1)[0]?.title).toBe("Critical Care Units");
     expect(specialityBatch(-1)).toEqual(specialityBatch(0));
     expect(specialityBatch(99)).toEqual(specialityBatch(5));
     expect(specialityBatch(5).at(-1)?.title).toBe("Urology");

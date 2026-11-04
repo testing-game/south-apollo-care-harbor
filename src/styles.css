@@ -311,7 +311,12 @@
 :root {
   --brand-navy: oklch(0.27 0.11 258);
   --brand-navy-deep: oklch(0.22 0.09 258);
-  --speciality-active: oklch(0.263 0.067 253);
+  --speciality-active: hsl(215 100% 17%);
+  --speciality-surface: hsl(216 100% 98%);
+  --speciality-border: hsl(214 32% 91%);
+  --speciality-label: hsl(223 84% 5%);
+  --speciality-on-active: oklch(1 0 0);
+  --speciality-search-shadow: 0 3px 20px 0 color-mix(in srgb, var(--speciality-active) 6%, transparent);
   --clinical-teal: oklch(0.48 0.09 190);
   --clinical-tint: oklch(0.96 0.025 190);
   --about-hero-overlay: linear-gradient(90deg, color-mix(in oklab, var(--brand-navy-deep) 96%, transparent), color-mix(in oklab, var(--brand-navy-deep) 76%, transparent));
@@ -340,6 +345,10 @@
   --color-navy: var(--brand-navy);
   --color-navy-deep: var(--brand-navy-deep);
   --color-speciality-active: var(--speciality-active);
+  --color-speciality-surface: var(--speciality-surface);
+  --color-speciality-border: var(--speciality-border);
+  --color-speciality-label: var(--speciality-label);
+  --color-speciality-on-active: var(--speciality-on-active);
   --color-clinical-teal: var(--clinical-teal);
   --color-clinical-tint: var(--clinical-tint);
   --color-sky: var(--brand-sky);
@@ -358,6 +367,8 @@
 @utility bg-strip { background-image: var(--gradient-strip); }
 @utility shadow-card { box-shadow: var(--shadow-card); }
 .speciality-icon { transition: filter 300ms ease; }
+.specialities-directory { width: 100%; max-width: 1280px; margin-inline: auto; padding-inline: 16px; }
+.speciality-search { box-shadow: var(--speciality-search-shadow); }
 .speciality-card:is(:hover, :focus-visible) .speciality-icon { filter: brightness(0) invert(1); }
 @media (prefers-reduced-motion: reduce) { .speciality-icon { transition: none; } }
 @utility container-site {

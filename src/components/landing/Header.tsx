@@ -3,6 +3,7 @@ import { Menu, Phone, Search, X } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { useScrollHeader } from "@/hooks/use-scroll-header";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "@tanstack/react-router";
 
 const NAV = ["Home", "About Us", "Specialities", "Health Check", "Online Report", "Patient Stories", "Career"];
 const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
@@ -10,6 +11,7 @@ const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 export function Header() {
   const [open, setOpen] = useState(false);
   const { hidden, scrolled } = useScrollHeader();
+  const { pathname } = useLocation();
   return (
     <>
     <div aria-hidden="true" className="h-[117px] md:h-[133px]" />
@@ -47,16 +49,18 @@ export function Header() {
       </div>
       {/* Main nav */}
       <div className="container-site flex h-20 items-center justify-between gap-6 md:h-24">
-        <a href="#" className="shrink-0" aria-label="South Apollo Medical College Hospital — Home">
+        <Link to="/" className="shrink-0" aria-label="South Apollo Medical College Hospital — Home">
           <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital" className="h-14 w-auto md:h-[68px]" />
-        </a>
+        </Link>
         <nav className="hidden items-center gap-1 lg:flex">
           {NAV.map((n, i) => {
             const className = `flex items-center gap-1 px-3 py-2.5 text-sm ${
-              i === 0 ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
+              (i === 0 && pathname === "/") || (n === "About Us" && pathname === "/about") ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
             }`;
             const label = <>{n}</>;
-            return n === "Online Report" ? (
+            return n === "Home" || n === "About Us" ? (
+              <Button key={n} asChild variant="ghost" className={className}><Link to={n === "Home" ? "/" : "/about"} aria-current={(n === "Home" ? pathname === "/" : pathname === "/about") ? "page" : undefined}>{label}</Link></Button>
+            ) : n === "Online Report" ? (
               <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={className}>
                 {label}
               </a>
@@ -89,7 +93,9 @@ export function Header() {
         <nav id="mobile-navigation" className="max-h-[calc(100dvh-133px)] overflow-y-auto border-t border-line-soft bg-background lg:hidden">
           <div className="container-site flex flex-col py-2">
             {NAV.map((n) =>
-              n === "Online Report" ? (
+              n === "Home" || n === "About Us" ? (
+                <Button key={n} asChild variant="ghost" className="h-auto justify-start rounded-none border-b border-line-soft py-3 text-sm font-normal text-navy"><Link to={n === "Home" ? "/" : "/about"} onClick={() => setOpen(false)}>{n}</Link></Button>
+              ) : n === "Online Report" ? (
                 <a
                   key={n}
                   href={REPORT_URL}

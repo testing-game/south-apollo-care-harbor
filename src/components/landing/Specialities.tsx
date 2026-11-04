@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { asset } from "@/lib/asset";
 
 export const SPECIALITIES = [
@@ -20,18 +21,15 @@ export const SPECIALITIES = [
 ] as const;
 
 export function WhyChoose() {
+  const reducedMotion = useReducedMotion();
   return (
-    <section className="container-site py-14 text-center md:py-20">
+    <motion.section initial={{ opacity: 0, y: reducedMotion ? 0 : 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: reducedMotion ? 0 : 0.6 }} className="container-site py-14 text-center md:py-20">
       <h2 className="section-title">Why Choose South Apollo Medical College Hospital</h2>
-      <p className="mx-auto mt-6 max-w-5xl text-sm font-medium leading-[1.8] text-navy md:text-base">
-        South Apollo Medical College Hospital is a 425-bed multidisciplinary super-specialty tertiary care hospital and the first in
-        Bangladesh to receive JCI accreditation. The Joint Commission International (JCI) is a U.S.-based accreditation body dedicated
-        to improving healthcare quality and safety worldwide. South Apollo Medical College Hospital is renowned for its world-class
-        patient care, combining advanced medical technology with compassionate service. The hospital is equipped with state-of-the-art
-        facilities, cutting-edge diagnostic services, and modern surgical techniques and staffed by a team of world-class physicians,
-        highly trained nurses, and skilled technicians across various medical disciplines.
-      </p>
-    </section>
+      <div className="mx-auto mt-6 max-w-4xl space-y-5 text-sm leading-[1.85] text-navy md:text-base">
+        <p>Established in 2018 in Jagua, Barishal Sadar, South Apollo Medical College &amp; Hospital is dedicated to delivering world-class, accessible healthcare and advancing medical education across the Barishal Division.</p>
+        <p>With a comprehensive 250-bed modern facility, advanced diagnostic technology including Digital Radiography (X-ray), and round-the-clock 24/7 emergency response, our hospital stands as a premier center of clinical excellence and medical training in the southern region.</p>
+      </div>
+    </motion.section>
   );
 }
 

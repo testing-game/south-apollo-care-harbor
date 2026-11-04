@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { Activity, BedDouble, CalendarDays, ChevronRight, GraduationCap, HeartPulse, MapPin, ScanLine, ShieldCheck, Stethoscope } from "lucide-react";
+import { Activity, BedDouble, CalendarDays, ChevronRight, GraduationCap, HeartPulse, MapPin, ScanLine, ShieldCheck, Siren, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import campus from "@/assets/about-campus-illustration.jpg";
 
@@ -22,6 +22,7 @@ const capabilities = [
   { icon: ScanLine, title: "Modern Diagnostic Wing", description: "Precision diagnostics featuring high-resolution Digital Radiography (X-ray) and modern pathological laboratory setups." },
   { icon: HeartPulse, title: "Specialized Packages & Maternal Health", description: "Targeted healthcare packages, maternal and infant care, and cutting-edge medical technologies." },
   { icon: GraduationCap, title: "Medical Education & Internship Training", description: "An active practical training environment shaping the next generation of healthcare professionals and interns." },
+  { icon: Siren, title: "ICU & Critical Care Unit", description: "Equipped with state-of-the-art ventilators, dedicated cardiac monitors, and 24/7 specialist intensivists to deliver life-saving emergency and critical care." },
 ];
 
 function AboutPage() {

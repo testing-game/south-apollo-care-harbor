@@ -311,6 +311,7 @@
 :root {
   --brand-navy: oklch(0.27 0.11 258);
   --brand-navy-deep: oklch(0.22 0.09 258);
+  --speciality-active: oklch(0.263 0.067 253);
   --clinical-teal: oklch(0.48 0.09 190);
   --clinical-tint: oklch(0.96 0.025 190);
   --about-hero-overlay: linear-gradient(90deg, color-mix(in oklab, var(--brand-navy-deep) 96%, transparent), color-mix(in oklab, var(--brand-navy-deep) 76%, transparent));
@@ -338,6 +339,7 @@
 @theme inline {
   --color-navy: var(--brand-navy);
   --color-navy-deep: var(--brand-navy-deep);
+  --color-speciality-active: var(--speciality-active);
   --color-clinical-teal: var(--clinical-teal);
   --color-clinical-tint: var(--clinical-tint);
   --color-sky: var(--brand-sky);
@@ -355,6 +357,9 @@
 @utility bg-about-overlay { background-image: var(--about-hero-overlay); }
 @utility bg-strip { background-image: var(--gradient-strip); }
 @utility shadow-card { box-shadow: var(--shadow-card); }
+.speciality-icon { transition: filter 300ms ease; }
+.speciality-card:is(:hover, :focus-visible) .speciality-icon { filter: brightness(0) invert(1); }
+@media (prefers-reduced-motion: reduce) { .speciality-icon { transition: none; } }
 @utility container-site {
   width: 100%;
   max-width: 1280px;

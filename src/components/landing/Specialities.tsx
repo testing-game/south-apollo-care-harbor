@@ -1,24 +1,11 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { SpecialityCard } from "@/components/specialities/SpecialityCard";
+import { SPECIALITIES, SPECIALITIES_PAGE_SIZE, specialityBatch } from "@/lib/specialities";
 import { asset } from "@/lib/asset";
-
-export const SPECIALITIES = [
-  ["Accident & Emergency", "variant6.png"],
-  ["Anesthesia and Pain Medicine", "variant10.png"],
-  ["Cancer Care Centre", "variant14.png"],
-  ["Cardiology Care Centre", "variant18.png"],
-  ["Cardiothoracic & Vascular Surgery", "variant22.png"],
-  ["Cardiothoracic Anaesthesia", "variant26.png"],
-  ["Child Development Centre", "variant30.png"],
-  ["Counselling Centre", "variant34.png"],
-  ["Critical Care Units", "variant38.png"],
-  ["Dental & Maxillofacial Surgery", "dentish-chair.png"],
-  ["Dermatology & Venereology", "variant46.png"],
-  ["Diabetology & Endocrinology", "variant50.png"],
-  ["Diagnostic & Interventional Radiology", "variant54.png"],
-  ["Dietetics & Nutrition", "variant58.png"],
-  ["ENT & Head Neck Surgery", "variant62.png"],
-] as const;
 
 export function WhyChoose() {
   const reducedMotion = useReducedMotion();
@@ -34,28 +21,33 @@ export function WhyChoose() {
 }
 
 export function Specialities() {
+  const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const reducedMotion = useReducedMotion();
+  const lastPage = Math.ceil(SPECIALITIES.length / SPECIALITIES_PAGE_SIZE) - 1;
+  function changePage(next: number) {
+    setDirection(next > page ? 1 : -1);
+    setPage(Math.max(0, Math.min(lastPage, next)));
+  }
   return (
-    <section className="container-site grid gap-8 pb-16 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-6">
-      <img src={asset("evercarebd-specialities.png")} alt="Doctor with patient" className="h-full max-h-[480px] w-full rounded-sm object-cover" />
-      <div>
+    <section aria-label="Our Specialities" className="container-site grid gap-8 pb-16 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-8">
+      <img src={asset("evercarebd-specialities.png")} alt="Doctor consulting with a patient" loading="lazy" className="aspect-[4/3] w-full rounded-sm object-cover lg:aspect-auto lg:h-full lg:max-h-[440px]" />
+      <div className="min-w-0">
         <h2 className="section-title">Our Specialities</h2>
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-          {SPECIALITIES.map(([name, icon]) => (
-            <a key={name} href="#" className="flex flex-col items-center justify-center gap-3 rounded-sm border border-line-soft bg-background px-3 py-5 text-center transition-shadow hover:shadow-card">
-              <img src={asset(icon)} alt="" className="h-10 w-10" />
-              <span className="text-xs leading-snug text-navy">{name}</span>
-            </a>
-          ))}
+        <div className="mt-6 overflow-hidden p-1">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div key={page} initial={{ opacity: reducedMotion ? 1 : 0, x: reducedMotion ? 0 : direction * 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: reducedMotion ? 1 : 0, x: reducedMotion ? 0 : -direction * 20 }} transition={{ duration: reducedMotion ? 0 : 0.18 }} aria-label="Specialities batch" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {specialityBatch(page).map((speciality) => <SpecialityCard key={speciality.title} speciality={speciality} />)}
+            </motion.div>
+          </AnimatePresence>
         </div>
-        <div className="mt-6 flex items-center justify-between">
+        <p className="sr-only" aria-live="polite">Specialities page {page + 1} of {lastPage + 1}</p>
+        <div className="mt-6 flex items-center justify-between gap-3">
           <div className="flex gap-2">
-            {[ArrowLeft, ArrowRight].map((I, i) => (
-              <button key={i} aria-label={i ? "Next" : "Previous"} className={`grid h-8 w-8 place-items-center rounded-full border-2 border-lime text-lime ${i ? "" : "opacity-50"}`}>
-                <I className="h-4 w-4" />
-              </button>
-            ))}
+            <Button variant="outline" size="icon" disabled={page === 0} onClick={() => changePage(page - 1)} aria-label="Previous specialities" className="h-8 w-8 rounded-full border-2 border-lime text-lime"><ArrowLeft /></Button>
+            <Button variant="outline" size="icon" disabled={page === lastPage} onClick={() => changePage(page + 1)} aria-label="Next specialities" className="h-8 w-8 rounded-full border-2 border-lime text-lime"><ArrowRight /></Button>
           </div>
-          <a href="#" className="bg-violet px-6 py-2.5 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90">View All Specialities</a>
+          <Button asChild className="rounded-none bg-violet px-4 text-xs font-semibold text-primary-foreground hover:bg-violet/90 sm:px-6"><Link to="/specialities">View All Specialities</Link></Button>
         </div>
       </div>
     </section>

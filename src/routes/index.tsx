@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { WhyChoose, Specialities } from "@/components/landing/Specialities";
 import { Packages, AskBanner, Posts } from "@/components/landing/Content";
-import { Corporate, MapSection, Footer } from "@/components/landing/Footer";
+import { Corporate, MapSection } from "@/components/landing/Footer";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,7 +28,6 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="min-h-screen bg-background font-sans">
-      <Header />
       <main>
         <Hero />
         <WhyChoose />
@@ -40,7 +38,6 @@ function Index() {
         <Corporate />
         <MapSection />
       </main>
-      <Footer />
     </div>
   );
 }

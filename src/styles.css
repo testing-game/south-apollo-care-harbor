@@ -311,6 +311,9 @@
 :root {
   --brand-navy: oklch(0.27 0.11 258);
   --brand-navy-deep: oklch(0.22 0.09 258);
+  --clinical-teal: oklch(0.48 0.09 190);
+  --clinical-tint: oklch(0.96 0.025 190);
+  --about-hero-overlay: linear-gradient(90deg, color-mix(in oklab, var(--brand-navy-deep) 96%, transparent), color-mix(in oklab, var(--brand-navy-deep) 76%, transparent));
   --brand-sky: oklch(0.74 0.13 230);
   --brand-lime: oklch(0.66 0.17 128);
   --brand-violet: oklch(0.55 0.08 300);
@@ -335,6 +338,8 @@
 @theme inline {
   --color-navy: var(--brand-navy);
   --color-navy-deep: var(--brand-navy-deep);
+  --color-clinical-teal: var(--clinical-teal);
+  --color-clinical-tint: var(--clinical-tint);
   --color-sky: var(--brand-sky);
   --color-lime: var(--brand-lime);
   --color-violet: var(--brand-violet);
@@ -347,6 +352,7 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 @utility bg-card-fade { background-image: var(--gradient-card); }
+@utility bg-about-overlay { background-image: var(--about-hero-overlay); }
 @utility bg-strip { background-image: var(--gradient-strip); }
 @utility shadow-card { box-shadow: var(--shadow-card); }
 @utility container-site {

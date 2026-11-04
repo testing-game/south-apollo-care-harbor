@@ -12,3 +12,4 @@
 - Footer scroll reveals use Framer Motion one-shot viewport variants with nested staggerChildren; CSS handles ambient and hover effects, with reduced-motion overrides in both layers.
 - The landing header uses a shared scroll-direction hook and one fixed wrapper for both bars; a breakpoint-matched spacer reserves the collapsed bar heights so hiding the header never shifts page content. Mobile dropdowns overlay content and scroll within the viewport.
 - Shared hospital navigation and footer live around the root Outlet; content pages use individual file routes with page-specific metadata so navigation and page identity stay consistent.
+- Homepage and directory specialities use one shared catalogue, filtering/paging helpers and card component so both views preserve consistent titles and interactions.

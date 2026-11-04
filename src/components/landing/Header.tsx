@@ -55,11 +55,12 @@ export function Header() {
         <nav className="hidden items-center gap-1 lg:flex">
           {NAV.map((n, i) => {
             const className = `flex items-center gap-1 px-3 py-2.5 text-sm ${
-              (i === 0 && pathname === "/") || (n === "About Us" && pathname === "/about") ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
+              (i === 0 && pathname === "/") || (n === "About Us" && pathname === "/about") || (n === "Specialities" && pathname === "/specialities") ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
             }`;
             const label = <>{n}</>;
-            return n === "Home" || n === "About Us" ? (
-              <Button key={n} asChild variant="ghost" className={className}><Link to={n === "Home" ? "/" : "/about"} aria-current={(n === "Home" ? pathname === "/" : pathname === "/about") ? "page" : undefined}>{label}</Link></Button>
+            const destination = n === "Home" ? "/" : n === "About Us" ? "/about" : "/specialities";
+            return n === "Home" || n === "About Us" || n === "Specialities" ? (
+              <Button key={n} asChild variant="ghost" className={className}><Link to={destination} aria-current={pathname === destination ? "page" : undefined}>{label}</Link></Button>
             ) : n === "Online Report" ? (
               <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={className}>
                 {label}
@@ -93,8 +94,8 @@ export function Header() {
         <nav id="mobile-navigation" className="max-h-[calc(100dvh-133px)] overflow-y-auto border-t border-line-soft bg-background lg:hidden">
           <div className="container-site flex flex-col py-2">
             {NAV.map((n) =>
-              n === "Home" || n === "About Us" ? (
-                <Button key={n} asChild variant="ghost" className="h-auto justify-start rounded-none border-b border-line-soft py-3 text-sm font-normal text-navy"><Link to={n === "Home" ? "/" : "/about"} onClick={() => setOpen(false)}>{n}</Link></Button>
+              n === "Home" || n === "About Us" || n === "Specialities" ? (
+                <Button key={n} asChild variant="ghost" className="h-auto justify-start rounded-none border-b border-line-soft py-3 text-sm font-normal text-navy"><Link to={n === "Home" ? "/" : n === "About Us" ? "/about" : "/specialities"} aria-current={pathname === (n === "Home" ? "/" : n === "About Us" ? "/about" : "/specialities") ? "page" : undefined} onClick={() => setOpen(false)}>{n}</Link></Button>
               ) : n === "Online Report" ? (
                 <a
                   key={n}

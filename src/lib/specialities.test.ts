@@ -2,6 +2,12 @@ import { describe, expect, it } from "vitest";
 import { SPECIALITIES, specialityBatch, filterSpecialities } from "./specialities";
 
 describe("Specialities browsing", () => {
+  it("uses a dedicated Figma artwork reference for every speciality with no fallback", () => {
+    expect(SPECIALITIES.every((speciality) => speciality.image.startsWith("speciality-"))).toBe(true);
+    expect(new Set(SPECIALITIES.map((speciality) => speciality.image)).size).toBe(44);
+    expect(SPECIALITIES.find((speciality) => speciality.title === "Nephrology")?.image).toBe("speciality-variant112.png");
+    expect(SPECIALITIES.find((speciality) => speciality.title === "Rheumatology")?.overlay).toBe("speciality-vector.svg");
+  });
   it("shows strictly eight cards in every homepage view", () => {
     for (let page = 0; page < 6; page++) {
       expect(specialityBatch(page)).toHaveLength(8);

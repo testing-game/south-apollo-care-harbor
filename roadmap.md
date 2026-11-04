@@ -1,6 +1,7 @@
 # Tasks
-- [ ] Sync speciality catalogue and directory styling with the new Figma export.
-- [ ] Map supplied medical artwork without generic fallback icons and verify search and layouts.
+- [x] Sync speciality catalogue and directory styling with the new Figma export.
+- [x] Map supplied medical artwork without generic fallback icons and verify search and layouts.
+- [ ] Replace PNG medical artwork with exact SVG originals — blocked: the upload contains PNG exports, not complete medical SVG originals.
 - [x] Add eight-item homepage Specialities pagination and shared hover cards.
 - [x] Create searchable /specialities with all 44 specialities and connect both menus.
 - [x] Verify pagination, filtering, navigation and desktop/tablet/mobile layouts.

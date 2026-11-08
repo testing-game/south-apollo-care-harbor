@@ -14,3 +14,6 @@
 - Shared hospital navigation and footer live around the root Outlet; content pages use individual file routes with page-specific metadata so navigation and page identity stay consistent.
 - Homepage and directory specialities use one shared catalogue, filtering/paging helpers and card component so both views preserve consistent titles and interactions.
 - SpecialityIcon renders original uploaded artwork with explicit composite-layer geometry; catalogue image references are mandatory, so no generic icon fallback can silently replace a missing export.
+- Public content reads go through createServerFn with a publishable-key client (src/lib/public-data.functions.ts) so SSR pages have data; bookings and queries are written only via SECURITY DEFINER RPCs that return just the new number, so anonymous visitors can never read other patients' records.
+- The staff portal (/hospital-admin-portal) is client-only and talks to the database with the browser client; every privileged read/write is enforced by RLS via has_role(auth.uid(),'admin'), roles live in user_roles.
+- The hospital-media bucket is private (workspace blocks public buckets); uploads are converted to WebP in the browser and stored as long-lived signed URLs.

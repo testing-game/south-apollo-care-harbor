@@ -11,6 +11,8 @@ const LINKS = [
   "News & Media", "Blogs", "About Us", "Patient Stories", "Pulse Magazine", "Tele Online", "Privacy Policy", "Patient & Visitor Guide",
 ];
 
+const FOOTER_HREF: Record<string, string> = { "Find a Doctor": "/doctors", "Request an Appointment": "/request-appointment", "Online Report": "https://report.southapollomedicalcollegehospital.com/", "Contact Us": "/send-query", Speciality: "/specialities", "Health Package": "/health-checkup-all-packages" };
+
 export function Corporate() {
   const track = useRef<HTMLDivElement>(null);
   const scroll = (d: number) => track.current?.scrollBy({ left: d * 200, behavior: "smooth" });
@@ -81,7 +83,7 @@ export function Footer() {
             <motion.div variants={reveal} className="footer-logo-backlight relative isolate h-40 w-40">
               <img src={asset("south-apollo-footer-logo.png")} alt="South Apollo Medical College Hospital" className="relative h-full w-full object-contain" />
             </motion.div>
-            <motion.div variants={reveal}><Button asChild className="footer-link rounded-full bg-sky px-8 text-primary-foreground hover:bg-sky/90"><a href="#">Send Query</a></Button></motion.div>
+            <motion.div variants={reveal}><Button asChild className="footer-link rounded-full bg-sky px-8 text-primary-foreground hover:bg-sky/90"><a href="/send-query">Send Query</a></Button></motion.div>
           </motion.div>
           <motion.div variants={stagger} className="footer-address space-y-3 text-sm md:text-right">
             <motion.p variants={reveal} className="font-bold">Barishal</motion.p>
@@ -90,7 +92,7 @@ export function Footer() {
           </motion.div>
         </motion.div>
         <motion.nav variants={stagger} className="footer-navigation mx-auto mt-12 flex max-w-4xl flex-wrap justify-center gap-x-6 gap-y-3 text-xs">
-          {LINKS.map((l) => <motion.a variants={reveal} key={l} href="#" className="footer-link footer-nav-link">{l}</motion.a>)}
+          {LINKS.map((l) => <motion.a variants={reveal} key={l} href={FOOTER_HREF[l] ?? "#"} className="footer-link footer-nav-link">{l}</motion.a>)}
         </motion.nav>
         <motion.div variants={reveal} className="footer-statement mx-auto mt-12 max-w-5xl pb-10 text-center">
           <p className="footer-premium-text text-xl font-bold leading-relaxed sm:whitespace-nowrap sm:text-sm md:text-base lg:text-2xl">Only Private Medical College and Hospital in Barishal Division</p>

@@ -73,7 +73,7 @@ function ContactInfo() {
             const body = (
               <>
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-clinical-tint text-clinical-teal transition-colors group-hover:bg-navy group-hover:text-primary-foreground"><Icon className="h-5 w-5" aria-hidden="true" /></span>
-                <span className="min-w-0"><span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</span><span className="block break-words font-semibold text-navy">{value}</span></span>
+                <span className="min-w-0"><span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</span><span className="block font-semibold [overflow-wrap:anywhere] text-navy">{value}</span></span>
               </>
             );
             const cls = "group flex items-start gap-3 rounded-xl p-3 transition-all duration-300 hover:translate-x-1 hover:bg-surface-soft motion-reduce:transform-none";

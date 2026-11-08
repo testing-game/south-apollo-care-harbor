@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { isOnDuty, todayInDhaka, upcomingVisitDates, weekdayOf, youtubeEmbed } from "./schedule";
-import { webpFileName } from "./media";
+import { webpFileName } from "./media-name";
 
 describe("Doctor schedules", () => {
   it("names weekdays from calendar dates", () => {

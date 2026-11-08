@@ -104,7 +104,7 @@ export function AskBanner() {
 function PostGrid({ title, posts, cta, to, soft, spaced, live }: { title: React.ReactNode; posts: Post[]; cta: string; to: Dest; soft?: boolean; spaced?: boolean; live?: React.ReactNode }) {
   return (
     <section className={`py-16 md:py-20 ${soft ? "bg-surface-soft" : ""}`}>
-      <div className="container-site max-w-[1060px]">
+      <div className="container-site">
         <h2 className="section-title">{title}</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {live ?? posts.map(([t, d, img]) => (

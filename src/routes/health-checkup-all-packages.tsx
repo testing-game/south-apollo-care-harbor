@@ -175,7 +175,7 @@ function BookDialog({ pkg, onClose }: { pkg: HealthPackage | null; onClose: () =
                   <Label htmlFor="bd">Preferred date</Label>
                   <div className="relative"><CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" /><Input id="bd" type="date" min={todayInDhaka()} value={form.date} onChange={set("date")} className={cn(field, "pl-9")} /></div>
                 </div>
-                <motion.div whileHover={reduced || busy ? undefined : { scale: 1.02 }} whileTap={reduced || busy ? undefined : { scale: 0.98 }}>
+                <motion.div whileHover={{ scale: reduced || busy ? 1 : 1.02 }} whileTap={{ scale: reduced || busy ? 1 : 0.98 }}>
                   <Button type="submit" disabled={busy} className="booking-cta h-12 w-full rounded-md text-base font-semibold">
                     {busy ? <><Loader2 className="animate-spin" /> Booking…</> : <><Download /> Confirm &amp; Download Slip</>}
                   </Button>

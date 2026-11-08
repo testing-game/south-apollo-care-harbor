@@ -360,6 +360,8 @@ export type Database = {
           created_at: string
           id: string
           package_id: string
+          patient_age: number | null
+          patient_gender: string | null
           patient_name: string
           patient_phone: string
           status: string
@@ -370,6 +372,8 @@ export type Database = {
           created_at?: string
           id?: string
           package_id: string
+          patient_age?: number | null
+          patient_gender?: string | null
           patient_name: string
           patient_phone: string
           status?: string
@@ -380,6 +384,8 @@ export type Database = {
           created_at?: string
           id?: string
           package_id?: string
+          patient_age?: number | null
+          patient_gender?: string | null
           patient_name?: string
           patient_phone?: string
           status?: string
@@ -431,7 +437,9 @@ export type Database = {
       }
       book_test: {
         Args: {
+          _age?: number
           _date: string
+          _gender?: string
           _name: string
           _package_id: string
           _phone: string

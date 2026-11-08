@@ -12,6 +12,8 @@ import { adminPackagesQuery, bookingsQuery, STATUSES } from "@/lib/admin";
 import { downloadManifest } from "@/lib/pdf";
 import { todayInDhaka } from "@/lib/schedule";
 
+const ageGender = (b: { patient_age: number | null; patient_gender: string | null }) => [b.patient_age ?? "", b.patient_gender ?? ""].filter((v) => v !== "").join(" / ") || "—";
+
 export const Route = createFileRoute("/hospital-admin-portal/bookings")({ component: Bookings });
 
 function Bookings() {
@@ -31,7 +33,7 @@ function Bookings() {
     if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "bookings"] });
   }
-  const print = () => downloadManifest("Daily Test Booking Sheet", date, ["#", "Booking No.", "Patient", "Phone", "Package", "Status"], list.map((b, i) => [String(i + 1), b.booking_number, b.patient_name, b.patient_phone, b.health_packages?.title ?? "", b.status]), `tests-${date}.pdf`);
+  const print = () => downloadManifest("Daily Test Booking Sheet", date, ["#", "Booking No.", "Patient", "Age / Gender", "Phone", "Package", "Status"], list.map((b, i) => [String(i + 1), b.booking_number, b.patient_name, ageGender(b), b.patient_phone, b.health_packages?.title ?? "", b.status]), `tests-${date}.pdf`);
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-bold text-navy">Test Bookings</h1><Button onClick={print} className="bg-navy"><Printer /> Print daily sheet (PDF)</Button></div>
@@ -43,12 +45,13 @@ function Bookings() {
       </div>
       <div className="overflow-x-auto rounded-lg border border-line-soft bg-background">
         <Table>
-          <TableHeader><TableRow><TableHead>No.</TableHead><TableHead>Patient</TableHead><TableHead>Phone</TableHead><TableHead>Package</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+          <TableHeader><TableRow><TableHead>No.</TableHead><TableHead>Patient</TableHead><TableHead>Age / Gender</TableHead><TableHead>Phone</TableHead><TableHead>Package</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
           <TableBody>
             {list.map((b) => (
               <TableRow key={b.id}>
                 <TableCell className="font-mono text-xs">{b.booking_number}</TableCell>
                 <TableCell>{b.patient_name}</TableCell>
+                <TableCell>{ageGender(b)}</TableCell>
                 <TableCell>{b.patient_phone}</TableCell>
                 <TableCell>{b.health_packages?.title}</TableCell>
                 <TableCell>
@@ -56,7 +59,7 @@ function Bookings() {
                 </TableCell>
               </TableRow>
             ))}
-            {!list.length && <TableRow><TableCell colSpan={5} className="py-8 text-center text-muted-foreground">{isLoading ? "Loading…" : "No bookings for these filters."}</TableCell></TableRow>}
+            {!list.length && <TableRow><TableCell colSpan={6} className="py-8 text-center text-muted-foreground">{isLoading ? "Loading…" : "No bookings for these filters."}</TableCell></TableRow>}
           </TableBody>
         </Table>
       </div>

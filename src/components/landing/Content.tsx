@@ -66,7 +66,7 @@ export function Packages({ packages }: { packages: HealthPackage[] }) {
   const live = packages.filter((p) => p.is_featured).slice(0, 8);
   return (
     <section className="bg-surface-soft py-16 md:py-20">
-      <div className="container-site max-w-[1060px]">
+      <div className="container-site max-w-[1400px] md:px-5 lg:px-6">
         <h2 className="section-title">Health Check Packages</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {(live.length ? live.map((p) => { const m = p.title.match(/^(.*?)\s*(\(.*\))?$/); return [m?.[1] ?? p.title, m?.[2] ?? "", p.image_url] as [string, string, string]; }) : PACKAGES.map(([t, s, img]) => [t, s, asset(img)] as [string, string, string])).map(([t, s, img]) => (

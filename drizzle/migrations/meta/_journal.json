@@ -15,6 +15,13 @@
       "when": 1794119549864,
       "tag": "0001_hospital_media_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794139417584,
+      "tag": "0002_test_booking_age_gender",
+      "breakpoints": true
     }
   ]
 }

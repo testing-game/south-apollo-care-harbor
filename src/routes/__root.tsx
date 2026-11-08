@@ -12,6 +12,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import brownProRegular from "@/assets/fonts/BrownPro-normal-400-100.otf.asset.json";
+import brownProBold from "@/assets/fonts/BrownPro-normal-700-100.otf.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";

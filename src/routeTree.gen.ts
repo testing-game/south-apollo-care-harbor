@@ -11,6 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as DoctorsRouteImport } from './routes/doctors'
+import { Route as HealthCheckupAllPackagesRouteImport } from './routes/health-checkup-all-packages'
+import { Route as PatientGuideRouteImport } from './routes/patient-guide'
+import { Route as RequestAppointmentRouteImport } from './routes/request-appointment'
+import { Route as SendQueryRouteImport } from './routes/send-query'
 import { Route as SpecialitiesRouteImport } from './routes/specialities'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +28,32 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DoctorsRoute = DoctorsRouteImport.update({
+  id: '/doctors',
+  path: '/doctors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthCheckupAllPackagesRoute =
+  HealthCheckupAllPackagesRouteImport.update({
+    id: '/health-checkup-all-packages',
+    path: '/health-checkup-all-packages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PatientGuideRoute = PatientGuideRouteImport.update({
+  id: '/patient-guide',
+  path: '/patient-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestAppointmentRoute = RequestAppointmentRouteImport.update({
+  id: '/request-appointment',
+  path: '/request-appointment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SendQueryRoute = SendQueryRouteImport.update({
+  id: '/send-query',
+  path: '/send-query',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpecialitiesRoute = SpecialitiesRouteImport.update({
   id: '/specialities',
   path: '/specialities',
@@ -32,30 +63,75 @@ const SpecialitiesRoute = SpecialitiesRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/doctors': typeof DoctorsRoute
+  '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/patient-guide': typeof PatientGuideRoute
+  '/request-appointment': typeof RequestAppointmentRoute
+  '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/doctors': typeof DoctorsRoute
+  '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/patient-guide': typeof PatientGuideRoute
+  '/request-appointment': typeof RequestAppointmentRoute
+  '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/doctors': typeof DoctorsRoute
+  '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/patient-guide': typeof PatientGuideRoute
+  '/request-appointment': typeof RequestAppointmentRoute
+  '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/specialities'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/doctors'
+    | '/health-checkup-all-packages'
+    | '/patient-guide'
+    | '/request-appointment'
+    | '/send-query'
+    | '/specialities'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/specialities'
-  id: '__root__' | '/' | '/about' | '/specialities'
+  to:
+    | '/'
+    | '/about'
+    | '/doctors'
+    | '/health-checkup-all-packages'
+    | '/patient-guide'
+    | '/request-appointment'
+    | '/send-query'
+    | '/specialities'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/doctors'
+    | '/health-checkup-all-packages'
+    | '/patient-guide'
+    | '/request-appointment'
+    | '/send-query'
+    | '/specialities'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  DoctorsRoute: typeof DoctorsRoute
+  HealthCheckupAllPackagesRoute: typeof HealthCheckupAllPackagesRoute
+  PatientGuideRoute: typeof PatientGuideRoute
+  RequestAppointmentRoute: typeof RequestAppointmentRoute
+  SendQueryRoute: typeof SendQueryRoute
   SpecialitiesRoute: typeof SpecialitiesRoute
 }
 
@@ -75,6 +151,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/doctors': {
+      id: '/doctors'
+      path: '/doctors'
+      fullPath: '/doctors'
+      preLoaderRoute: typeof DoctorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health-checkup-all-packages': {
+      id: '/health-checkup-all-packages'
+      path: '/health-checkup-all-packages'
+      fullPath: '/health-checkup-all-packages'
+      preLoaderRoute: typeof HealthCheckupAllPackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient-guide': {
+      id: '/patient-guide'
+      path: '/patient-guide'
+      fullPath: '/patient-guide'
+      preLoaderRoute: typeof PatientGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-appointment': {
+      id: '/request-appointment'
+      path: '/request-appointment'
+      fullPath: '/request-appointment'
+      preLoaderRoute: typeof RequestAppointmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/send-query': {
+      id: '/send-query'
+      path: '/send-query'
+      fullPath: '/send-query'
+      preLoaderRoute: typeof SendQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/specialities': {
       id: '/specialities'
       path: '/specialities'
@@ -88,6 +199,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  DoctorsRoute: DoctorsRoute,
+  HealthCheckupAllPackagesRoute: HealthCheckupAllPackagesRoute,
+  PatientGuideRoute: PatientGuideRoute,
+  RequestAppointmentRoute: RequestAppointmentRoute,
+  SendQueryRoute: SendQueryRoute,
   SpecialitiesRoute: SpecialitiesRoute,
 }
 export const routeTree = rootRouteImport

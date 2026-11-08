@@ -86,7 +86,7 @@ function PackageCard({ pkg, badge, onBook }: { pkg: HealthPackage; badge: Return
             ))}
           </ul>
         )}
-        <Button className="mt-auto translate-y-0 rounded-none bg-navy transition-colors hover:bg-sky [&]:mt-6" onClick={onBook}>Book Test</Button>
+        <div className="mt-auto pt-6"><Button className="w-full rounded-none bg-navy transition-colors hover:bg-sky" onClick={onBook}>Book Test</Button></div>
       </div>
     </article>
   );

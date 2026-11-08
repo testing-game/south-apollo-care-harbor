@@ -71,7 +71,7 @@ export function Footer() {
         <motion.div variants={stagger} className="grid gap-10 md:grid-cols-3 md:items-start">
           <motion.div variants={stagger} className="footer-contact space-y-3 text-sm">
             <motion.p variants={reveal} className="font-bold">South Apollo Tele Online</motion.p>
-            <motion.a variants={reveal} href="mailto:info@southapollo.com" className="footer-link flex w-fit items-center gap-2"><Mail className="h-4 w-4" /> info@southapollo.com</motion.a>
+            <motion.a variants={reveal} href="mailto:info@southapollomedicalcollegehospital.com" className="footer-link flex w-fit items-center gap-2"><Mail className="h-4 w-4" /> info@southapollomedicalcollegehospital.com</motion.a>
             <motion.a variants={reveal} href="tel:+8801913240139" className="footer-link footer-phone flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4" /> +880 1913-240139</motion.a>
             <motion.div variants={stagger} className="flex flex-wrap gap-3 pt-1">
               {SOCIAL.map((s) => (

@@ -593,27 +593,3 @@
 @media (prefers-reduced-motion: reduce) {
   .booking-cta, .booking-cta::after { animation: none; }
 }
-
-.hero-ambient {
-  background:
-    radial-gradient(40rem 22rem at 85% 20%, color-mix(in oklab, var(--brand-sky) 22%, transparent), transparent 70%),
-    radial-gradient(30rem 18rem at 10% 100%, color-mix(in oklab, var(--clinical-teal) 28%, transparent), transparent 70%);
-}
-.hero-particle {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: color-mix(in oklab, var(--brand-sky) 70%, transparent);
-  box-shadow: 0 0 12px 2px color-mix(in oklab, var(--brand-sky) 45%, transparent);
-  opacity: 0;
-  animation: hero-particle-float 7s ease-in-out infinite;
-}
-@keyframes hero-particle-float {
-  0% { transform: translateY(12px); opacity: 0; }
-  30%, 70% { opacity: 0.8; }
-  100% { transform: translateY(-36px); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-particle { animation: none; opacity: 0.4; }
-}

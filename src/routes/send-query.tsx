@@ -20,7 +20,7 @@ export const Route = createFileRoute("/send-query")({
 
 const EMPTY: QueryForm = { name: "", phone: "", email: "", category: "" as QueryForm["category"], message: "" };
 const PHONE = "+880 1913-240139";
-const EMAIL = "info@southapollo.com";
+const EMAIL = "info@southapollomedicalcollegehospital.com";
 
 const CONTACTS = [
   { icon: Phone, label: "Phone", value: PHONE, href: "tel:+8801913240139" },
@@ -35,7 +35,7 @@ function SendQueryPage() {
   const reduced = useReducedMotion();
   return (
     <main className="bg-surface-soft">
-      <PageHero crumb="Send Query" title="Get in Touch with Our Specialists" ambient>
+      <PageHero crumb="Send Query" title="Get in Touch with Our Specialists">
         Have questions about our treatments, diagnostic packages, or doctor schedules? Submit your inquiry below and our patient care team will get back to you promptly.
       </PageHero>
       <section className="container-site py-16">

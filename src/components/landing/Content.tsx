@@ -89,8 +89,8 @@ export function Packages({ packages }: { packages: HealthPackage[] }) {
 
 export function AskBanner() {
   return (
-    <section className="bg-navy py-10 text-primary-foreground md:py-14">
-      <div className="container-site flex max-w-[1060px] flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+    <section className="w-full bg-navy py-10 text-primary-foreground md:py-12">
+      <div className="container-site flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
         <div>
           <h2 className="text-2xl font-bold">Ask South Apollo</h2>
           <p className="mt-2 text-sm">Looking for world-class care, we are here to support you.</p>

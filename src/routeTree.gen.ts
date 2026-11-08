@@ -23,8 +23,11 @@ import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 import { Route as HospitalAdminPortalIndexRouteImport } from './routes/hospital-admin-portal.index'
 import { Route as HospitalAdminPortalAppointmentsRouteImport } from './routes/hospital-admin-portal.appointments'
 import { Route as HospitalAdminPortalBookingsRouteImport } from './routes/hospital-admin-portal.bookings'
+import { Route as HospitalAdminPortalContentRouteImport } from './routes/hospital-admin-portal.content'
 import { Route as HospitalAdminPortalDoctorsRouteImport } from './routes/hospital-admin-portal.doctors'
 import { Route as HospitalAdminPortalPackagesRouteImport } from './routes/hospital-admin-portal.packages'
+import { Route as HospitalAdminPortalPatientsRouteImport } from './routes/hospital-admin-portal.patients'
+import { Route as HospitalAdminPortalQueriesRouteImport } from './routes/hospital-admin-portal.queries'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -104,6 +107,12 @@ const HospitalAdminPortalBookingsRoute =
     path: '/bookings',
     getParentRoute: () => HospitalAdminPortalRoute,
   } as any)
+const HospitalAdminPortalContentRoute =
+  HospitalAdminPortalContentRouteImport.update({
+    id: '/content',
+    path: '/content',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
 const HospitalAdminPortalDoctorsRoute =
   HospitalAdminPortalDoctorsRouteImport.update({
     id: '/doctors',
@@ -114,6 +123,18 @@ const HospitalAdminPortalPackagesRoute =
   HospitalAdminPortalPackagesRouteImport.update({
     id: '/packages',
     path: '/packages',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalPatientsRoute =
+  HospitalAdminPortalPatientsRouteImport.update({
+    id: '/patients',
+    path: '/patients',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalQueriesRoute =
+  HospitalAdminPortalQueriesRouteImport.update({
+    id: '/queries',
+    path: '/queries',
     getParentRoute: () => HospitalAdminPortalRoute,
   } as any)
 const NewsIndexRoute = NewsIndexRouteImport.update({
@@ -150,8 +171,11 @@ export interface FileRoutesByFullPath {
   '/blogs/$slug': typeof BlogsSlugRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
+  '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
   '/hospital-admin-portal/doctors': typeof HospitalAdminPortalDoctorsRoute
   '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
+  '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
+  '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -171,8 +195,11 @@ export interface FileRoutesByTo {
   '/blogs/$slug': typeof BlogsSlugRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
+  '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
   '/hospital-admin-portal/doctors': typeof HospitalAdminPortalDoctorsRoute
   '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
+  '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
+  '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs': typeof BlogsIndexRoute
@@ -194,8 +221,11 @@ export interface FileRoutesById {
   '/blogs/$slug': typeof BlogsSlugRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
+  '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
   '/hospital-admin-portal/doctors': typeof HospitalAdminPortalDoctorsRoute
   '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
+  '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
+  '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -218,8 +248,11 @@ export interface FileRouteTypes {
     | '/blogs/$slug'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
+    | '/hospital-admin-portal/content'
     | '/hospital-admin-portal/doctors'
     | '/hospital-admin-portal/packages'
+    | '/hospital-admin-portal/patients'
+    | '/hospital-admin-portal/queries'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
@@ -239,8 +272,11 @@ export interface FileRouteTypes {
     | '/blogs/$slug'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
+    | '/hospital-admin-portal/content'
     | '/hospital-admin-portal/doctors'
     | '/hospital-admin-portal/packages'
+    | '/hospital-admin-portal/patients'
+    | '/hospital-admin-portal/queries'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs'
@@ -261,8 +297,11 @@ export interface FileRouteTypes {
     | '/blogs/$slug'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
+    | '/hospital-admin-portal/content'
     | '/hospital-admin-portal/doctors'
     | '/hospital-admin-portal/packages'
+    | '/hospital-admin-portal/patients'
+    | '/hospital-admin-portal/queries'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
@@ -389,6 +428,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HospitalAdminPortalBookingsRouteImport
       parentRoute: typeof HospitalAdminPortalRoute
     }
+    '/hospital-admin-portal/content': {
+      id: '/hospital-admin-portal/content'
+      path: '/content'
+      fullPath: '/hospital-admin-portal/content'
+      preLoaderRoute: typeof HospitalAdminPortalContentRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
     '/hospital-admin-portal/doctors': {
       id: '/hospital-admin-portal/doctors'
       path: '/doctors'
@@ -401,6 +447,20 @@ declare module '@tanstack/react-router' {
       path: '/packages'
       fullPath: '/hospital-admin-portal/packages'
       preLoaderRoute: typeof HospitalAdminPortalPackagesRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/patients': {
+      id: '/hospital-admin-portal/patients'
+      path: '/patients'
+      fullPath: '/hospital-admin-portal/patients'
+      preLoaderRoute: typeof HospitalAdminPortalPatientsRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/queries': {
+      id: '/hospital-admin-portal/queries'
+      path: '/queries'
+      fullPath: '/hospital-admin-portal/queries'
+      preLoaderRoute: typeof HospitalAdminPortalQueriesRouteImport
       parentRoute: typeof HospitalAdminPortalRoute
     }
     '/news/': {
@@ -437,16 +497,22 @@ declare module '@tanstack/react-router' {
 interface HospitalAdminPortalRouteChildren {
   HospitalAdminPortalAppointmentsRoute: typeof HospitalAdminPortalAppointmentsRoute
   HospitalAdminPortalBookingsRoute: typeof HospitalAdminPortalBookingsRoute
+  HospitalAdminPortalContentRoute: typeof HospitalAdminPortalContentRoute
   HospitalAdminPortalDoctorsRoute: typeof HospitalAdminPortalDoctorsRoute
   HospitalAdminPortalPackagesRoute: typeof HospitalAdminPortalPackagesRoute
+  HospitalAdminPortalPatientsRoute: typeof HospitalAdminPortalPatientsRoute
+  HospitalAdminPortalQueriesRoute: typeof HospitalAdminPortalQueriesRoute
   HospitalAdminPortalIndexRoute: typeof HospitalAdminPortalIndexRoute
 }
 
 const HospitalAdminPortalRouteChildren: HospitalAdminPortalRouteChildren = {
   HospitalAdminPortalAppointmentsRoute: HospitalAdminPortalAppointmentsRoute,
   HospitalAdminPortalBookingsRoute: HospitalAdminPortalBookingsRoute,
+  HospitalAdminPortalContentRoute: HospitalAdminPortalContentRoute,
   HospitalAdminPortalDoctorsRoute: HospitalAdminPortalDoctorsRoute,
   HospitalAdminPortalPackagesRoute: HospitalAdminPortalPackagesRoute,
+  HospitalAdminPortalPatientsRoute: HospitalAdminPortalPatientsRoute,
+  HospitalAdminPortalQueriesRoute: HospitalAdminPortalQueriesRoute,
   HospitalAdminPortalIndexRoute: HospitalAdminPortalIndexRoute,
 }
 

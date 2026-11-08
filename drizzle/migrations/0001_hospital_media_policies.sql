@@ -1,0 +1,4 @@
+CREATE POLICY "Admins upload hospital media" ON storage.objects FOR INSERT TO authenticated WITH CHECK (bucket_id = 'hospital-media' AND public.has_role(auth.uid(),'admin'));
+CREATE POLICY "Admins read hospital media" ON storage.objects FOR SELECT TO authenticated USING (bucket_id = 'hospital-media' AND public.has_role(auth.uid(),'admin'));
+CREATE POLICY "Admins update hospital media" ON storage.objects FOR UPDATE TO authenticated USING (bucket_id = 'hospital-media' AND public.has_role(auth.uid(),'admin'));
+CREATE POLICY "Admins delete hospital media" ON storage.objects FOR DELETE TO authenticated USING (bucket_id = 'hospital-media' AND public.has_role(auth.uid(),'admin'));

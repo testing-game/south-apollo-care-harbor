@@ -11,7 +11,27 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as DoctorsRouteImport } from './routes/doctors'
+import { Route as HealthCheckupAllPackagesRouteImport } from './routes/health-checkup-all-packages'
+import { Route as HospitalAdminPortalRouteImport } from './routes/hospital-admin-portal'
+import { Route as PatientGuideRouteImport } from './routes/patient-guide'
+import { Route as RequestAppointmentRouteImport } from './routes/request-appointment'
+import { Route as SendQueryRouteImport } from './routes/send-query'
 import { Route as SpecialitiesRouteImport } from './routes/specialities'
+import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
+import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
+import { Route as HospitalAdminPortalIndexRouteImport } from './routes/hospital-admin-portal.index'
+import { Route as HospitalAdminPortalAppointmentsRouteImport } from './routes/hospital-admin-portal.appointments'
+import { Route as HospitalAdminPortalBookingsRouteImport } from './routes/hospital-admin-portal.bookings'
+import { Route as HospitalAdminPortalContentRouteImport } from './routes/hospital-admin-portal.content'
+import { Route as HospitalAdminPortalDoctorsRouteImport } from './routes/hospital-admin-portal.doctors'
+import { Route as HospitalAdminPortalPackagesRouteImport } from './routes/hospital-admin-portal.packages'
+import { Route as HospitalAdminPortalPatientsRouteImport } from './routes/hospital-admin-portal.patients'
+import { Route as HospitalAdminPortalQueriesRouteImport } from './routes/hospital-admin-portal.queries'
+import { Route as NewsIndexRouteImport } from './routes/news.index'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
+import { Route as StoriesIndexRouteImport } from './routes/stories.index'
+import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +43,289 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DoctorsRoute = DoctorsRouteImport.update({
+  id: '/doctors',
+  path: '/doctors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthCheckupAllPackagesRoute =
+  HealthCheckupAllPackagesRouteImport.update({
+    id: '/health-checkup-all-packages',
+    path: '/health-checkup-all-packages',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const HospitalAdminPortalRoute = HospitalAdminPortalRouteImport.update({
+  id: '/hospital-admin-portal',
+  path: '/hospital-admin-portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientGuideRoute = PatientGuideRouteImport.update({
+  id: '/patient-guide',
+  path: '/patient-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestAppointmentRoute = RequestAppointmentRouteImport.update({
+  id: '/request-appointment',
+  path: '/request-appointment',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SendQueryRoute = SendQueryRouteImport.update({
+  id: '/send-query',
+  path: '/send-query',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpecialitiesRoute = SpecialitiesRouteImport.update({
   id: '/specialities',
   path: '/specialities',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogsIndexRoute = BlogsIndexRouteImport.update({
+  id: '/blogs/',
+  path: '/blogs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogsSlugRoute = BlogsSlugRouteImport.update({
+  id: '/blogs/$slug',
+  path: '/blogs/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HospitalAdminPortalIndexRoute =
+  HospitalAdminPortalIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalAppointmentsRoute =
+  HospitalAdminPortalAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalBookingsRoute =
+  HospitalAdminPortalBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalContentRoute =
+  HospitalAdminPortalContentRouteImport.update({
+    id: '/content',
+    path: '/content',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalDoctorsRoute =
+  HospitalAdminPortalDoctorsRouteImport.update({
+    id: '/doctors',
+    path: '/doctors',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalPackagesRoute =
+  HospitalAdminPortalPackagesRouteImport.update({
+    id: '/packages',
+    path: '/packages',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalPatientsRoute =
+  HospitalAdminPortalPatientsRouteImport.update({
+    id: '/patients',
+    path: '/patients',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const HospitalAdminPortalQueriesRoute =
+  HospitalAdminPortalQueriesRouteImport.update({
+    id: '/queries',
+    path: '/queries',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
+const NewsIndexRoute = NewsIndexRouteImport.update({
+  id: '/news/',
+  path: '/news/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/news/$slug',
+  path: '/news/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesIndexRoute = StoriesIndexRouteImport.update({
+  id: '/stories/',
+  path: '/stories/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesSlugRoute = StoriesSlugRouteImport.update({
+  id: '/stories/$slug',
+  path: '/stories/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/doctors': typeof DoctorsRoute
+  '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
+  '/patient-guide': typeof PatientGuideRoute
+  '/request-appointment': typeof RequestAppointmentRoute
+  '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
+  '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
+  '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
+  '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
+  '/hospital-admin-portal/doctors': typeof HospitalAdminPortalDoctorsRoute
+  '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
+  '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
+  '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/blogs/': typeof BlogsIndexRoute
+  '/hospital-admin-portal/': typeof HospitalAdminPortalIndexRoute
+  '/news/': typeof NewsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/doctors': typeof DoctorsRoute
+  '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/patient-guide': typeof PatientGuideRoute
+  '/request-appointment': typeof RequestAppointmentRoute
+  '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
+  '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
+  '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
+  '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
+  '/hospital-admin-portal/doctors': typeof HospitalAdminPortalDoctorsRoute
+  '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
+  '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
+  '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/blogs': typeof BlogsIndexRoute
+  '/hospital-admin-portal': typeof HospitalAdminPortalIndexRoute
+  '/news': typeof NewsIndexRoute
+  '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/doctors': typeof DoctorsRoute
+  '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
+  '/patient-guide': typeof PatientGuideRoute
+  '/request-appointment': typeof RequestAppointmentRoute
+  '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
+  '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
+  '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
+  '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
+  '/hospital-admin-portal/doctors': typeof HospitalAdminPortalDoctorsRoute
+  '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
+  '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
+  '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/blogs/': typeof BlogsIndexRoute
+  '/hospital-admin-portal/': typeof HospitalAdminPortalIndexRoute
+  '/news/': typeof NewsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/specialities'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/doctors'
+    | '/health-checkup-all-packages'
+    | '/hospital-admin-portal'
+    | '/patient-guide'
+    | '/request-appointment'
+    | '/send-query'
+    | '/specialities'
+    | '/blogs/$slug'
+    | '/hospital-admin-portal/appointments'
+    | '/hospital-admin-portal/bookings'
+    | '/hospital-admin-portal/content'
+    | '/hospital-admin-portal/doctors'
+    | '/hospital-admin-portal/packages'
+    | '/hospital-admin-portal/patients'
+    | '/hospital-admin-portal/queries'
+    | '/news/$slug'
+    | '/stories/$slug'
+    | '/blogs/'
+    | '/hospital-admin-portal/'
+    | '/news/'
+    | '/stories/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/specialities'
-  id: '__root__' | '/' | '/about' | '/specialities'
+  to:
+    | '/'
+    | '/about'
+    | '/doctors'
+    | '/health-checkup-all-packages'
+    | '/patient-guide'
+    | '/request-appointment'
+    | '/send-query'
+    | '/specialities'
+    | '/blogs/$slug'
+    | '/hospital-admin-portal/appointments'
+    | '/hospital-admin-portal/bookings'
+    | '/hospital-admin-portal/content'
+    | '/hospital-admin-portal/doctors'
+    | '/hospital-admin-portal/packages'
+    | '/hospital-admin-portal/patients'
+    | '/hospital-admin-portal/queries'
+    | '/news/$slug'
+    | '/stories/$slug'
+    | '/blogs'
+    | '/hospital-admin-portal'
+    | '/news'
+    | '/stories'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/doctors'
+    | '/health-checkup-all-packages'
+    | '/hospital-admin-portal'
+    | '/patient-guide'
+    | '/request-appointment'
+    | '/send-query'
+    | '/specialities'
+    | '/blogs/$slug'
+    | '/hospital-admin-portal/appointments'
+    | '/hospital-admin-portal/bookings'
+    | '/hospital-admin-portal/content'
+    | '/hospital-admin-portal/doctors'
+    | '/hospital-admin-portal/packages'
+    | '/hospital-admin-portal/patients'
+    | '/hospital-admin-portal/queries'
+    | '/news/$slug'
+    | '/stories/$slug'
+    | '/blogs/'
+    | '/hospital-admin-portal/'
+    | '/news/'
+    | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  DoctorsRoute: typeof DoctorsRoute
+  HealthCheckupAllPackagesRoute: typeof HealthCheckupAllPackagesRoute
+  HospitalAdminPortalRoute: typeof HospitalAdminPortalRouteWithChildren
+  PatientGuideRoute: typeof PatientGuideRoute
+  RequestAppointmentRoute: typeof RequestAppointmentRoute
+  SendQueryRoute: typeof SendQueryRoute
   SpecialitiesRoute: typeof SpecialitiesRoute
+  BlogsSlugRoute: typeof BlogsSlugRoute
+  NewsSlugRoute: typeof NewsSlugRoute
+  StoriesSlugRoute: typeof StoriesSlugRoute
+  BlogsIndexRoute: typeof BlogsIndexRoute
+  NewsIndexRoute: typeof NewsIndexRoute
+  StoriesIndexRoute: typeof StoriesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +344,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/doctors': {
+      id: '/doctors'
+      path: '/doctors'
+      fullPath: '/doctors'
+      preLoaderRoute: typeof DoctorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health-checkup-all-packages': {
+      id: '/health-checkup-all-packages'
+      path: '/health-checkup-all-packages'
+      fullPath: '/health-checkup-all-packages'
+      preLoaderRoute: typeof HealthCheckupAllPackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hospital-admin-portal': {
+      id: '/hospital-admin-portal'
+      path: '/hospital-admin-portal'
+      fullPath: '/hospital-admin-portal'
+      preLoaderRoute: typeof HospitalAdminPortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient-guide': {
+      id: '/patient-guide'
+      path: '/patient-guide'
+      fullPath: '/patient-guide'
+      preLoaderRoute: typeof PatientGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-appointment': {
+      id: '/request-appointment'
+      path: '/request-appointment'
+      fullPath: '/request-appointment'
+      preLoaderRoute: typeof RequestAppointmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/send-query': {
+      id: '/send-query'
+      path: '/send-query'
+      fullPath: '/send-query'
+      preLoaderRoute: typeof SendQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/specialities': {
       id: '/specialities'
       path: '/specialities'
@@ -82,13 +393,148 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecialitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/': {
+      id: '/blogs/'
+      path: '/blogs'
+      fullPath: '/blogs/'
+      preLoaderRoute: typeof BlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/$slug': {
+      id: '/blogs/$slug'
+      path: '/blogs/$slug'
+      fullPath: '/blogs/$slug'
+      preLoaderRoute: typeof BlogsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hospital-admin-portal/': {
+      id: '/hospital-admin-portal/'
+      path: '/'
+      fullPath: '/hospital-admin-portal/'
+      preLoaderRoute: typeof HospitalAdminPortalIndexRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/appointments': {
+      id: '/hospital-admin-portal/appointments'
+      path: '/appointments'
+      fullPath: '/hospital-admin-portal/appointments'
+      preLoaderRoute: typeof HospitalAdminPortalAppointmentsRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/bookings': {
+      id: '/hospital-admin-portal/bookings'
+      path: '/bookings'
+      fullPath: '/hospital-admin-portal/bookings'
+      preLoaderRoute: typeof HospitalAdminPortalBookingsRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/content': {
+      id: '/hospital-admin-portal/content'
+      path: '/content'
+      fullPath: '/hospital-admin-portal/content'
+      preLoaderRoute: typeof HospitalAdminPortalContentRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/doctors': {
+      id: '/hospital-admin-portal/doctors'
+      path: '/doctors'
+      fullPath: '/hospital-admin-portal/doctors'
+      preLoaderRoute: typeof HospitalAdminPortalDoctorsRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/packages': {
+      id: '/hospital-admin-portal/packages'
+      path: '/packages'
+      fullPath: '/hospital-admin-portal/packages'
+      preLoaderRoute: typeof HospitalAdminPortalPackagesRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/patients': {
+      id: '/hospital-admin-portal/patients'
+      path: '/patients'
+      fullPath: '/hospital-admin-portal/patients'
+      preLoaderRoute: typeof HospitalAdminPortalPatientsRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/hospital-admin-portal/queries': {
+      id: '/hospital-admin-portal/queries'
+      path: '/queries'
+      fullPath: '/hospital-admin-portal/queries'
+      preLoaderRoute: typeof HospitalAdminPortalQueriesRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
+    '/news/': {
+      id: '/news/'
+      path: '/news'
+      fullPath: '/news/'
+      preLoaderRoute: typeof NewsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/news/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories/': {
+      id: '/stories/'
+      path: '/stories'
+      fullPath: '/stories/'
+      preLoaderRoute: typeof StoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories/$slug': {
+      id: '/stories/$slug'
+      path: '/stories/$slug'
+      fullPath: '/stories/$slug'
+      preLoaderRoute: typeof StoriesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
+
+interface HospitalAdminPortalRouteChildren {
+  HospitalAdminPortalAppointmentsRoute: typeof HospitalAdminPortalAppointmentsRoute
+  HospitalAdminPortalBookingsRoute: typeof HospitalAdminPortalBookingsRoute
+  HospitalAdminPortalContentRoute: typeof HospitalAdminPortalContentRoute
+  HospitalAdminPortalDoctorsRoute: typeof HospitalAdminPortalDoctorsRoute
+  HospitalAdminPortalPackagesRoute: typeof HospitalAdminPortalPackagesRoute
+  HospitalAdminPortalPatientsRoute: typeof HospitalAdminPortalPatientsRoute
+  HospitalAdminPortalQueriesRoute: typeof HospitalAdminPortalQueriesRoute
+  HospitalAdminPortalIndexRoute: typeof HospitalAdminPortalIndexRoute
+}
+
+const HospitalAdminPortalRouteChildren: HospitalAdminPortalRouteChildren = {
+  HospitalAdminPortalAppointmentsRoute: HospitalAdminPortalAppointmentsRoute,
+  HospitalAdminPortalBookingsRoute: HospitalAdminPortalBookingsRoute,
+  HospitalAdminPortalContentRoute: HospitalAdminPortalContentRoute,
+  HospitalAdminPortalDoctorsRoute: HospitalAdminPortalDoctorsRoute,
+  HospitalAdminPortalPackagesRoute: HospitalAdminPortalPackagesRoute,
+  HospitalAdminPortalPatientsRoute: HospitalAdminPortalPatientsRoute,
+  HospitalAdminPortalQueriesRoute: HospitalAdminPortalQueriesRoute,
+  HospitalAdminPortalIndexRoute: HospitalAdminPortalIndexRoute,
+}
+
+const HospitalAdminPortalRouteWithChildren =
+  HospitalAdminPortalRoute._addFileChildren(HospitalAdminPortalRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  DoctorsRoute: DoctorsRoute,
+  HealthCheckupAllPackagesRoute: HealthCheckupAllPackagesRoute,
+  HospitalAdminPortalRoute: HospitalAdminPortalRouteWithChildren,
+  PatientGuideRoute: PatientGuideRoute,
+  RequestAppointmentRoute: RequestAppointmentRoute,
+  SendQueryRoute: SendQueryRoute,
   SpecialitiesRoute: SpecialitiesRoute,
+  BlogsSlugRoute: BlogsSlugRoute,
+  NewsSlugRoute: NewsSlugRoute,
+  StoriesSlugRoute: StoriesSlugRoute,
+  BlogsIndexRoute: BlogsIndexRoute,
+  NewsIndexRoute: NewsIndexRoute,
+  StoriesIndexRoute: StoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

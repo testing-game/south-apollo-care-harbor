@@ -40,3 +40,5 @@ export function youtubeEmbed(url: string | null | undefined): string | null {
   const m = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
   return m ? `https://www.youtube-nocookie.com/embed/${m[1]}` : null;
 }
+
+export const price = (p: number | null) => (p ? `৳ ${Number(p).toLocaleString("en-IN")}` : "Price on request");

@@ -17,6 +17,12 @@ import { Route as PatientGuideRouteImport } from './routes/patient-guide'
 import { Route as RequestAppointmentRouteImport } from './routes/request-appointment'
 import { Route as SendQueryRouteImport } from './routes/send-query'
 import { Route as SpecialitiesRouteImport } from './routes/specialities'
+import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
+import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
+import { Route as NewsIndexRouteImport } from './routes/news.index'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
+import { Route as StoriesIndexRouteImport } from './routes/stories.index'
+import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -59,6 +65,36 @@ const SpecialitiesRoute = SpecialitiesRouteImport.update({
   path: '/specialities',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BlogsIndexRoute = BlogsIndexRouteImport.update({
+  id: '/blogs/',
+  path: '/blogs/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogsSlugRoute = BlogsSlugRouteImport.update({
+  id: '/blogs/$slug',
+  path: '/blogs/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsIndexRoute = NewsIndexRouteImport.update({
+  id: '/news/',
+  path: '/news/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/news/$slug',
+  path: '/news/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesIndexRoute = StoriesIndexRouteImport.update({
+  id: '/stories/',
+  path: '/stories/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesSlugRoute = StoriesSlugRouteImport.update({
+  id: '/stories/$slug',
+  path: '/stories/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -69,6 +105,12 @@ export interface FileRoutesByFullPath {
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/blogs/': typeof BlogsIndexRoute
+  '/news/': typeof NewsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -79,6 +121,12 @@ export interface FileRoutesByTo {
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/blogs': typeof BlogsIndexRoute
+  '/news': typeof NewsIndexRoute
+  '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -90,6 +138,12 @@ export interface FileRoutesById {
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
+  '/blogs/$slug': typeof BlogsSlugRoute
+  '/news/$slug': typeof NewsSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/blogs/': typeof BlogsIndexRoute
+  '/news/': typeof NewsIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,6 +156,12 @@ export interface FileRouteTypes {
     | '/request-appointment'
     | '/send-query'
     | '/specialities'
+    | '/blogs/$slug'
+    | '/news/$slug'
+    | '/stories/$slug'
+    | '/blogs/'
+    | '/news/'
+    | '/stories/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -112,6 +172,12 @@ export interface FileRouteTypes {
     | '/request-appointment'
     | '/send-query'
     | '/specialities'
+    | '/blogs/$slug'
+    | '/news/$slug'
+    | '/stories/$slug'
+    | '/blogs'
+    | '/news'
+    | '/stories'
   id:
     | '__root__'
     | '/'
@@ -122,6 +188,12 @@ export interface FileRouteTypes {
     | '/request-appointment'
     | '/send-query'
     | '/specialities'
+    | '/blogs/$slug'
+    | '/news/$slug'
+    | '/stories/$slug'
+    | '/blogs/'
+    | '/news/'
+    | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -133,6 +205,12 @@ export interface RootRouteChildren {
   RequestAppointmentRoute: typeof RequestAppointmentRoute
   SendQueryRoute: typeof SendQueryRoute
   SpecialitiesRoute: typeof SpecialitiesRoute
+  BlogsSlugRoute: typeof BlogsSlugRoute
+  NewsSlugRoute: typeof NewsSlugRoute
+  StoriesSlugRoute: typeof StoriesSlugRoute
+  BlogsIndexRoute: typeof BlogsIndexRoute
+  NewsIndexRoute: typeof NewsIndexRoute
+  StoriesIndexRoute: typeof StoriesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -193,6 +271,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpecialitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blogs/': {
+      id: '/blogs/'
+      path: '/blogs'
+      fullPath: '/blogs/'
+      preLoaderRoute: typeof BlogsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blogs/$slug': {
+      id: '/blogs/$slug'
+      path: '/blogs/$slug'
+      fullPath: '/blogs/$slug'
+      preLoaderRoute: typeof BlogsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news/': {
+      id: '/news/'
+      path: '/news'
+      fullPath: '/news/'
+      preLoaderRoute: typeof NewsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/news/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories/': {
+      id: '/stories/'
+      path: '/stories'
+      fullPath: '/stories/'
+      preLoaderRoute: typeof StoriesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories/$slug': {
+      id: '/stories/$slug'
+      path: '/stories/$slug'
+      fullPath: '/stories/$slug'
+      preLoaderRoute: typeof StoriesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -205,6 +325,12 @@ const rootRouteChildren: RootRouteChildren = {
   RequestAppointmentRoute: RequestAppointmentRoute,
   SendQueryRoute: SendQueryRoute,
   SpecialitiesRoute: SpecialitiesRoute,
+  BlogsSlugRoute: BlogsSlugRoute,
+  NewsSlugRoute: NewsSlugRoute,
+  StoriesSlugRoute: StoriesSlugRoute,
+  BlogsIndexRoute: BlogsIndexRoute,
+  NewsIndexRoute: NewsIndexRoute,
+  StoriesIndexRoute: StoriesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

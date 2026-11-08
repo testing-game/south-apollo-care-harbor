@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
 import { packagesQuery } from "@/lib/public-queries";
 import type { HealthPackage } from "@/lib/public-data.functions";
-import { formatDate, todayInDhaka } from "@/lib/schedule";
+import { formatDate, price, todayInDhaka } from "@/lib/schedule";
 import { downloadReceipt } from "@/lib/pdf";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -20,8 +20,6 @@ export const Route = createFileRoute("/health-checkup-all-packages")({
   loader: ({ context }) => context.queryClient.ensureQueryData(packagesQuery),
   component: PackagesPage,
 });
-
-export const price = (p: number | null) => (p ? `৳ ${Number(p).toLocaleString("en-IN")}` : "Price on request");
 
 const schema = z.object({
   name: z.string().trim().min(2, "Enter the patient's name").max(120),

@@ -3,16 +3,11 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import campus from "@/assets/about-campus-illustration.jpg";
 
-export function PageHero({ crumb, title, children, ambient }: { crumb: string; title: string; children?: ReactNode; ambient?: boolean }) {
+export function PageHero({ crumb, title, children }: { crumb: string; title: string; children?: ReactNode }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-deep text-primary-foreground">
       <img src={campus} alt="" width={1440} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div className="bg-about-overlay absolute inset-0 -z-10" />
-      {ambient && (
-        <div aria-hidden="true" className="hero-ambient pointer-events-none absolute inset-0 -z-10">
-          {Array.from({ length: 10 }, (_, i) => <span key={i} className="hero-particle" style={{ left: `${(i * 37) % 100}%`, top: `${(i * 53) % 90}%`, animationDelay: `${(i % 5) * 1.3}s` }} />)}
-        </div>
-      )}
       <div className="container-site py-9 md:py-12">
         <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm">
           <Link to="/" className="hover:underline">Home</Link>

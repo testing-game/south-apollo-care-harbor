@@ -20,7 +20,7 @@ export const Route = createFileRoute("/send-query")({
 
 const EMPTY: QueryForm = { name: "", phone: "", email: "", category: "" as QueryForm["category"], message: "" };
 const PHONE = "+880 1913-240139";
-const EMAIL = "info@southapollo.com";
+const EMAIL = "info@southapollomedicalcollegehospital.com";
 
 const CONTACTS = [
   { icon: Phone, label: "Phone", value: PHONE, href: "tel:+8801913240139" },
@@ -35,7 +35,7 @@ function SendQueryPage() {
   const reduced = useReducedMotion();
   return (
     <main className="bg-surface-soft">
-      <PageHero crumb="Send Query" title="Get in Touch with Our Specialists" ambient>
+      <PageHero crumb="Send Query" title="Get in Touch with Our Specialists">
         Have questions about our treatments, diagnostic packages, or doctor schedules? Submit your inquiry below and our patient care team will get back to you promptly.
       </PageHero>
       <section className="container-site py-16">
@@ -73,7 +73,7 @@ function ContactInfo() {
             const body = (
               <>
                 <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-clinical-tint text-clinical-teal transition-colors group-hover:bg-navy group-hover:text-primary-foreground"><Icon className="h-5 w-5" aria-hidden="true" /></span>
-                <span className="min-w-0"><span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</span><span className="block break-words font-semibold text-navy">{value}</span></span>
+                <span className="min-w-0"><span className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</span><span className="block font-semibold [overflow-wrap:anywhere] text-navy">{value}</span></span>
               </>
             );
             const cls = "group flex items-start gap-3 rounded-xl p-3 transition-all duration-300 hover:translate-x-1 hover:bg-surface-soft motion-reduce:transform-none";

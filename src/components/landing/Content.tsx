@@ -136,7 +136,7 @@ export function Posts({ stories, news, blogs, doctors }: { stories: Story[]; new
       <PostGrid title="News & Media" posts={NEWS} cta="View All News" to="/news" soft live={news.length ? featured(news).map((p) => <PostCard key={p.id} post={p} />) : undefined} />
       {docs.length > 0 && (
         <section className="py-16 md:py-20">
-          <div className="container-site max-w-[1060px]">
+          <div className="container-site">
             <h2 className="section-title">Our Esteemed Doctors</h2>
             <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">{docs.map((d) => <DoctorCard key={d.id} doctor={d} />)}</div>
             <ViewAll label="View All Doctors" to="/doctors" />

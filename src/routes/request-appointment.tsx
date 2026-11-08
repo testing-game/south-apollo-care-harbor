@@ -16,7 +16,7 @@ import { downloadReceipt } from "@/lib/pdf";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/request-appointment")({
-  validateSearch: (s: Record<string, unknown>): { doctor?: string } => ({ doctor: typeof s.doctor === "string" ? s.doctor : undefined }),
+  validateSearch: (s: Record<string, unknown>): { doctor?: string | undefined } => ({ doctor: typeof s["doctor"] === "string" ? s["doctor"] : undefined }),
   head: () => meta("Request an Appointment", "Book a consultation with a South Apollo doctor: choose a speciality, doctor and visiting day."),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(doctorsQuery), context.queryClient.ensureQueryData(specialityRowsQuery)]),
   component: AppointmentPage,
@@ -51,12 +51,12 @@ function AppointmentPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const parsed = patientSchema.safeParse(form);
-    if (!parsed.success) return toast.error(parsed.error.issues[0]!.message);
+    if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
     setBusy(true);
     const p = parsed.data;
     const { data, error } = await supabase.rpc("book_appointment", { _doctor_id: doctorId, _date: date, _name: p.name, _phone: p.phone, _age: p.age, _gender: p.gender, _notes: p.notes ?? "" });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setDone(data as string);
   }
 

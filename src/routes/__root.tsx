@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -14,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -121,13 +123,15 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const admin = useLocation({ select: (l) => l.pathname.startsWith("/hospital-admin-portal") });
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
+      {!admin && <Header />}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <Footer />
+      {!admin && <Footer />}
+      <Toaster richColors position="top-center" />
     </QueryClientProvider>
   );
 }

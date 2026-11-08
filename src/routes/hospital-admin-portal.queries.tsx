@@ -12,7 +12,7 @@ function Queries() {
   const { data = [] } = useQuery(queriesQuery);
   async function toggle(id: string, status: string) {
     const { error } = await supabase.from("queries_contact").update({ status: status === "unread" ? "responded" : "unread" }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "queries"] });
   }
   return (

@@ -66,11 +66,11 @@ function BookDialog({ pkg, onClose }: { pkg: HealthPackage | null; onClose: () =
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const parsed = schema.safeParse(form);
-    if (!parsed.success || !pkg) return toast.error(parsed.error?.issues[0]?.message ?? "Check the form");
+    if (!parsed.success || !pkg) { toast.error(parsed.error?.issues[0]?.message ?? "Check the form"); return; }
     setBusy(true);
     const { data, error } = await supabase.rpc("book_test", { _package_id: pkg.id, _date: parsed.data.date, _name: parsed.data.name, _phone: parsed.data.phone });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setDone(data as string);
   }
   return (

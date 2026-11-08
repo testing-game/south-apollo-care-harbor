@@ -28,7 +28,7 @@ function Bookings() {
   }, [data, pkg, status, q]);
   async function setRowStatus(id: string, s: string) {
     const { error } = await supabase.from("test_bookings").update({ status: s }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "bookings"] });
   }
   const print = () => downloadManifest("Daily Test Booking Sheet", date, ["#", "Booking No.", "Patient", "Phone", "Package", "Status"], list.map((b, i) => [String(i + 1), b.booking_number, b.patient_name, b.patient_phone, b.health_packages?.title ?? "", b.status]), `tests-${date}.pdf`);

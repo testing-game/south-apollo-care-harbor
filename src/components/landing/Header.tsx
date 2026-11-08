@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "@tanstack/react-router";
 
 const NAV = ["Home", "About Us", "Specialities", "Health Check", "Online Report", "Patient Stories", "Career"];
+const ROUTES: Record<string, "/" | "/about" | "/specialities" | "/health-checkup-all-packages" | "/stories" | undefined> = { Home: "/", "About Us": "/about", Specialities: "/specialities", "Health Check": "/health-checkup-all-packages", "Patient Stories": "/stories" };
 const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 
 export function Header() {
@@ -53,27 +54,21 @@ export function Header() {
           <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital" className="h-14 w-auto md:h-[68px]" />
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
-          {NAV.map((n, i) => {
-            const className = `flex items-center gap-1 px-3 py-2.5 text-sm ${
-              (i === 0 && pathname === "/") || (n === "About Us" && pathname === "/about") || (n === "Specialities" && pathname === "/specialities") ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"
-            }`;
-            const label = <>{n}</>;
-            const destination = n === "Home" ? "/" : n === "About Us" ? "/about" : "/specialities";
-            return n === "Home" || n === "About Us" || n === "Specialities" ? (
-              <Button key={n} asChild variant="ghost" className={className}><Link to={destination} aria-current={pathname === destination ? "page" : undefined}>{label}</Link></Button>
+          {NAV.map((n) => {
+            const to = ROUTES[n];
+            const active = to && (to === "/" ? pathname === "/" : pathname.startsWith(to));
+            const className = `flex items-center gap-1 px-3 py-2.5 text-sm ${active ? "is-active bg-sky text-primary-foreground" : "main-nav-link text-navy"}`;
+            return to ? (
+              <Button key={n} asChild variant="ghost" className={className}><Link to={to} aria-current={active ? "page" : undefined}>{n}</Link></Button>
             ) : n === "Online Report" ? (
-              <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={className}>
-                {label}
-              </a>
+              <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={className}>{n}</a>
             ) : (
-              <a key={n} href="#" className={className}>
-                {label}
-              </a>
+              <a key={n} href="#" className={className}>{n}</a>
             );
           })}
-          <a href="#" className="ml-4 bg-navy px-6 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-sky">
+          <Link to="/send-query" className="ml-4 bg-navy px-6 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-sky">
             Send Query
-          </a>
+          </Link>
         </nav>
         {/* DGHS approval notice */}
         <div
@@ -93,24 +88,17 @@ export function Header() {
       {open && (
         <nav id="mobile-navigation" className="max-h-[calc(100dvh-133px)] overflow-y-auto border-t border-line-soft bg-background lg:hidden">
           <div className="container-site flex flex-col py-2">
-            {NAV.map((n) =>
-              n === "Home" || n === "About Us" || n === "Specialities" ? (
-                <Button key={n} asChild variant="ghost" className="h-auto justify-start rounded-none border-b border-line-soft py-3 text-sm font-normal text-navy"><Link to={n === "Home" ? "/" : n === "About Us" ? "/about" : "/specialities"} aria-current={pathname === (n === "Home" ? "/" : n === "About Us" ? "/about" : "/specialities") ? "page" : undefined} onClick={() => setOpen(false)}>{n}</Link></Button>
+            {NAV.map((n) => {
+              const to = ROUTES[n];
+              return to ? (
+                <Button key={n} asChild variant="ghost" className="h-auto justify-start rounded-none border-b border-line-soft py-3 text-sm font-normal text-navy"><Link to={to} onClick={() => setOpen(false)}>{n}</Link></Button>
               ) : n === "Online Report" ? (
-                <a
-                  key={n}
-                  href={REPORT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="border-b border-line-soft py-3 text-sm text-navy"
-                >
-                  {n}
-                </a>
+                <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className="border-b border-line-soft py-3 text-sm text-navy">{n}</a>
               ) : (
                 <a key={n} href="#" className="border-b border-line-soft py-3 text-sm text-navy">{n}</a>
-              ),
-            )}
-            <a href="#" className="my-3 bg-navy py-3 text-center text-sm font-medium text-primary-foreground">Send Query</a>
+              );
+            })}
+            <Link to="/send-query" onClick={() => setOpen(false)} className="my-3 bg-navy py-3 text-center text-sm font-medium text-primary-foreground">Send Query</Link>
           </div>
         </nav>
       )}

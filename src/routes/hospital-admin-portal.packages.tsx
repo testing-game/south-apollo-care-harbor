@@ -28,13 +28,13 @@ function PackagesAdmin() {
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!edit?.title.trim()) return toast.error("Enter a title");
+    if (!edit?.title.trim()) { toast.error("Enter a title"); return; }
     setBusy(true);
     const { testsText, ...rest } = edit;
     const row = { ...rest, title: rest.title.trim(), slug: rest.slug || slugify(rest.title), included_tests: testsText.split("\n").map((t) => t.trim()).filter(Boolean) };
     const res = row.id ? await supabase.from("health_packages").update(row).eq("id", row.id) : await supabase.from("health_packages").insert(row);
     setBusy(false);
-    if (res.error) return toast.error(res.error.message);
+    if (res.error) { toast.error(res.error.message); return; }
     toast.success("Package saved");
     setEdit(null);
     qc.invalidateQueries({ queryKey: ["admin", "packages"] });

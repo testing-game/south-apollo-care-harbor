@@ -30,11 +30,11 @@ function SendQueryPage() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const p = schema.safeParse(form);
-    if (!p.success) return toast.error(p.error.issues[0]!.message);
+    if (!p.success) { toast.error(p.error.issues[0]!.message); return; }
     setBusy(true);
     const { error } = await supabase.rpc("send_query", { _name: p.data.name, _email: p.data.email, _phone: p.data.phone, _subject: p.data.subject, _message: p.data.message });
     setBusy(false);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setSent(true);
   }
   const f = (k: keyof typeof form) => ({ value: form[k], onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm({ ...form, [k]: e.target.value }) });

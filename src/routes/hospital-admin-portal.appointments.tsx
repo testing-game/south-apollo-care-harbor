@@ -73,6 +73,6 @@ function Appointments() {
   );
 }
 
-export function StatusSelect({ value, onChange }: { value: string; onChange: (s: string) => void }) {
+function StatusSelect({ value, onChange }: { value: string; onChange: (s: string) => void }) {
   return <Select value={value} onValueChange={onChange}><SelectTrigger className="h-8 w-32 capitalize"><SelectValue /></SelectTrigger><SelectContent>{STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}</SelectContent></Select>;
 }

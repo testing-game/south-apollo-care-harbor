@@ -99,7 +99,7 @@ function KindManager({ kind }: { kind: Kind }) {
       </div>
       <Dialog open={!!edit} onOpenChange={(o) => !o && setEdit(null)}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
-          <DialogHeader><DialogTitle>{edit?.id ? "Edit" : "Add"} {kind.label}</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{edit?.["id"] ? "Edit" : "Add"} {kind.label}</DialogTitle></DialogHeader>
           {edit && (
             <form onSubmit={save} className="space-y-4">
               {kind.fields.map((f) =>

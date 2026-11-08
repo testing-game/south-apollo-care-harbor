@@ -17,3 +17,4 @@
 - Public content reads go through createServerFn with a publishable-key client (src/lib/public-data.functions.ts) so SSR pages have data; bookings and queries are written only via SECURITY DEFINER RPCs that return just the new number, so anonymous visitors can never read other patients' records.
 - The staff portal (/hospital-admin-portal) is client-only and talks to the database with the browser client; every privileged read/write is enforced by RLS via has_role(auth.uid(),'admin'), roles live in user_roles.
 - The hospital-media bucket is private (workspace blocks public buckets); uploads are converted to WebP in the browser and stored as long-lived signed URLs.
+- Typography is set once: @font-face for self-hosted faces (CDN asset URLs) plus --font-sans/--font-bangla in src/styles.css, with font files preloaded in __root head; components inherit and never set font families themselves.

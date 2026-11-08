@@ -12,6 +12,8 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import brownProRegular from "@/assets/fonts/BrownPro-normal-400-100.otf.asset.json";
+import brownProBold from "@/assets/fonts/BrownPro-normal-700-100.otf.asset.json";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
@@ -92,11 +94,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "preload", href: brownProRegular.url, as: "font", type: "font/otf", crossOrigin: "anonymous" },
+      { rel: "preload", href: brownProBold.url, as: "font", type: "font/otf", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],

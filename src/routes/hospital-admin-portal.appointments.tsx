@@ -29,12 +29,12 @@ function Appointments() {
 
   async function setRowStatus(id: string, s: string) {
     const { error } = await supabase.from("doctor_appointments").update({ status: s }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
   }
   function print() {
     const ids = doctor === "all" ? [...new Set(list.map((a) => a.doctor_id))] : [doctor];
-    if (!ids.length) return toast.info("Nothing to print for this day");
+    if (!ids.length) { toast.info("Nothing to print for this day"); return; }
     ids.forEach((id) => {
       const d = doctors.find((x) => x.id === id);
       const rows = list.filter((a) => a.doctor_id === id).map((a, i) => [String(i + 1), a.appointment_number, a.patient_name, `${a.patient_age} / ${a.patient_gender[0]!.toUpperCase()}`, a.patient_phone, a.status]);

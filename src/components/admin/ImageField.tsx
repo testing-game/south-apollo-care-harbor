@@ -8,7 +8,7 @@ export function ImageField({ label = "Image", value, onChange, folder }: { label
   const [busy, setBusy] = useState(false);
   async function pick(file?: File) {
     if (!file) return;
-    if (!file.type.startsWith("image/")) return toast.error("Choose an image file");
+    if (!file.type.startsWith("image/")) { toast.error("Choose an image file"); return; }
     setBusy(true);
     try { onChange(await uploadWebp(file, folder)); toast.success("Image uploaded as WebP"); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Upload failed"); }

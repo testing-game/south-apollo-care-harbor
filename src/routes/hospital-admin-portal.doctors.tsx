@@ -30,13 +30,13 @@ function DoctorsAdmin() {
   async function save(e: React.FormEvent) {
     e.preventDefault();
     if (!edit) return;
-    if (!edit.name.trim()) return toast.error("Enter the doctor's name");
+    if (!edit.name.trim()) { toast.error("Enter the doctor's name"); return; }
     setBusy(true);
     const spec = specialities.find((s) => s.id === edit.speciality_id);
     const row = { ...edit, name: edit.name.trim(), department_name: edit.department_name || spec?.name || "" };
     const res = edit.id ? await supabase.from("doctors").update(row).eq("id", edit.id) : await supabase.from("doctors").insert(row);
     setBusy(false);
-    if (res.error) return toast.error(res.error.message);
+    if (res.error) { toast.error(res.error.message); return; }
     toast.success("Doctor saved");
     setEdit(null);
     qc.invalidateQueries({ queryKey: ["admin", "doctors"] });
@@ -80,7 +80,7 @@ function DoctorsAdmin() {
                 <div className="flex flex-wrap gap-4">
                   {DAYS.map((day) => (
                     <label key={day} className="flex items-center gap-2 text-sm">
-                      <Checkbox checked={edit.visiting_days?.includes(day)} onCheckedChange={(c) => set({ visiting_days: c ? [...(edit.visiting_days ?? []), day] : (edit.visiting_days ?? []).filter((x) => x !== day) })} />{day}
+                      <Checkbox checked={!!edit.visiting_days?.includes(day)} onCheckedChange={(c) => set({ visiting_days: c ? [...(edit.visiting_days ?? []), day] : (edit.visiting_days ?? []).filter((x) => x !== day) })} />{day}
                     </label>
                   ))}
                 </div>

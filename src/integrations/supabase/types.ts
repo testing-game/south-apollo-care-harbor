@@ -14,16 +14,450 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      doctor_appointments: {
+        Row: {
+          appointment_date: string
+          appointment_number: string
+          created_at: string
+          doctor_id: string
+          id: string
+          notes: string | null
+          patient_age: number
+          patient_gender: string
+          patient_name: string
+          patient_phone: string
+          status: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_number?: string
+          created_at?: string
+          doctor_id: string
+          id?: string
+          notes?: string | null
+          patient_age: number
+          patient_gender: string
+          patient_name: string
+          patient_phone: string
+          status?: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_number?: string
+          created_at?: string
+          doctor_id?: string
+          id?: string
+          notes?: string | null
+          patient_age?: number
+          patient_gender?: string
+          patient_name?: string
+          patient_phone?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctor_appointments_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      doctors: {
+        Row: {
+          consultation_fee: number | null
+          created_at: string
+          degrees: string
+          department_name: string
+          designation: string
+          id: string
+          image_url: string
+          is_active: boolean
+          is_featured: boolean
+          name: string
+          room_number: string | null
+          speciality_id: string | null
+          visiting_days: string[]
+          visiting_hours: string
+        }
+        Insert: {
+          consultation_fee?: number | null
+          created_at?: string
+          degrees?: string
+          department_name?: string
+          designation?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          is_featured?: boolean
+          name: string
+          room_number?: string | null
+          speciality_id?: string | null
+          visiting_days?: string[]
+          visiting_hours?: string
+        }
+        Update: {
+          consultation_fee?: number | null
+          created_at?: string
+          degrees?: string
+          department_name?: string
+          designation?: string
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          is_featured?: boolean
+          name?: string
+          room_number?: string | null
+          speciality_id?: string | null
+          visiting_days?: string[]
+          visiting_hours?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "doctors_speciality_id_fkey"
+            columns: ["speciality_id"]
+            isOneToOne: false
+            referencedRelation: "specialities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      health_packages: {
+        Row: {
+          created_at: string
+          description: string
+          display_order: number
+          id: string
+          image_url: string
+          included_tests: string[]
+          is_active: boolean
+          is_featured: boolean
+          price: number | null
+          slug: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string
+          included_tests?: string[]
+          is_active?: boolean
+          is_featured?: boolean
+          price?: number | null
+          slug: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          display_order?: number
+          id?: string
+          image_url?: string
+          included_tests?: string[]
+          is_active?: boolean
+          is_featured?: boolean
+          price?: number | null
+          slug?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      hero_banners: {
+        Row: {
+          created_at: string
+          cta_link: string | null
+          cta_text: string | null
+          display_order: number
+          id: string
+          image_url: string
+          is_active: boolean
+          subtitle: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          cta_link?: string | null
+          cta_text?: string | null
+          display_order?: number
+          id?: string
+          image_url: string
+          is_active?: boolean
+          subtitle?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          cta_link?: string | null
+          cta_text?: string | null
+          display_order?: number
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          subtitle?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      patient_stories: {
+        Row: {
+          created_at: string
+          doctor_id: string | null
+          id: string
+          is_featured: boolean
+          patient_name: string
+          slug: string
+          story_content: string
+          thumbnail_url: string
+          treatment_title: string
+          youtube_video_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          doctor_id?: string | null
+          id?: string
+          is_featured?: boolean
+          patient_name: string
+          slug: string
+          story_content?: string
+          thumbnail_url?: string
+          treatment_title: string
+          youtube_video_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          doctor_id?: string | null
+          id?: string
+          is_featured?: boolean
+          patient_name?: string
+          slug?: string
+          story_content?: string
+          thumbnail_url?: string
+          treatment_title?: string
+          youtube_video_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "patient_stories_doctor_id_fkey"
+            columns: ["doctor_id"]
+            isOneToOne: false
+            referencedRelation: "doctors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          author_name: string | null
+          content: string
+          created_at: string
+          excerpt: string
+          featured_image: string
+          id: string
+          is_featured: boolean
+          published_date: string
+          slug: string
+          title: string
+          type: string
+        }
+        Insert: {
+          author_name?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string
+          featured_image?: string
+          id?: string
+          is_featured?: boolean
+          published_date?: string
+          slug: string
+          title: string
+          type: string
+        }
+        Update: {
+          author_name?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string
+          featured_image?: string
+          id?: string
+          is_featured?: boolean
+          published_date?: string
+          slug?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
+      queries_contact: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          message: string
+          name: string
+          phone: string
+          status: string
+          subject: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message: string
+          name: string
+          phone: string
+          status?: string
+          subject: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          message?: string
+          name?: string
+          phone?: string
+          status?: string
+          subject?: string
+        }
+        Relationships: []
+      }
+      specialities: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          icon_url: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon_url?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          icon_url?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      test_bookings: {
+        Row: {
+          booking_date: string
+          booking_number: string
+          created_at: string
+          id: string
+          package_id: string
+          patient_name: string
+          patient_phone: string
+          status: string
+        }
+        Insert: {
+          booking_date: string
+          booking_number?: string
+          created_at?: string
+          id?: string
+          package_id: string
+          patient_name: string
+          patient_phone: string
+          status?: string
+        }
+        Update: {
+          booking_date?: string
+          booking_number?: string
+          created_at?: string
+          id?: string
+          package_id?: string
+          patient_name?: string
+          patient_phone?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "test_bookings_package_id_fkey"
+            columns: ["package_id"]
+            isOneToOne: false
+            referencedRelation: "health_packages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      book_appointment: {
+        Args: {
+          _age: number
+          _date: string
+          _doctor_id: string
+          _gender: string
+          _name: string
+          _notes: string
+          _phone: string
+        }
+        Returns: string
+      }
+      book_test: {
+        Args: {
+          _date: string
+          _name: string
+          _package_id: string
+          _phone: string
+        }
+        Returns: string
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      send_query: {
+        Args: {
+          _email: string
+          _message: string
+          _name: string
+          _phone: string
+          _subject: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +584,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

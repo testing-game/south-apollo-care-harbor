@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { bannersQuery, doctorsQuery, packagesQuery, postsQuery, storiesQuery } from "@/lib/public-queries";
 import { Hero } from "@/components/landing/Hero";
 import { WhyChoose, Specialities } from "@/components/landing/Specialities";
 import { Packages, AskBanner, Posts } from "@/components/landing/Content";
@@ -22,19 +24,26 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: ({ context: { queryClient: q } }) => Promise.all([q.ensureQueryData(bannersQuery), q.ensureQueryData(packagesQuery), q.ensureQueryData(storiesQuery), q.ensureQueryData(postsQuery("news")), q.ensureQueryData(postsQuery("blog")), q.ensureQueryData(doctorsQuery)]),
   component: Index,
 });
 
 function Index() {
+  const { data: banners } = useSuspenseQuery(bannersQuery);
+  const { data: packages } = useSuspenseQuery(packagesQuery);
+  const { data: stories } = useSuspenseQuery(storiesQuery);
+  const { data: news } = useSuspenseQuery(postsQuery("news"));
+  const { data: blogs } = useSuspenseQuery(postsQuery("blog"));
+  const { data: doctors } = useSuspenseQuery(doctorsQuery);
   return (
     <div className="min-h-screen bg-background font-sans">
       <main>
-        <Hero />
+        <Hero banners={banners} />
         <WhyChoose />
         <Specialities />
-        <Packages />
+        <Packages packages={packages} />
         <AskBanner />
-        <Posts />
+        <Posts stories={stories} news={news} blogs={blogs} doctors={doctors} />
         <Corporate />
         <MapSection />
       </main>

@@ -1,4 +1,8 @@
+import { Link } from "@tanstack/react-router";
 import { asset } from "@/lib/asset";
+import { DoctorCard } from "@/components/site/DoctorCard";
+import { PostCard, StoryCard } from "@/components/site/Articles";
+import type { Doctor, HealthPackage, Post as PostRow, Story } from "@/lib/public-data.functions";
 
 const PACKAGES: [string, string, string][] = [
   ["EXECUTIVE HEALTH CHECK", "(MALE / FEMALE)", "executive-health-check-male-female.png"],
@@ -49,33 +53,35 @@ const BLOG: Post[] = [
   ["Psoriatic Arthritis: When Skin and Joints Connect", "10 September 2026"],
 ];
 
-function ViewAll({ label }: { label: string }) {
+type Dest = "/health-checkup-all-packages" | "/stories" | "/news" | "/blogs" | "/doctors";
+function ViewAll({ label, to }: { label: string; to: Dest }) {
   return (
     <div className="mt-10 flex justify-center">
-      <a href="#" className="bg-violet px-8 py-2.5 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90">{label}</a>
+      <Link to={to} className="bg-violet px-8 py-2.5 text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90">{label}</Link>
     </div>
   );
 }
 
-export function Packages() {
+export function Packages({ packages }: { packages: HealthPackage[] }) {
+  const live = packages.filter((p) => p.is_featured).slice(0, 8);
   return (
     <section className="bg-surface-soft py-16 md:py-20">
       <div className="container-site max-w-[1060px]">
         <h2 className="section-title">Health Check Packages</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {PACKAGES.map(([t, s, img]) => (
-            <a key={img} href="#" className="group relative block aspect-[29/32] overflow-hidden">
-              <img src={asset(img)} alt={`${t} ${s}`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          {(live.length ? live.map((p) => { const m = p.title.match(/^(.*?)\s*(\(.*\))?$/); return [m?.[1] ?? p.title, m?.[2] ?? "", p.image_url] as [string, string, string]; }) : PACKAGES.map(([t, s, img]) => [t, s, asset(img)] as [string, string, string])).map(([t, s, img]) => (
+            <Link key={img + t} to="/health-checkup-all-packages" className="group relative block aspect-[29/32] overflow-hidden">
+              <img src={img} alt={`${t} ${s}`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="bg-card-fade absolute inset-0" />
               <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
                 <p className="font-bold leading-snug">{t}</p>
                 <p className="text-xs font-bold uppercase">{s}</p>
                 <span className="mt-3 inline-block text-sm font-bold text-sky">See Package</span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
-        <ViewAll label="View All Packages" />
+        <ViewAll label="View All Packages" to="/health-checkup-all-packages" />
       </div>
     </section>
   );
@@ -89,20 +95,20 @@ export function AskBanner() {
           <h2 className="text-2xl font-bold">Ask South Apollo</h2>
           <p className="mt-2 text-sm">Looking for world-class care, we are here to support you.</p>
         </div>
-        <a href="#" className="bg-background px-8 py-3 text-sm font-semibold text-navy transition-colors hover:bg-sky hover:text-primary-foreground">Send Query</a>
+        <Link to="/send-query" className="bg-background px-8 py-3 text-sm font-semibold text-navy transition-colors hover:bg-sky hover:text-primary-foreground">Send Query</Link>
       </div>
     </section>
   );
 }
 
-function PostGrid({ title, posts, cta, soft, spaced }: { title: React.ReactNode; posts: Post[]; cta: string; soft?: boolean; spaced?: boolean }) {
+function PostGrid({ title, posts, cta, to, soft, spaced, live }: { title: React.ReactNode; posts: Post[]; cta: string; to: Dest; soft?: boolean; spaced?: boolean; live?: React.ReactNode }) {
   return (
     <section className={`py-16 md:py-20 ${soft ? "bg-surface-soft" : ""}`}>
       <div className="container-site max-w-[1060px]">
         <h2 className="section-title">{title}</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map(([t, d, img]) => (
-            <a key={t} href="#" className="group flex flex-col border border-line-soft bg-background transition-shadow hover:shadow-card">
+          {live ?? posts.map(([t, d, img]) => (
+            <Link key={t} to={to} className="group flex flex-col border border-line-soft bg-background transition-shadow hover:shadow-card">
               <div className="aspect-[16/9] overflow-hidden">
                 <img src={asset(img ?? slug(t))} alt={t} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               </div>
@@ -111,22 +117,34 @@ function PostGrid({ title, posts, cta, soft, spaced }: { title: React.ReactNode;
                 <h3 className="mt-2 line-clamp-2 text-sm font-bold leading-snug text-navy">{t}</h3>
                 <span className="mt-auto pt-4 text-xs font-bold text-sky">Read More</span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
-        <ViewAll label={cta} />
+        <ViewAll label={cta} to={to} />
       </div>
     </section>
   );
 }
 
-export function Posts() {
+const featured = <T extends { is_featured: boolean }>(rows: T[]) => (rows.some((r) => r.is_featured) ? rows.filter((r) => r.is_featured) : rows).slice(0, 6);
+
+export function Posts({ stories, news, blogs, doctors }: { stories: Story[]; news: PostRow[]; blogs: PostRow[]; doctors: Doctor[] }) {
+  const docs = featured(doctors);
   return (
     <>
-      <PostGrid title={<>Our Incredible Patients Share<br />Their Stories</>} posts={STORIES} cta="View All Stories" spaced />
-      <PostGrid title="News & Media" posts={NEWS} cta="View All News" soft />
-      <PostGrid title="Shasthoshongi" posts={SHASTHO} cta="View All" spaced />
-      <PostGrid title="Blog" posts={BLOG} cta="Read All Blogs" soft spaced />
+      <PostGrid title={<>Our Incredible Patients Share<br />Their Stories</>} posts={STORIES} cta="View All Stories" to="/stories" spaced live={stories.length ? featured(stories).map((s) => <StoryCard key={s.id} story={s} />) : undefined} />
+      <PostGrid title="News & Media" posts={NEWS} cta="View All News" to="/news" soft live={news.length ? featured(news).map((p) => <PostCard key={p.id} post={p} />) : undefined} />
+      {docs.length > 0 && (
+        <section className="py-16 md:py-20">
+          <div className="container-site max-w-[1060px]">
+            <h2 className="section-title">Our Esteemed Doctors</h2>
+            <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">{docs.map((d) => <DoctorCard key={d.id} doctor={d} />)}</div>
+            <ViewAll label="View All Doctors" to="/doctors" />
+          </div>
+        </section>
+      )}
+      <PostGrid title="Shasthoshongi" posts={SHASTHO} cta="View All" to="/blogs" spaced />
+      <PostGrid title="Blog" posts={BLOG} cta="Read All Blogs" to="/blogs" soft spaced live={blogs.length ? featured(blogs).map((p) => <PostCard key={p.id} post={p} />) : undefined} />
     </>
   );
 }

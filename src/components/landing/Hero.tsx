@@ -76,8 +76,8 @@ export function Hero({ banners }: { banners: Banner[] }) {
         onMouseLeave={() => setPaused(false)}
       >
         <div
-          className={`flex h-full${anim ? " transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" : ""}`}
-          style={{ transform: `translateX(-${pos * 100}%)` }}
+          className={`flex h-full will-change-transform${anim ? " transition-transform duration-[1300ms] ease-[cubic-bezier(0.16,1,0.3,1)]" : ""}`}
+          style={{ transform: `translate3d(-${pos * 100}%, 0, 0)` }}
           onTransitionEnd={onEnd}
         >
           {(n > 1 && slides[0] ? [...slides, slides[0]] : slides).map((s, idx) => {

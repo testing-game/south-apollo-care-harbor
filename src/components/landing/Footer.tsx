@@ -9,7 +9,7 @@ import { socialLinksQuery } from "@/lib/public-queries";
 import { SOCIAL_LABELS, visibleSocialLinks, type SocialPlatform } from "@/lib/social-links";
 
 type FooterLink = { label: string; to?: FooterRoute; href?: string; external?: boolean };
-type FooterRoute = "/doctors" | "/request-appointment" | "/career" | "/send-query" | "/specialities" | "/health-checkup-all-packages" | "/news" | "/blogs" | "/about" | "/stories" | "/pulse-magazine" | "/privacy-policy" | "/patient-guide";
+type FooterRoute = "/doctors" | "/request-appointment" | "/career" | "/send-query" | "/specialities" | "/health-checkup-all-packages" | "/news" | "/blogs" | "/about" | "/stories" | "/health-magazine" | "/privacy-policy" | "/patient-guide";
 
 export const FOOTER_LINKS: FooterLink[] = [
   { label: "Find a Doctor", to: "/doctors" },
@@ -23,7 +23,7 @@ export const FOOTER_LINKS: FooterLink[] = [
   { label: "Blogs", to: "/blogs" },
   { label: "About Us", to: "/about" },
   { label: "Patient Stories", to: "/stories" },
-  { label: "Pulse Magazine", to: "/pulse-magazine" },
+  { label: "Health Magazine", to: "/health-magazine" },
   { label: "Tele Online", href: "tel:+8801913240139" },
   { label: "Privacy Policy", to: "/privacy-policy" },
   { label: "Patient & Visitor Guide", to: "/patient-guide" },

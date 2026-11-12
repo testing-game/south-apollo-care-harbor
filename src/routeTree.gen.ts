@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CareerRouteImport } from './routes/career'
 import { Route as HealthCheckupAllPackagesRouteImport } from './routes/health-checkup-all-packages'
+import { Route as HealthMagazineRouteImport } from './routes/health-magazine'
 import { Route as HospitalAdminPortalRouteImport } from './routes/hospital-admin-portal'
 import { Route as PatientGuideRouteImport } from './routes/patient-guide'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
@@ -59,6 +60,11 @@ const HealthCheckupAllPackagesRoute =
     path: '/health-checkup-all-packages',
     getParentRoute: () => rootRouteImport,
   } as any)
+const HealthMagazineRoute = HealthMagazineRouteImport.update({
+  id: '/health-magazine',
+  path: '/health-magazine',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HospitalAdminPortalRoute = HospitalAdminPortalRouteImport.update({
   id: '/hospital-admin-portal',
   path: '/hospital-admin-portal',
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/health-magazine': typeof HealthMagazineRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -224,6 +231,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/health-magazine': typeof HealthMagazineRoute
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/pulse-magazine': typeof PulseMagazineRoute
@@ -254,6 +262,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
+  '/health-magazine': typeof HealthMagazineRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -286,6 +295,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/career'
     | '/health-checkup-all-packages'
+    | '/health-magazine'
     | '/hospital-admin-portal'
     | '/patient-guide'
     | '/privacy-policy'
@@ -316,6 +326,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/career'
     | '/health-checkup-all-packages'
+    | '/health-magazine'
     | '/patient-guide'
     | '/privacy-policy'
     | '/pulse-magazine'
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/career'
     | '/health-checkup-all-packages'
+    | '/health-magazine'
     | '/hospital-admin-portal'
     | '/patient-guide'
     | '/privacy-policy'
@@ -376,6 +388,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   CareerRoute: typeof CareerRoute
   HealthCheckupAllPackagesRoute: typeof HealthCheckupAllPackagesRoute
+  HealthMagazineRoute: typeof HealthMagazineRoute
   HospitalAdminPortalRoute: typeof HospitalAdminPortalRouteWithChildren
   PatientGuideRoute: typeof PatientGuideRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
@@ -421,6 +434,13 @@ declare module '@tanstack/react-router' {
       path: '/health-checkup-all-packages'
       fullPath: '/health-checkup-all-packages'
       preLoaderRoute: typeof HealthCheckupAllPackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health-magazine': {
+      id: '/health-magazine'
+      path: '/health-magazine'
+      fullPath: '/health-magazine'
+      preLoaderRoute: typeof HealthMagazineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hospital-admin-portal': {
@@ -626,6 +646,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   CareerRoute: CareerRoute,
   HealthCheckupAllPackagesRoute: HealthCheckupAllPackagesRoute,
+  HealthMagazineRoute: HealthMagazineRoute,
   HospitalAdminPortalRoute: HospitalAdminPortalRouteWithChildren,
   PatientGuideRoute: PatientGuideRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,

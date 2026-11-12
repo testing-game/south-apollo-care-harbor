@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight, BriefcaseBusiness, CalendarClock, ClipboardList, GraduationCap, Mail, Search, Users, Wallet, X } from "lucide-react";
@@ -47,10 +47,9 @@ function CareerPage() {
             <h2 className="text-[28px] font-bold leading-tight text-navy md:text-[36px]">Current Job Circulars</h2>
             <p className="mt-2 text-sm text-muted-foreground">{circulars.length ? `${circulars.length} open position${circulars.length === 1 ? "" : "s"} accepting applications` : "New openings are posted here as soon as they are announced."}</p>
           </div>
-          <div role="search" className="flex h-12 w-full shrink-0 items-center gap-2 rounded-full border border-line-soft bg-background px-5 text-navy shadow-sm focus-within:ring-2 focus-within:ring-sky md:w-[340px]">
-            <Search aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <input type="search" aria-label="Search job circulars" placeholder="Search job title or qualification…" value={query} onChange={(e) => setQuery(e.target.value)} className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground [&::-webkit-search-cancel-button]:hidden" />
-            {query && <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label="Clear search" onClick={() => setQuery("")}><X /></Button>}
+          <div role="search" className="speciality-search flex h-[50px] w-full shrink-0 items-center gap-2 border border-speciality-active bg-background px-[17px] text-speciality-active focus-within:ring-2 focus-within:ring-sky md:w-[300px] lg:w-[380px]">
+            <input type="search" aria-label="Search job circulars" placeholder="Search job title or qualification…" value={query} onChange={(e) => setQuery(e.target.value)} className="min-w-0 flex-1 bg-transparent text-lg font-medium outline-none placeholder:text-speciality-active [&::-webkit-search-cancel-button]:hidden" />
+            {query ? <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label="Clear search" onClick={() => setQuery("")}><X /></Button> : <Search aria-hidden="true" className="h-5 w-5 shrink-0" />}
           </div>
         </div>
 
@@ -87,19 +86,6 @@ function CareerPage() {
             )}
           </div>
         )}
-      </section>
-
-      <section className="bg-navy py-12 text-primary-foreground">
-        <div className="container-site flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-          <div>
-            <h2 className="text-2xl font-bold">Don't see the right role?</h2>
-            <p className="mt-2 max-w-2xl text-sm text-primary-foreground/80">Email your CV with the department you're interested in. Our HR team keeps every application on file and contacts suitable candidates when a position opens.</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild className="rounded-full bg-sky px-6 text-primary-foreground hover:bg-background hover:text-navy"><a href={`mailto:${HR_EMAIL}?subject=${encodeURIComponent("CV for future openings")}`}><Mail /> Email HR</a></Button>
-            <Button asChild variant="outline" className="rounded-full border-primary-foreground/40 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/send-query">Ask a question</Link></Button>
-          </div>
-        </div>
       </section>
 
       <JobDialog job={open} today={today} onClose={() => setOpen(null)} />

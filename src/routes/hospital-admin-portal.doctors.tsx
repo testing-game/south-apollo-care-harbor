@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ImageField } from "@/components/admin/ImageField";
+import { DOCTOR_PHOTO_HINT } from "@/lib/doctor-photo";
 import { Pagination } from "@/components/admin/Pagination";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
@@ -120,7 +121,7 @@ function DoctorsAdmin() {
               <div className="space-y-1"><Label>Visiting hours</Label><Input placeholder="05:00 PM - 09:00 PM" value={edit.visiting_hours ?? ""} onChange={(e) => set({ visiting_hours: e.target.value })} /></div>
               <div className="space-y-1"><Label>Room number</Label><Input value={edit.room_number ?? ""} onChange={(e) => set({ room_number: e.target.value })} /></div>
               <div className="space-y-1"><Label>Consultation fee (৳)</Label><Input type="number" min={0} value={edit.consultation_fee ?? ""} onChange={(e) => set({ consultation_fee: e.target.value ? Number(e.target.value) : null })} /></div>
-              <ImageField label="Photo" folder="doctors" value={edit.image_url ?? ""} onChange={(url) => set({ image_url: url })} />
+              <ImageField label="Photo" hint={DOCTOR_PHOTO_HINT} folder="doctors" value={edit.image_url ?? ""} onChange={(url) => set({ image_url: url })} />
               <label className="flex items-center gap-2 text-sm"><Switch checked={!!edit.is_featured} onCheckedChange={(c) => set({ is_featured: c })} /> Featured on homepage</label>
               <label className="flex items-center gap-2 text-sm"><Switch checked={edit.is_active !== false} onCheckedChange={(c) => set({ is_active: c })} /> Active</label>
               <Button type="submit" disabled={busy} className="bg-navy md:col-span-2">{busy ? "Saving…" : "Save doctor"}</Button>

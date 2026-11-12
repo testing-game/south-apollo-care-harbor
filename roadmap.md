@@ -6,4 +6,5 @@
 - [x] Phase 5: live homepage, doctors, stories, news, blogs and patient guide pages.
 - [x] Grant admin access to the first staff account.
 - [x] Health check packages refinement: wider homepage grid, searchable animated packages page, polished booking modal with age/gender.
+- [x] Footer overhaul: all links working, Career/Privacy Policy/Pulse Magazine pages, phone hover, social links managed in staff portal, header logo, Send Query hover, floating medical background.
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.

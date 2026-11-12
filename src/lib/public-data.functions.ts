@@ -74,3 +74,7 @@ export const getPost = createServerFn({ method: "GET" })
     const res = await publicClient().from("posts").select("*").eq("type", data.type).eq("slug", data.slug).maybeSingle();
     return res.data ?? null;
   });
+
+export const listSocialLinks = createServerFn({ method: "GET" }).handler(async () =>
+  rows(await publicClient().from("social_links").select("platform,url,is_active,display_order").eq("is_active", true).neq("url", "").order("display_order")),
+);

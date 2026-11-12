@@ -18,3 +18,4 @@
 - The staff portal (/hospital-admin-portal) is client-only and talks to the database with the browser client; every privileged read/write is enforced by RLS via has_role(auth.uid(),'admin'), roles live in user_roles.
 - The hospital-media bucket is private (workspace blocks public buckets); uploads are converted to WebP in the browser and stored as long-lived signed URLs.
 - Typography is set once: @font-face for self-hosted faces (CDN asset URLs) plus --font-sans/--font-bangla in src/styles.css, with font files preloaded in __root head; components inherit and never set font families themselves.
+- Footer social links are rows in social_links (one per fixed platform, seeded by migration) edited from the staff portal; the public footer reads only active rows via a server function, so staff changes appear without code edits.

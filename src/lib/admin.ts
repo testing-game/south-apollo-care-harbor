@@ -13,6 +13,8 @@ export const appointmentsQuery = (date: string) => queryOptions({ queryKey: ["ad
 export const bookingsQuery = (date: string) => queryOptions({ queryKey: ["admin", "bookings", date], queryFn: async () => must(await supabase.from("test_bookings").select("*, health_packages(title)").eq("booking_date", date).order("created_at")) });
 export const queriesQuery = queryOptions({ queryKey: ["admin", "queries"], queryFn: async () => must(await supabase.from("queries_contact").select("*").order("created_at", { ascending: false }).limit(200)) });
 
+export const adminSocialLinksQuery = queryOptions({ queryKey: ["admin", "social-links"], queryFn: async () => must(await supabase.from("social_links").select("platform,url,is_active,display_order").order("display_order")) });
+
 export const STATUSES = ["pending", "confirmed", "completed", "cancelled"] as const;
 export const DAYS = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 

@@ -323,6 +323,30 @@ export type Database = {
         }
         Relationships: []
       }
+      social_links: {
+        Row: {
+          display_order: number
+          is_active: boolean
+          platform: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          display_order?: number
+          is_active?: boolean
+          platform: string
+          updated_at?: string
+          url?: string
+        }
+        Update: {
+          display_order?: number
+          is_active?: boolean
+          platform?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       specialities: {
         Row: {
           created_at: string

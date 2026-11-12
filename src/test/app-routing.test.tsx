@@ -15,6 +15,10 @@ describe("App routing", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     expect(router.matchRoutes("/about").at(-1)?.routeId).toBe("/about");
   });
+  it.each(["/career", "/privacy-policy", "/pulse-magazine", "/news", "/blogs", "/stories", "/patient-guide", "/doctors", "/request-appointment", "/send-query", "/health-checkup-all-packages"])("matches a dedicated page for footer link %s", (path) => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    expect(router.matchRoutes(path).at(-1)?.routeId).not.toBe(rootRouteId);
+  });
   it("matches a page for / instead of falling back to not found", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
 

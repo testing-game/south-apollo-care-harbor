@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as CareerRouteImport } from './routes/career'
 import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as HealthCheckupAllPackagesRouteImport } from './routes/health-checkup-all-packages'
 import { Route as HospitalAdminPortalRouteImport } from './routes/hospital-admin-portal'
 import { Route as PatientGuideRouteImport } from './routes/patient-guide'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as PulseMagazineRouteImport } from './routes/pulse-magazine'
 import { Route as RequestAppointmentRouteImport } from './routes/request-appointment'
 import { Route as SendQueryRouteImport } from './routes/send-query'
 import { Route as SpecialitiesRouteImport } from './routes/specialities'
@@ -28,6 +31,7 @@ import { Route as HospitalAdminPortalDoctorsRouteImport } from './routes/hospita
 import { Route as HospitalAdminPortalPackagesRouteImport } from './routes/hospital-admin-portal.packages'
 import { Route as HospitalAdminPortalPatientsRouteImport } from './routes/hospital-admin-portal.patients'
 import { Route as HospitalAdminPortalQueriesRouteImport } from './routes/hospital-admin-portal.queries'
+import { Route as HospitalAdminPortalSocialRouteImport } from './routes/hospital-admin-portal.social'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -41,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareerRoute = CareerRouteImport.update({
+  id: '/career',
+  path: '/career',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DoctorsRoute = DoctorsRouteImport.update({
@@ -62,6 +71,16 @@ const HospitalAdminPortalRoute = HospitalAdminPortalRouteImport.update({
 const PatientGuideRoute = PatientGuideRouteImport.update({
   id: '/patient-guide',
   path: '/patient-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PulseMagazineRoute = PulseMagazineRouteImport.update({
+  id: '/pulse-magazine',
+  path: '/pulse-magazine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RequestAppointmentRoute = RequestAppointmentRouteImport.update({
@@ -137,6 +156,12 @@ const HospitalAdminPortalQueriesRoute =
     path: '/queries',
     getParentRoute: () => HospitalAdminPortalRoute,
   } as any)
+const HospitalAdminPortalSocialRoute =
+  HospitalAdminPortalSocialRouteImport.update({
+    id: '/social',
+    path: '/social',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
 const NewsIndexRoute = NewsIndexRouteImport.update({
   id: '/news/',
   path: '/news/',
@@ -161,10 +186,13 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/career': typeof CareerRoute
   '/doctors': typeof DoctorsRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/pulse-magazine': typeof PulseMagazineRoute
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
@@ -176,6 +204,7 @@ export interface FileRoutesByFullPath {
   '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
   '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
   '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
+  '/hospital-admin-portal/social': typeof HospitalAdminPortalSocialRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -186,9 +215,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/career': typeof CareerRoute
   '/doctors': typeof DoctorsRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/patient-guide': typeof PatientGuideRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/pulse-magazine': typeof PulseMagazineRoute
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
@@ -200,6 +232,7 @@ export interface FileRoutesByTo {
   '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
   '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
   '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
+  '/hospital-admin-portal/social': typeof HospitalAdminPortalSocialRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs': typeof BlogsIndexRoute
@@ -211,10 +244,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/career': typeof CareerRoute
   '/doctors': typeof DoctorsRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/pulse-magazine': typeof PulseMagazineRoute
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
@@ -226,6 +262,7 @@ export interface FileRoutesById {
   '/hospital-admin-portal/packages': typeof HospitalAdminPortalPackagesRoute
   '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
   '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
+  '/hospital-admin-portal/social': typeof HospitalAdminPortalSocialRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -238,10 +275,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/career'
     | '/doctors'
     | '/health-checkup-all-packages'
     | '/hospital-admin-portal'
     | '/patient-guide'
+    | '/privacy-policy'
+    | '/pulse-magazine'
     | '/request-appointment'
     | '/send-query'
     | '/specialities'
@@ -253,6 +293,7 @@ export interface FileRouteTypes {
     | '/hospital-admin-portal/packages'
     | '/hospital-admin-portal/patients'
     | '/hospital-admin-portal/queries'
+    | '/hospital-admin-portal/social'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
@@ -263,9 +304,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/career'
     | '/doctors'
     | '/health-checkup-all-packages'
     | '/patient-guide'
+    | '/privacy-policy'
+    | '/pulse-magazine'
     | '/request-appointment'
     | '/send-query'
     | '/specialities'
@@ -277,6 +321,7 @@ export interface FileRouteTypes {
     | '/hospital-admin-portal/packages'
     | '/hospital-admin-portal/patients'
     | '/hospital-admin-portal/queries'
+    | '/hospital-admin-portal/social'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs'
@@ -287,10 +332,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/career'
     | '/doctors'
     | '/health-checkup-all-packages'
     | '/hospital-admin-portal'
     | '/patient-guide'
+    | '/privacy-policy'
+    | '/pulse-magazine'
     | '/request-appointment'
     | '/send-query'
     | '/specialities'
@@ -302,6 +350,7 @@ export interface FileRouteTypes {
     | '/hospital-admin-portal/packages'
     | '/hospital-admin-portal/patients'
     | '/hospital-admin-portal/queries'
+    | '/hospital-admin-portal/social'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
@@ -313,10 +362,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CareerRoute: typeof CareerRoute
   DoctorsRoute: typeof DoctorsRoute
   HealthCheckupAllPackagesRoute: typeof HealthCheckupAllPackagesRoute
   HospitalAdminPortalRoute: typeof HospitalAdminPortalRouteWithChildren
   PatientGuideRoute: typeof PatientGuideRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  PulseMagazineRoute: typeof PulseMagazineRoute
   RequestAppointmentRoute: typeof RequestAppointmentRoute
   SendQueryRoute: typeof SendQueryRoute
   SpecialitiesRoute: typeof SpecialitiesRoute
@@ -342,6 +394,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/career': {
+      id: '/career'
+      path: '/career'
+      fullPath: '/career'
+      preLoaderRoute: typeof CareerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/doctors': {
@@ -370,6 +429,20 @@ declare module '@tanstack/react-router' {
       path: '/patient-guide'
       fullPath: '/patient-guide'
       preLoaderRoute: typeof PatientGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pulse-magazine': {
+      id: '/pulse-magazine'
+      path: '/pulse-magazine'
+      fullPath: '/pulse-magazine'
+      preLoaderRoute: typeof PulseMagazineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/request-appointment': {
@@ -463,6 +536,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HospitalAdminPortalQueriesRouteImport
       parentRoute: typeof HospitalAdminPortalRoute
     }
+    '/hospital-admin-portal/social': {
+      id: '/hospital-admin-portal/social'
+      path: '/social'
+      fullPath: '/hospital-admin-portal/social'
+      preLoaderRoute: typeof HospitalAdminPortalSocialRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
     '/news/': {
       id: '/news/'
       path: '/news'
@@ -502,6 +582,7 @@ interface HospitalAdminPortalRouteChildren {
   HospitalAdminPortalPackagesRoute: typeof HospitalAdminPortalPackagesRoute
   HospitalAdminPortalPatientsRoute: typeof HospitalAdminPortalPatientsRoute
   HospitalAdminPortalQueriesRoute: typeof HospitalAdminPortalQueriesRoute
+  HospitalAdminPortalSocialRoute: typeof HospitalAdminPortalSocialRoute
   HospitalAdminPortalIndexRoute: typeof HospitalAdminPortalIndexRoute
 }
 
@@ -513,6 +594,7 @@ const HospitalAdminPortalRouteChildren: HospitalAdminPortalRouteChildren = {
   HospitalAdminPortalPackagesRoute: HospitalAdminPortalPackagesRoute,
   HospitalAdminPortalPatientsRoute: HospitalAdminPortalPatientsRoute,
   HospitalAdminPortalQueriesRoute: HospitalAdminPortalQueriesRoute,
+  HospitalAdminPortalSocialRoute: HospitalAdminPortalSocialRoute,
   HospitalAdminPortalIndexRoute: HospitalAdminPortalIndexRoute,
 }
 
@@ -522,10 +604,13 @@ const HospitalAdminPortalRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CareerRoute: CareerRoute,
   DoctorsRoute: DoctorsRoute,
   HealthCheckupAllPackagesRoute: HealthCheckupAllPackagesRoute,
   HospitalAdminPortalRoute: HospitalAdminPortalRouteWithChildren,
   PatientGuideRoute: PatientGuideRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  PulseMagazineRoute: PulseMagazineRoute,
   RequestAppointmentRoute: RequestAppointmentRoute,
   SendQueryRoute: SendQueryRoute,
   SpecialitiesRoute: SpecialitiesRoute,

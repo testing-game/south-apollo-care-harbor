@@ -1,15 +1,12 @@
-import { useRef } from "react";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Activity, ChevronLeft, ChevronRight, Cross, Dna, HeartPulse, Mail, Phone, Stethoscope, type LucideIcon } from "lucide-react";
+import { Activity, Cross, Dna, ExternalLink, HeartPulse, Mail, MapPin, Phone, Stethoscope, type LucideIcon } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { Button } from "@/components/ui/button";
 import { SOCIAL_ICONS } from "@/components/site/SocialIcon";
 import { socialLinksQuery } from "@/lib/public-queries";
 import { SOCIAL_LABELS, visibleSocialLinks, type SocialPlatform } from "@/lib/social-links";
-
-const LOGOS = ["", "-2", "-3", "-4", "-5"].map((s) => `evercare-partner-logo${s}.png`);
 
 type FooterLink = { label: string; to?: FooterRoute; href?: string; external?: boolean };
 type FooterRoute = "/doctors" | "/request-appointment" | "/career" | "/send-query" | "/specialities" | "/health-checkup-all-packages" | "/news" | "/blogs" | "/about" | "/stories" | "/pulse-magazine" | "/privacy-policy" | "/patient-guide";
@@ -63,10 +60,8 @@ function FooterAmbient({ still }: { still: boolean }) {
 }
 
 export function Corporate() {
-  const track = useRef<HTMLDivElement>(null);
-  const scroll = (d: number) => track.current?.scrollBy({ left: d * 200, behavior: "smooth" });
   return (
-    <section className="container-site max-w-[1060px] py-16 text-center md:py-20">
+    <section className="container-site py-16 text-center md:py-20">
       <h2 className="section-title">Corporate Services</h2>
       <p className="mx-auto mt-6 max-w-4xl text-sm leading-relaxed text-navy md:text-base">
         <strong>One-Stop Service Desk:</strong> For the convenience of corporate clients, South Apollo Medical College Hospital operates a
@@ -74,30 +69,35 @@ export function Corporate() {
         referral patients, International patients and corporate patients. Our operating hours: 9:00 AM to 5:00 PM (except government
         holidays). We offer comprehensive healthcare management to address customized needs promptly and efficiently.
       </p>
-      <div className="mt-10 flex items-center gap-3">
-        <button onClick={() => scroll(-1)} aria-label="Previous" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-navy text-primary-foreground"><ChevronLeft className="h-4 w-4" /></button>
-        <div ref={track} className="flex flex-1 snap-x gap-6 overflow-x-auto [scrollbar-width:none]">
-          {LOGOS.map((l) => (
-            <div key={l} className="grid h-28 min-w-[150px] flex-1 snap-start place-items-center">
-              <img src={asset(l)} alt="Corporate partner logo" className="max-h-24 w-auto object-contain" />
-            </div>
-          ))}
-        </div>
-        <button onClick={() => scroll(1)} aria-label="Next" className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-navy text-primary-foreground"><ChevronRight className="h-4 w-4" /></button>
-      </div>
     </section>
   );
 }
 
+const MAPS_URL = "https://maps.app.goo.gl/9GDeAGMpzTN1on5z8";
+
 export function MapSection() {
   return (
-    <section className="h-[320px] w-full md:h-[440px]">
+    <section className="w-full">
       <iframe
-        title="Hospital location"
-        className="h-full w-full border-0"
+        title="South Apollo Medical College Hospital, Barishal location map"
+        className="h-[320px] w-full border-0 md:h-[440px]"
         loading="lazy"
-        src="https://www.google.com/maps?q=Evercare+Hospital+Dhaka+Bashundhara&output=embed"
+        src="https://www.google.com/maps?q=South+Apollo+Medical+College+%26+Hospital+Barishal&output=embed"
       />
+      <div className="container-site flex flex-col items-start justify-between gap-4 py-6 sm:flex-row sm:items-center">
+        <div className="flex items-start gap-3">
+          <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-sky" />
+          <div>
+            <p className="text-sm font-bold text-navy">South Apollo Medical College Hospital</p>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Jagua, Kalijira, Barishal Sadar, Barishal, Bangladesh</p>
+          </div>
+        </div>
+        <Button asChild className="shrink-0 rounded-full bg-navy px-6 text-primary-foreground transition-colors duration-300 hover:bg-sky hover:text-primary-foreground">
+          <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+            Open in Google Maps <ExternalLink className="h-3.5 w-3.5" />
+          </a>
+        </Button>
+      </div>
     </section>
   );
 }

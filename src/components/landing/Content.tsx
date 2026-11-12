@@ -36,14 +36,6 @@ const NEWS: Post[] = [
   ["Scientific Discussion on Metabolic Surgery Held at South Apollo", "28 July 2026", slug("Scientific Discussion on Metabolic Surgery Held at Evercare Hospital Dhaka")],
   ["Free Health Camp of South Apollo Held at Narsingdi", "29 November 2025", slug("Free Health Camp of Evercare Hospital Dhaka Held at Narsingdi")],
 ];
-const SHASTHO: Post[] = [
-  ["Lung Diseases and Their Treatment Explained", "28 September 2026"],
-  ["Lung Diseases: Causes, Symptoms & Modern Treatment Explained", "28 September 2026"],
-  ["How Does Radiotherapy Treat Cancer?", "14 September 2026"],
-  ["Radiotherapy Treatment Explained", "14 September 2026"],
-  ["World-Class Care for Advanced Bone Treatment", "29 August 2026"],
-  ["Why Is Breast Milk So Important for Babies?", "29 August 2026"],
-];
 const BLOG: Post[] = [
   ["Brain Stroke Risk Factors and Prevention: How to Reduce Your Risk", "29 October 2026"],
   ["Knee Osteoarthritis: Causes, Prevention, and Treatment", "20 October 2026"],
@@ -143,7 +135,6 @@ export function Posts({ stories, news, blogs, doctors }: { stories: Story[]; new
           </div>
         </section>
       )}
-      <PostGrid title="Shasthoshongi" posts={SHASTHO} cta="View All" to="/blogs" spaced />
       <PostGrid title="Blog" posts={BLOG} cta="Read All Blogs" to="/blogs" soft spaced live={blogs.length ? featured(blogs).map((p) => <PostCard key={p.id} post={p} />) : undefined} />
     </>
   );

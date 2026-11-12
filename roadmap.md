@@ -10,4 +10,5 @@
 - [x] Staff portal Doctors and Packages: live search, speciality filter, numbered pages.
 - [x] Branded PDFs: logo, Brown Pro/Hind Siliguri, redesigned booking slips and staff manifests with page numbers and signature line.
 - [x] Staff portal dashboard: Unread Queries block removed, Doctors on Duty Today panel kept.
+- [x] Homepage: Shasthoshongi section removed, Corporate Services logo carousel removed, map pinned to South Apollo Barishal with Open in Google Maps link.
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.

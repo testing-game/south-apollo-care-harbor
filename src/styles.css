@@ -184,6 +184,20 @@
   }
 }
 
+/* Toasts always show a visible close button in the top-right corner.
+   Kept unlayered with extra specificity so it wins over the toast library's
+   runtime-injected styles; colors still come from the library's theme. */
+[data-sonner-toaster] [data-sonner-toast] {
+  padding-right: 2.25rem;
+}
+[data-sonner-toaster] [data-sonner-toast][data-styled="true"] [data-close-button] {
+  opacity: 1;
+  left: auto;
+  right: 0.5rem;
+  top: 0.5rem;
+  transform: none;
+}
+
 /* Figma design tokens */
 :root {
   --token-color-azure-61: hsl(217 89% 61%);

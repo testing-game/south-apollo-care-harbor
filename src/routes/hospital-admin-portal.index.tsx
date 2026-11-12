@@ -12,6 +12,7 @@ function Dashboard() {
   const bookings = useQuery(bookingsQuery(today)).data ?? [];
   const doctors = useQuery(adminDoctorsQuery).data ?? [];
   const onDuty = doctors.filter((d) => isOnDuty(d, today));
+  const latestAppts = [...appts].sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 8);
   const cards = [
     { label: "Today's appointments", value: appts.length, icon: CalendarCheck },
     { label: "Today's test bookings", value: bookings.length, icon: FlaskConical },
@@ -31,10 +32,10 @@ function Dashboard() {
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <Panel title="Today's schedule" link={<Link to="/hospital-admin-portal/appointments" className="text-xs font-semibold text-sky">View all</Link>}>
-          {appts.length ? appts.slice(0, 8).map((a) => <Row key={a.id} left={`${a.appointment_number} · ${a.patient_name}`} right={`${a.doctors?.name ?? ""} · ${a.status}`} />) : <Empty>No appointments today.</Empty>}
+          {latestAppts.length ? latestAppts.map((a) => <Row key={a.id} left={`${a.appointment_number} · ${a.patient_name}`} right={`${a.doctors?.name ?? ""} · ${a.status}`} />) : <Empty>No appointments today.</Empty>}
         </Panel>
         <Panel title="Doctors on duty today" link={<Link to="/hospital-admin-portal/doctors" className="text-xs font-semibold text-sky">View all</Link>}>
-          {onDuty.length ? onDuty.map((d) => <Row key={d.id} left={d.name} right={`${d.visiting_hours}${d.room_number ? ` · Room ${d.room_number}` : ""}`} />) : <Empty>No doctors scheduled today.</Empty>}
+          {onDuty.length ? onDuty.slice(0, 8).map((d) => <Row key={d.id} left={d.name} right={`${d.visiting_hours}${d.room_number ? ` · Room ${d.room_number}` : ""}`} />) : <Empty>No doctors scheduled today.</Empty>}
         </Panel>
       </div>
     </div>

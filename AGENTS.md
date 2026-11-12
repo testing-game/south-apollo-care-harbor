@@ -13,6 +13,7 @@
 - The landing header uses a shared scroll-direction hook and one fixed wrapper for both bars; a breakpoint-matched spacer reserves the collapsed bar heights so hiding the header never shifts page content. Mobile dropdowns overlay content and scroll within the viewport.
 - Shared hospital navigation and footer live around the root Outlet; content pages use individual file routes with page-specific metadata so navigation and page identity stay consistent.
 - Homepage and directory specialities use one shared catalogue, filtering/paging helpers and card component so both views preserve consistent titles and interactions.
+- News, Blogs and Patient Stories listings share the ListingSearch box (same styling as the Specialities search) and in-browser filter rules in src/lib/article-search.ts, so all searchable listings behave alike.
 - SpecialityIcon renders original uploaded artwork with explicit composite-layer geometry; catalogue image references are mandatory, so no generic icon fallback can silently replace a missing export.
 - Public content reads go through createServerFn with a publishable-key client (src/lib/public-data.functions.ts) so SSR pages have data; bookings and queries are written only via SECURITY DEFINER RPCs that return just the new number, so anonymous visitors can never read other patients' records.
 - The staff portal (/hospital-admin-portal) is client-only and talks to the database with the browser client; every privileged read/write is enforced by RLS via has_role(auth.uid(),'admin'), roles live in user_roles.

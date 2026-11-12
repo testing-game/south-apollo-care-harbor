@@ -19,3 +19,4 @@
 - The hospital-media bucket is private (workspace blocks public buckets); uploads are converted to WebP in the browser and stored as long-lived signed URLs.
 - Typography is set once: @font-face for self-hosted faces (CDN asset URLs) plus --font-sans/--font-bangla in src/styles.css, with font files preloaded in __root head; components inherit and never set font families themselves.
 - Footer social links are rows in social_links (one per fixed platform, seeded by migration) edited from the staff portal; the public footer reads only active rows via a server function, so staff changes appear without code edits.
+- Long-form info pages (patient guide, privacy policy) share DocLayout: sticky quick-navigation plus numbered section cards, so both stay structurally identical and scroll-spy works the same.

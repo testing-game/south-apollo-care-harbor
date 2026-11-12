@@ -1,42 +1,24 @@
-import { smsErrorText } from "./sms";
+import { interpretOcsResponse, type SmsResult } from "./sms";
 
-const API = "https://api.zendsms.com/api/v1";
+/** Default OneCodeSoft v3 host; ONECODESOFT_BASE_URL overrides it if the dashboard shows a different one. */
+const DEFAULT_BASE = "https://sms.ocs-api.top/api";
 
-export type SmsResult = { ok: true; messageId: string | null } | { ok: false; code: number | null; error: string };
-
-type Envelope = { success?: boolean; code?: number; message?: string; data?: Record<string, unknown> };
-
-async function call(path: string, token: string, init?: RequestInit): Promise<{ status: number; body: Envelope }> {
-  const res = await fetch(`${API}${path}`, {
-    ...init,
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", Accept: "application/json" },
-  });
-  const body = (await res.json().catch(() => ({}))) as Envelope;
-  return { status: res.status, body };
-}
-
-/** The account's default sending number, used only if ZendSMS insists on one. */
-async function defaultSender(token: string): Promise<string | null> {
-  const { body } = await call("/sender-ids", token);
-  const list = (body.data?.["sender_ids"] as { sender_id: string; type?: string; is_default?: boolean }[] | undefined) ?? [];
-  return (list.find((s) => s.is_default) ?? list.find((s) => s.type === "unmasked") ?? list[0])?.sender_id ?? null;
-}
-
-/** Sends one non-masking SMS. Tries without a sender ID first; falls back to the account default when required. */
-export async function sendZendSms(recipient: string, message: string, token: string): Promise<SmsResult> {
-  const send = (sender?: string) =>
-    call("/send-sms", token, { method: "POST", body: JSON.stringify({ recipient, type: "plain", message, ...(sender ? { sender_id: sender } : {}) }) });
+/** Sends one non-masking SMS through OneCodeSoft Bulk SMS v3. No sender ID = OneCodeSoft picks an approved non-masking sender. */
+export async function sendOcsSms(number: string, message: string, opts: { apiKey: string; senderId?: string | undefined; baseUrl?: string | undefined }): Promise<SmsResult> {
+  const base = (opts.baseUrl?.trim() || DEFAULT_BASE).replace(/\/+$/, "");
+  const senderid = opts.senderId?.trim();
   try {
-    let r = await send();
-    if (!r.body.success && (r.body.code === 2102 || r.body.code === 2105)) {
-      const sender = await defaultSender(token);
-      if (sender) r = await send(sender);
-    }
-    if (r.body.success) return { ok: true, messageId: (r.body.data?.["message_id"] as string | undefined) ?? null };
-    console.error("[sms] ZendSMS rejected message", r.status, r.body.code, r.body.message);
-    return { ok: false, code: r.body.code ?? null, error: smsErrorText(r.body.code, r.body.message) };
+    const res = await fetch(`${base}/v3/send-sms`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${opts.apiKey}`, Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ number, message, ...(senderid ? { senderid } : {}) }),
+    });
+    const body = await res.json().catch(() => null);
+    const result = interpretOcsResponse(res.status, body);
+    if (!result.success) console.error("[sms] OneCodeSoft did not send", res.status, body?.message, result.details?.status);
+    return result;
   } catch (e) {
-    console.error("[sms] ZendSMS request failed", e);
-    return { ok: false, code: null, error: "The SMS service could not be reached. Try again shortly." };
+    console.error("[sms] OneCodeSoft request failed", e);
+    return { success: false, message: "The SMS service could not be reached. Try again shortly." };
   }
 }

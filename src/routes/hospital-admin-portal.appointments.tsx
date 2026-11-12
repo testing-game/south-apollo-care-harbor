@@ -37,8 +37,8 @@ function Appointments() {
     setSending((prev) => new Set(prev).add(id));
     try {
       const res = await sendSmsFn({ data: { appointmentId: id } });
-      if (res.ok) toast.success(`Confirmation SMS sent to ${name}`);
-      else toast.error(`SMS not sent: ${res.error}`, { description: "The appointment is still confirmed. You can use Resend SMS." });
+      if (res.success) toast.success(`Confirmation SMS sent to ${name}`);
+      else toast.error(`SMS not sent: ${res.message}`, { description: "The appointment is still confirmed. You can use Resend SMS." });
     } catch {
       toast.error("SMS not sent: the SMS service could not be reached.", { description: "The appointment is still confirmed. You can use Resend SMS." });
     } finally {

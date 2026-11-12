@@ -1,4 +1,4 @@
-/** Shared, browser-safe rules for appointment SMS (ZendSMS). */
+/** Shared, browser-safe rules for appointment SMS (OneCodeSoft Bulk SMS v3). */
 
 export const HOSPITAL_SMS_NAME = "South Apollo Medical College Hospital";
 export const SMS_HELPLINE = "+8801913240139";
@@ -34,19 +34,30 @@ export function appointmentSmsText(a: AppointmentSmsInput): string {
   return `Dear ${a.patientName.trim()}, your appointment (${a.appointmentNumber}) with ${a.doctorName.trim()} at ${HOSPITAL_SMS_NAME} is CONFIRMED for ${when}. Helpline: ${SMS_HELPLINE}.`;
 }
 
-/** Plain-language explanation of a ZendSMS error code for reception staff. */
-export function smsErrorText(code: number | null | undefined, fallback?: string): string {
-  switch (code) {
-    case 2001: case 2002: return "The SMS service key is missing or not valid.";
-    case 2003: return "The SMS service blocked this server's address.";
-    case 2004: return "The SMS account is suspended.";
-    case 2101: return "The patient's phone number isn't a valid mobile number.";
-    case 2102: case 2103: return "The SMS account has no approved sending number.";
-    case 2106: return "The message is too long.";
-    case 2201: return "The SMS account balance is too low.";
-    case 2202: case 2203: case 2204: return "The SMS sending limit was reached. Try again later.";
-    case 2302: return "The mobile operator rejected the message.";
-    case 2303: case 2304: case 5000: case 5001: case 5002: return "The SMS service is temporarily unavailable. Try again shortly.";
-    default: return fallback || "The SMS could not be sent.";
+export type SmsResult = { success: boolean; message: string; details?: { to: string | null; status: string | null; messageId: string | null; senderId: string | null } };
+
+type OcsBody = {
+  status?: string;
+  message?: string;
+  data?: { senderid?: string; results?: { to?: string; status?: string; code?: string | number | null; message_id?: string | null }[] };
+};
+
+/**
+ * Reads a OneCodeSoft Bulk SMS v3 reply. The API answers HTTP 200 with status "success"/"error";
+ * 401 means a bad key. Even on success, each recipient can be sent / failed / blocked / spam.
+ */
+export function interpretOcsResponse(httpStatus: number, body: OcsBody | null): SmsResult {
+  if (httpStatus === 401) return { success: false, message: "The SMS service key is missing or not valid." };
+  if (!body || body.status !== "success") {
+    return { success: false, message: body?.message?.trim() || `The SMS service returned an unexpected reply (HTTP ${httpStatus}).` };
+  }
+  const r = body.data?.results?.[0];
+  const details = { to: r?.to ?? null, status: r?.status ?? null, messageId: r?.message_id ?? null, senderId: body.data?.senderid ?? null };
+  switch (r?.status) {
+    case "sent": return { success: true, message: "SMS sent", details };
+    case "blocked": return { success: false, message: "This number is on the SMS service's block list.", details };
+    case "spam": return { success: false, message: "The SMS service's spam filter stopped the message.", details };
+    case "failed": return { success: false, message: `The mobile operator rejected the message${r.code ? ` (code ${r.code})` : ""}.`, details };
+    default: return { success: false, message: "The SMS service didn't confirm the message was sent.", details };
   }
 }

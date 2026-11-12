@@ -76,7 +76,7 @@ export function Hero({ banners }: { banners: Banner[] }) {
         onMouseLeave={() => setPaused(false)}
       >
         <div
-          className={`flex h-full${anim ? " transition-transform duration-700 ease-in-out" : ""}`}
+          className={`flex h-full${anim ? " transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" : ""}`}
           style={{ transform: `translateX(-${pos * 100}%)` }}
           onTransitionEnd={onEnd}
         >

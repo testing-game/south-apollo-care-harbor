@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Printer } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
+import { Loader2, MessageSquareText, Printer } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import { adminDoctorsQuery, appointmentsQuery, STATUSES } from "@/lib/admin";
 import { downloadManifest } from "@/lib/pdf";
 import { ageGenderLabel } from "@/lib/pdf-model";
 import { todayInDhaka } from "@/lib/schedule";
+import { sendAppointmentSms } from "@/lib/sms.functions";
 
 export const Route = createFileRoute("/hospital-admin-portal/appointments")({ component: Appointments });
 
@@ -28,10 +30,27 @@ function Appointments() {
     return data.filter((a) => (doctor === "all" || a.doctor_id === doctor) && (status === "all" || a.status === status) && (!n || `${a.patient_name} ${a.patient_phone} ${a.appointment_number}`.toLowerCase().includes(n)));
   }, [data, doctor, status, q]);
 
-  async function setRowStatus(id: string, s: string) {
+  const sendSmsFn = useServerFn(sendAppointmentSms);
+  const [sending, setSending] = useState<Set<string>>(new Set());
+
+  async function sendSms(id: string, name: string) {
+    setSending((prev) => new Set(prev).add(id));
+    try {
+      const res = await sendSmsFn({ data: { appointmentId: id } });
+      if (res.ok) toast.success(`Confirmation SMS sent to ${name}`);
+      else toast.error(`SMS not sent: ${res.error}`, { description: "The appointment is still confirmed. You can use Resend SMS." });
+    } catch {
+      toast.error("SMS not sent: the SMS service could not be reached.", { description: "The appointment is still confirmed. You can use Resend SMS." });
+    } finally {
+      setSending((prev) => { const next = new Set(prev); next.delete(id); return next; });
+    }
+  }
+
+  async function setRowStatus(id: string, s: string, prev: string, name: string) {
     const { error } = await supabase.from("doctor_appointments").update({ status: s }).eq("id", id);
     if (error) { toast.error(error.message); return; }
-    qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
+    await qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
+    if (s === "confirmed" && prev !== "confirmed") void sendSms(id, name);
   }
   function print() {
     if (!list.length) { toast.info("Nothing to print for these filters"); return; }
@@ -66,7 +85,17 @@ function Appointments() {
                 <TableCell>{a.patient_phone}</TableCell>
                 <TableCell>{a.patient_age} / {a.patient_gender}</TableCell>
                 <TableCell>{a.doctors?.name}</TableCell>
-                <TableCell><StatusSelect value={a.status} onChange={(s) => setRowStatus(a.id, s)} /></TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <StatusSelect value={a.status} onChange={(s) => setRowStatus(a.id, s, a.status, a.patient_name)} />
+                    {a.status === "confirmed" && (
+                      <Button type="button" size="sm" variant="outline" className="h-8 gap-1.5 px-2.5 text-xs" disabled={sending.has(a.id)} onClick={() => sendSms(a.id, a.patient_name)} aria-label={`Resend SMS to ${a.patient_name}`}>
+                        {sending.has(a.id) ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <MessageSquareText className="h-3.5 w-3.5" />}
+                        {sending.has(a.id) ? "Sending…" : "Resend SMS"}
+                      </Button>
+                    )}
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
             {!list.length && <TableRow><TableCell colSpan={6} className="py-8 text-center text-muted-foreground">{isLoading ? "Loading…" : "No appointments for these filters."}</TableCell></TableRow>}

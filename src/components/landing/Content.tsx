@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { asset } from "@/lib/asset";
+import { homeCardImage } from "@/lib/packages";
 import { DoctorCard } from "@/components/site/DoctorCard";
 import { PostCard, StoryCard } from "@/components/site/Articles";
 import type { Doctor, HealthPackage, Post as PostRow, Story } from "@/lib/public-data.functions";
@@ -61,7 +62,7 @@ export function Packages({ packages }: { packages: HealthPackage[] }) {
       <div className="container-site">
         <h2 className="section-title">Health Check Packages</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {(live.length ? live.map((p) => { const m = p.title.match(/^(.*?)\s*(\(.*\))?$/); return [m?.[1] ?? p.title, m?.[2] ?? "", p.image_url] as [string, string, string]; }) : PACKAGES.map(([t, s, img]) => [t, s, asset(img)] as [string, string, string])).map(([t, s, img]) => (
+          {(live.length ? live.map((p) => { const m = p.title.match(/^(.*?)\s*(\(.*\))?$/); return [m?.[1] ?? p.title, m?.[2] ?? "", homeCardImage(p)] as [string, string, string]; }) : PACKAGES.map(([t, s, img]) => [t, s, asset(img)] as [string, string, string])).map(([t, s, img]) => (
             <Link key={img + t} to="/health-checkup-all-packages" className="group relative block aspect-[29/32] overflow-hidden">
               <img src={img} alt={`${t} ${s}`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
               <div className="bg-card-fade absolute inset-0" />

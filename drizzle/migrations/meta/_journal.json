@@ -50,6 +50,13 @@
       "when": 1794486739915,
       "tag": "0006_publish_flag_posts_stories",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794492473399,
+      "tag": "0007_package_home_card_image",
+      "breakpoints": true
     }
   ]
 }

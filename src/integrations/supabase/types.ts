@@ -131,6 +131,7 @@ export type Database = {
           created_at: string
           description: string
           display_order: number
+          home_image_url: string
           id: string
           image_url: string
           included_tests: string[]
@@ -144,6 +145,7 @@ export type Database = {
           created_at?: string
           description?: string
           display_order?: number
+          home_image_url?: string
           id?: string
           image_url?: string
           included_tests?: string[]
@@ -157,6 +159,7 @@ export type Database = {
           created_at?: string
           description?: string
           display_order?: number
+          home_image_url?: string
           id?: string
           image_url?: string
           included_tests?: string[]

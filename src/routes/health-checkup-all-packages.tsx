@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { CalendarDays, Check, Download, Loader2, Phone, Search, Sparkles, Stethoscope, User, X } from "lucide-react";
+import { CalendarDays, Check, Download, Loader2, Phone, Search, Stethoscope, User, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -12,7 +12,7 @@ import { PageHero, meta } from "@/components/site/PageHero";
 import { packagesQuery } from "@/lib/public-queries";
 import type { HealthPackage } from "@/lib/public-data.functions";
 import { formatDate, price, todayInDhaka } from "@/lib/schedule";
-import { GENDERS, filterPackages, packageBadge, testBookingSchema } from "@/lib/packages";
+import { GENDERS, filterPackages, testBookingSchema } from "@/lib/packages";
 import { downloadSlip, type SlipInput } from "@/lib/pdf";
 import { weekdayName } from "@/lib/pdf-model";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,7 +46,7 @@ function PackagesPage() {
         <div aria-live="polite" aria-atomic="true" className="sr-only">{list.length} packages found</div>
         {list.length ? (
           <motion.div initial="hidden" animate="visible" variants={stagger} className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {list.map((p) => <motion.div key={p.id} variants={item} layout={!reduced} className="h-full"><PackageCard pkg={p} badge={packageBadge(p, packages)} onBook={() => setOpen(p)} /></motion.div>)}
+            {list.map((p) => <motion.div key={p.id} variants={item} layout={!reduced} className="h-full"><PackageCard pkg={p} onBook={() => setOpen(p)} /></motion.div>)}
           </motion.div>
         ) : (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex min-h-72 flex-col items-center justify-center gap-2 border-y border-line-soft text-center text-muted-foreground">
@@ -61,17 +61,12 @@ function PackagesPage() {
   );
 }
 
-function PackageCard({ pkg, badge, onBook }: { pkg: HealthPackage; badge: ReturnType<typeof packageBadge>; onBook: () => void }) {
+function PackageCard({ pkg, onBook }: { pkg: HealthPackage; onBook: () => void }) {
   return (
     <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-line-soft bg-background transition-all duration-300 hover:-translate-y-1.5 hover:border-clinical-teal/60 hover:shadow-xl hover:ring-4 hover:ring-clinical-teal/10 motion-reduce:transform-none">
       {pkg.image_url && (
         <div className="relative aspect-[16/10] overflow-hidden">
           <img src={pkg.image_url} alt={pkg.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-          {badge && (
-            <span className={cn("absolute left-3 top-3 inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold shadow-md", badge === "Comprehensive" ? "bg-navy text-primary-foreground" : "bg-clinical-teal text-primary-foreground")}>
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />{badge}
-            </span>
-          )}
         </div>
       )}
       <div className="flex flex-1 flex-col p-5">

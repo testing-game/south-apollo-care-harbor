@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { filterPackages, packageBadge, testBookingSchema } from "./packages";
+import { PACKAGE_IMAGE_SIZES, filterPackages, homeCardImage, testBookingSchema } from "./packages";
 
 const pkgs = [
   { title: "Heart Check (For Men)", included_tests: ["ECG", "Lipid Profile"], is_featured: true },
@@ -19,16 +19,25 @@ describe("filterPackages", () => {
   });
 });
 
-describe("packageBadge", () => {
-  it("marks whole body packages as Comprehensive", () => {
-    expect(packageBadge(pkgs[1]!, pkgs)).toBe("Comprehensive");
+describe("package banner sizes", () => {
+  it("homepage banner is 1160x1280, a 29:32 portrait", () => {
+    const { width, height } = PACKAGE_IMAGE_SIZES.home;
+    expect([width, height]).toEqual([1160, 1280]);
+    expect(width * 32).toBe(height * 29);
   });
-  it("marks featured packages as Recommended when not all are featured", () => {
-    expect(packageBadge(pkgs[0]!, pkgs)).toBe("Recommended");
+  it("all packages page banner is 1600x1000, a 16:10 landscape", () => {
+    const { width, height } = PACKAGE_IMAGE_SIZES.page;
+    expect([width, height]).toEqual([1600, 1000]);
+    expect(width * 10).toBe(height * 16);
   });
-  it("gives no Recommended badge when every package is featured", () => {
-    const all = pkgs.map((p) => ({ ...p, is_featured: true }));
-    expect(packageBadge(all[0]!, all)).toBeNull();
+});
+
+describe("homeCardImage", () => {
+  it("uses the homepage banner when one is uploaded", () => {
+    expect(homeCardImage({ home_image_url: "home.webp", image_url: "page.webp" })).toBe("home.webp");
+  });
+  it("falls back to the page banner when no homepage banner exists", () => {
+    expect(homeCardImage({ home_image_url: "", image_url: "page.webp" })).toBe("page.webp");
   });
 });
 

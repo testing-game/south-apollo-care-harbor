@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { uploadWebp, type MediaFolder } from "@/lib/media";
 
-export function ImageField({ label = "Image", value, onChange, folder }: { label?: string; value: string; onChange: (url: string) => void; folder: MediaFolder }) {
+export function ImageField({ label = "Image", hint, value, onChange, folder }: { label?: string; hint?: string; value: string; onChange: (url: string) => void; folder: MediaFolder }) {
   const [busy, setBusy] = useState(false);
   async function pick(file?: File) {
     if (!file) return;
@@ -21,6 +21,7 @@ export function ImageField({ label = "Image", value, onChange, folder }: { label
         {value ? <img src={value} alt="" className="h-16 w-16 rounded border object-cover" /> : <div className="h-16 w-16 rounded border bg-surface-soft" />}
         <Input type="file" accept="image/*" disabled={busy} onChange={(e) => pick(e.target.files?.[0])} />
       </div>
+      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
       {busy && <p className="text-xs text-muted-foreground">Converting and uploading…</p>}
     </div>
   );

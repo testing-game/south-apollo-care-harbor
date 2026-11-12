@@ -9,11 +9,18 @@ export function filterPackages<T extends PackageLike>(packages: T[], query: stri
   return packages.filter((p) => p.title.toLowerCase().includes(q) || p.included_tests.some((t) => t.toLowerCase().includes(q)));
 }
 
-/** "Comprehensive" for whole-body/executive or 10+ test packages; "Recommended" for featured ones when featuring actually singles them out. */
-export function packageBadge(pkg: PackageLike, all: PackageLike[]): "Comprehensive" | "Recommended" | null {
-  if (/whole body|executive/i.test(pkg.title) || pkg.included_tests.length >= 10) return "Comprehensive";
-  if (pkg.is_featured && !all.every((p) => p.is_featured)) return "Recommended";
-  return null;
+/**
+ * Banner shapes the package cards crop to. Sizes are 2x the widest the card is ever shown
+ * (single-column phone layout) so images stay sharp on high-density screens.
+ */
+export const PACKAGE_IMAGE_SIZES = {
+  home: { ratio: "29:32", width: 1160, height: 1280, label: "Homepage Card Banner" },
+  page: { ratio: "16:10", width: 1600, height: 1000, label: "All Packages Page Banner" },
+} as const;
+
+/** Homepage cards use their own portrait banner, falling back to the page banner. */
+export function homeCardImage(pkg: { home_image_url?: string | null; image_url: string }): string {
+  return pkg.home_image_url?.trim() ? pkg.home_image_url : pkg.image_url;
 }
 
 export const GENDERS = ["Male", "Female", "Other"] as const;

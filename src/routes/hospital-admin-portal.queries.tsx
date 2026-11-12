@@ -1,14 +1,15 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { CheckCircle2, ChevronLeft, ChevronRight, Inbox, Search, Undo2 } from "lucide-react";
+import { CheckCircle2, Inbox, Search, Undo2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 import { queriesQuery } from "@/lib/admin";
-import { countByTab, filterInbox, pageNumbers, paginate, type InboxTab } from "@/lib/query-inbox";
+import { Pagination } from "@/components/admin/Pagination";
+import { countByTab, filterInbox, paginate, type InboxTab } from "@/lib/query-inbox";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/hospital-admin-portal/queries")({ component: Queries });
@@ -111,31 +112,7 @@ function Queries() {
         )}
       </div>
 
-      {view.total > 0 && (
-        <div className="flex flex-col items-center gap-3 border-t border-line-soft pt-4 sm:flex-row sm:justify-between">
-          <p className="text-sm text-muted-foreground">Showing {view.from}–{view.to} of {view.total} {view.total === 1 ? "query" : "queries"}</p>
-          <nav aria-label="Pagination" className="flex flex-wrap items-center gap-1">
-            <Button size="sm" variant="outline" disabled={view.current === 1} onClick={() => setPage(view.current - 1)}><ChevronLeft /> Previous</Button>
-            {pageNumbers(view.current, view.totalPages).map((p, i) =>
-              p === "gap" ? (
-                <span key={`gap-${i}`} className="px-2 text-muted-foreground">…</span>
-              ) : (
-                <Button
-                  key={p}
-                  size="sm"
-                  variant={p === view.current ? "default" : "ghost"}
-                  aria-current={p === view.current ? "page" : undefined}
-                  className={cn("min-w-9", p === view.current && "bg-navy text-primary-foreground hover:bg-navy")}
-                  onClick={() => setPage(p)}
-                >
-                  {p}
-                </Button>
-              ),
-            )}
-            <Button size="sm" variant="outline" disabled={view.current === view.totalPages} onClick={() => setPage(view.current + 1)}>Next <ChevronRight /></Button>
-          </nav>
-        </div>
-      )}
+      <Pagination view={view} onPage={setPage} noun={["query", "queries"]} />
     </div>
   );
 }

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Pencil, Plus } from "lucide-react";
+import { Pencil, Plus, Search, SearchX } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,9 +11,12 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ImageField } from "@/components/admin/ImageField";
+import { Pagination } from "@/components/admin/Pagination";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { adminDoctorsQuery, adminSpecialitiesQuery, DAYS } from "@/lib/admin";
+import { ALL_SPECIALITIES, filterAdminDoctors } from "@/lib/admin-filters";
+import { paginate } from "@/lib/query-inbox";
 
 export const Route = createFileRoute("/hospital-admin-portal/doctors")({ component: DoctorsAdmin });
 
@@ -22,10 +25,17 @@ const blank: DoctorInsert = { name: "", designation: "", degrees: "", department
 
 function DoctorsAdmin() {
   const qc = useQueryClient();
-  const doctors = useQuery(adminDoctorsQuery).data ?? [];
+  const doctorsQ = useQuery(adminDoctorsQuery);
+  const doctors = doctorsQ.data ?? [];
   const specialities = useQuery(adminSpecialitiesQuery).data ?? [];
   const [edit, setEdit] = useState<DoctorInsert | null>(null);
   const [busy, setBusy] = useState(false);
+  const [search, setSearch] = useState("");
+  const [specFilter, setSpecFilter] = useState(ALL_SPECIALITIES);
+  const [page, setPage] = useState(1);
+  const specNames = useMemo(() => Object.fromEntries(specialities.map((s) => [s.id, s.name])), [specialities]);
+  const filtered = useMemo(() => filterAdminDoctors(doctors, search, specFilter, specNames), [doctors, search, specFilter, specNames]);
+  const view = paginate(filtered, page);
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
@@ -46,9 +56,25 @@ function DoctorsAdmin() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between"><h1 className="text-2xl font-bold text-navy">Doctors</h1><Button className="bg-navy" onClick={() => setEdit({ ...blank })}><Plus /> Add doctor</Button></div>
+      <div className="flex flex-col gap-4">
+        <h1 className="text-2xl font-bold text-navy">Doctors</h1>
+        <div className="flex flex-col gap-3 md:flex-row md:items-center">
+          <div className="relative w-full md:max-w-md">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input className="pl-9" aria-label="Search doctors" placeholder="Search doctor by name, degree, speciality, or room..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
+          </div>
+          <Select value={specFilter} onValueChange={(v) => { setSpecFilter(v); setPage(1); }}>
+            <SelectTrigger aria-label="Filter by speciality" className="w-full md:w-56"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value={ALL_SPECIALITIES}>All specialities</SelectItem>
+              {specialities.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Button className="bg-navy md:ml-auto" onClick={() => setEdit({ ...blank })}><Plus /> Add doctor</Button>
+        </div>
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {doctors.map((d) => (
+        {view.items.map((d) => (
           <div key={d.id} className={`flex gap-4 rounded-lg border border-line-soft bg-background p-4 ${d.is_active ? "" : "opacity-60"}`}>
             {d.image_url ? <img src={d.image_url} alt="" className="h-16 w-16 rounded object-cover" /> : <div className="h-16 w-16 rounded bg-surface-soft" />}
             <div className="min-w-0 flex-1">
@@ -60,8 +86,14 @@ function DoctorsAdmin() {
             <Button size="icon" variant="ghost" aria-label={`Edit ${d.name}`} onClick={() => setEdit({ ...d })}><Pencil /></Button>
           </div>
         ))}
-        {!doctors.length && <p className="text-sm text-muted-foreground">No doctors yet. Add the first one.</p>}
       </div>
+      {!view.items.length && (
+        <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-line-soft bg-background py-12 text-center text-sm text-muted-foreground">
+          <SearchX className="h-8 w-8 text-sky" />
+          {doctorsQ.isLoading ? "Loading…" : doctors.length ? "No doctors match your search or filter." : "No doctors yet. Add the first one."}
+        </div>
+      )}
+      <Pagination view={view} onPage={setPage} noun={["doctor", "doctors"]} />
       <Dialog open={!!edit} onOpenChange={(o) => !o && setEdit(null)}>
         <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
           <DialogHeader><DialogTitle>{edit?.id ? "Edit doctor" : "Add doctor"}</DialogTitle></DialogHeader>

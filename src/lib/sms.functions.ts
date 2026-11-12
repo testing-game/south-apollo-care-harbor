@@ -14,7 +14,7 @@ export const sendAppointmentSms = createServerFn({ method: "POST" })
 
     const { data: a, error } = await context.supabase
       .from("doctor_appointments")
-      .select("appointment_number, appointment_date, patient_name, patient_phone, status, doctors(name, visiting_hours)")
+      .select("appointment_number, appointment_date, appointment_time, patient_name, patient_phone, status, doctors(name, visiting_hours)")
       .eq("id", data.appointmentId)
       .maybeSingle();
     if (error || !a) return { success: false, message: "Appointment not found." };
@@ -30,7 +30,7 @@ export const sendAppointmentSms = createServerFn({ method: "POST" })
       patientName: a.patient_name,
       doctorName: a.doctors?.name ?? "your doctor",
       appointmentDate: a.appointment_date,
-      appointmentTime: a.doctors?.visiting_hours,
+      appointmentTime: a.appointment_time || a.doctors?.visiting_hours,
       appointmentNumber: a.appointment_number,
     });
     return sendOcsSms(number, message, {

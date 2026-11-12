@@ -13,4 +13,5 @@
 - [x] Homepage: Shasthoshongi section removed, Corporate Services logo carousel removed, map pinned to South Apollo Barishal with Open in Google Maps link.
 - [x] Appointment confirmation SMS: auto-send on Confirmed, Resend SMS button (now OneCodeSoft).
 - [x] OneCodeSoft API key saved and accepted (practice send passed).
+- [x] Staff walk-in / phone booking: + Book Appointment, saved as Confirmed, auto SMS, slip download.
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.

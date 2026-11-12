@@ -2,18 +2,21 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Loader2, MessageSquareText, Printer } from "lucide-react";
+import { Loader2, MessageSquareText, Plus, Printer } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
-import { adminDoctorsQuery, appointmentsQuery, STATUSES } from "@/lib/admin";
-import { downloadManifest } from "@/lib/pdf";
-import { ageGenderLabel } from "@/lib/pdf-model";
-import { todayInDhaka } from "@/lib/schedule";
+import { BookAppointmentDialog, type WalkInBooking } from "@/components/admin/BookAppointmentDialog";
+import { adminDoctorsQuery, adminSpecialitiesQuery, appointmentsQuery, STATUSES } from "@/lib/admin";
+import { downloadManifest, downloadSlip } from "@/lib/pdf";
+import { ageGenderLabel, weekdayName } from "@/lib/pdf-model";
+import { formatDate, todayInDhaka } from "@/lib/schedule";
 import { sendAppointmentSms } from "@/lib/sms.functions";
+import type { SmsResult } from "@/lib/sms";
+import { walkInResultMessage } from "@/lib/walk-in";
 
 export const Route = createFileRoute("/hospital-admin-portal/appointments")({ component: Appointments });
 
@@ -25,6 +28,8 @@ function Appointments() {
   const qc = useQueryClient();
   const { data = [], isLoading } = useQuery(appointmentsQuery(date));
   const doctors = useQuery(adminDoctorsQuery).data ?? [];
+  const specialities = useQuery(adminSpecialitiesQuery).data ?? [];
+  const [booking, setBooking] = useState(false);
   const list = useMemo(() => {
     const n = q.trim().toLowerCase();
     return data.filter((a) => (doctor === "all" || a.doctor_id === doctor) && (status === "all" || a.status === status) && (!n || `${a.patient_name} ${a.patient_phone} ${a.appointment_number}`.toLowerCase().includes(n)));
@@ -33,17 +38,46 @@ function Appointments() {
   const sendSmsFn = useServerFn(sendAppointmentSms);
   const [sending, setSending] = useState<Set<string>>(new Set());
 
-  async function sendSms(id: string, name: string) {
+  async function runSms(id: string): Promise<SmsResult> {
     setSending((prev) => new Set(prev).add(id));
     try {
-      const res = await sendSmsFn({ data: { appointmentId: id } });
-      if (res.success) toast.success(`Confirmation SMS sent to ${name}`);
-      else toast.error(`SMS not sent: ${res.message}`, { description: "The appointment is still confirmed. You can use Resend SMS." });
+      return await sendSmsFn({ data: { appointmentId: id } });
     } catch {
-      toast.error("SMS not sent: the SMS service could not be reached.", { description: "The appointment is still confirmed. You can use Resend SMS." });
+      return { success: false, message: "The SMS service could not be reached." };
     } finally {
       setSending((prev) => { const next = new Set(prev); next.delete(id); return next; });
     }
+  }
+
+  async function sendSms(id: string, name: string) {
+    const res = await runSms(id);
+    if (res.success) toast.success(`Confirmation SMS sent to ${name}`);
+    else toast.error(`SMS not sent: ${res.message}`, { description: "The appointment is still confirmed. You can use Resend SMS." });
+  }
+
+  function walkInSlip(b: WalkInBooking) {
+    const details: [string, string][] = [
+      ["Doctor", b.doctor.name],
+      ["Degrees", b.doctor.degrees || "—"],
+      ["Speciality", b.speciality],
+      ["Visiting Day", weekdayName(b.date)],
+      ["Time Slot", b.time || "At visiting hours"],
+      ...(b.doctor.room_number ? [["Room Number", b.doctor.room_number] as [string, string]] : []),
+      ["Scheduled Date", formatDate(b.date)],
+    ];
+    downloadSlip({ kind: "appointment", number: b.number, status: "confirmed", bookedAt: b.bookedAt, patient: b.patient, details, fileName: `${b.number}.pdf` })
+      .catch(() => toast.error("The slip didn't download. Please try again."));
+  }
+
+  async function onBooked(b: WalkInBooking) {
+    // Show the new row: jump to its date and clear filters that could hide it.
+    setDate(b.date); setDoctor("all"); setStatus("all"); setQ("");
+    await qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
+    const id = toast.loading(`Appointment ${b.number} confirmed. Sending SMS…`);
+    const m = walkInResultMessage(b.patient.phone, await runSms(b.id));
+    const action = { label: "Download Slip (PDF)", onClick: () => walkInSlip(b) };
+    if (m.ok) toast.success(m.title, { id, description: `${b.number} · ${b.patient.name}`, action, duration: 15000 });
+    else toast.warning(m.title, { id, description: m.description, action, duration: 20000 });
   }
 
   async function setRowStatus(id: string, s: string, prev: string, name: string) {
@@ -67,7 +101,14 @@ function Appointments() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-bold text-navy">Doctor Appointments</h1><Button onClick={print} className="bg-navy"><Printer /> Print manifest (PDF)</Button></div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-2xl font-bold text-navy">Doctor Appointments</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button onClick={print} className="bg-navy"><Printer /> Print manifest (PDF)</Button>
+          <Button onClick={() => setBooking(true)} className="bg-sky font-semibold text-navy-deep shadow-sm hover:bg-sky/85"><Plus /> Book Appointment</Button>
+        </div>
+      </div>
+      <BookAppointmentDialog open={booking} onOpenChange={setBooking} defaultDate={date} doctors={doctors} specialities={specialities} onBooked={(b) => void onBooked(b)} />
       <div className="grid gap-3 md:grid-cols-4">
         <Input type="date" aria-label="Date" value={date} onChange={(e) => setDate(e.target.value)} />
         <Select value={doctor} onValueChange={setDoctor}><SelectTrigger aria-label="Doctor"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All doctors</SelectItem>{doctors.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select>
@@ -84,7 +125,7 @@ function Appointments() {
                 <TableCell>{a.patient_name}{a.notes && <p className="text-xs text-muted-foreground">{a.notes}</p>}</TableCell>
                 <TableCell>{a.patient_phone}</TableCell>
                 <TableCell>{a.patient_age} / {a.patient_gender}</TableCell>
-                <TableCell>{a.doctors?.name}</TableCell>
+                <TableCell>{a.doctors?.name}{a.appointment_time && <p className="text-xs text-muted-foreground">{a.appointment_time}</p>}</TableCell>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     <StatusSelect value={a.status} onChange={(s) => setRowStatus(a.id, s, a.status, a.patient_name)} />

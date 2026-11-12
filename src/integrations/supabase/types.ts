@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           appointment_date: string
           appointment_number: string
+          appointment_time: string | null
           created_at: string
           doctor_id: string
           id: string
@@ -31,6 +32,7 @@ export type Database = {
         Insert: {
           appointment_date: string
           appointment_number?: string
+          appointment_time?: string | null
           created_at?: string
           doctor_id: string
           id?: string
@@ -44,6 +46,7 @@ export type Database = {
         Update: {
           appointment_date?: string
           appointment_number?: string
+          appointment_time?: string | null
           created_at?: string
           doctor_id?: string
           id?: string
@@ -486,6 +489,22 @@ export type Database = {
           _subject: string
         }
         Returns: undefined
+      }
+      staff_book_appointment: {
+        Args: {
+          _age: number
+          _date: string
+          _doctor_id: string
+          _gender: string
+          _name: string
+          _notes: string
+          _phone: string
+          _time: string
+        }
+        Returns: {
+          appointment_number: string
+          id: string
+        }[]
       }
     }
     Enums: {

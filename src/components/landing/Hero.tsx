@@ -5,7 +5,7 @@ import { asset } from "@/lib/asset";
 import type { Banner } from "@/lib/public-data.functions";
 
 const LABEL = "text-sm font-bold leading-tight text-navy transition-colors duration-300 ease-in-out group-hover:text-primary-foreground";
-const CARD = "group flex items-center justify-between gap-3 border border-line-soft bg-background px-5 py-3 lg:py-5 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-navy hover:shadow-xl";
+const CARD = "group relative flex items-center justify-between gap-3 border border-line-soft bg-background px-5 py-3 outline-none ring-0 transition-all duration-300 ease-in-out hover:z-10 hover:scale-[1.03] hover:border-navy hover:bg-navy focus-visible:outline-none lg:py-5";
 
 function Icon({ src }: { src: string }) {
   return <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-navy transition-colors duration-300 ease-in-out group-hover:bg-sky"><img src={asset(src)} alt="" className="h-7 w-7" /></span>;

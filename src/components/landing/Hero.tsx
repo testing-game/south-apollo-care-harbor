@@ -5,10 +5,10 @@ import { asset } from "@/lib/asset";
 import type { Banner } from "@/lib/public-data.functions";
 
 const LABEL = "text-sm font-bold leading-tight text-navy transition-colors duration-300 ease-in-out group-hover:text-primary-foreground";
-const CARD = "group relative flex items-center justify-between gap-3 border border-line-soft bg-background px-5 py-3 outline-none ring-0 transition-all duration-300 ease-in-out hover:z-10 hover:scale-[1.03] hover:border-navy hover:bg-navy focus-visible:outline-none lg:py-5";
+const CARD = "group relative flex items-center justify-between gap-3 border border-line-soft bg-background px-5 py-3 outline-none ring-0 transition-all duration-300 ease-in-out hover:z-10 hover:scale-[1.03] hover:border-navy hover:bg-navy focus-visible:outline-none lg:py-3.5";
 
 function Icon({ src }: { src: string }) {
-  return <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-navy transition-colors duration-300 ease-in-out group-hover:bg-sky"><img src={asset(src)} alt="" className="h-7 w-7" /></span>;
+  return <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-navy transition-colors duration-300 ease-in-out group-hover:bg-sky"><img src={asset(src)} alt="" className="h-6 w-6" /></span>;
 }
 
 export function Hero({ banners }: { banners: Banner[] }) {
@@ -36,7 +36,7 @@ export function Hero({ banners }: { banners: Banner[] }) {
             <I className="h-4 w-4" />
           </button>
         ))}
-        <div className="container-site absolute inset-x-0 bottom-8 z-10 hidden grid-cols-5 gap-4 lg:grid">
+        <div className="container-site absolute inset-x-0 bottom-3 z-10 hidden grid-cols-5 gap-4 lg:grid">
           <Link to="/doctors" className={CARD}><span className={LABEL}>FIND A DOCTOR</span><Icon src="find-a-doctor.png" /></Link>
           <Link to="/request-appointment" className={CARD}><span className={LABEL}>REQUEST AN APPOINTMENT</span><Icon src="request-an-appointment.png" /></Link>
           <a href="https://report.southapollomedicalcollegehospital.com/" target="_blank" rel="noopener noreferrer" className={CARD}><span className={LABEL}>ONLINE REPORT</span><Icon src="online-report.png" /></a>

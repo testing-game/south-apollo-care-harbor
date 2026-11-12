@@ -43,6 +43,13 @@
       "when": 1794485022194,
       "tag": "0005_job_circulars",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794486739915,
+      "tag": "0006_publish_flag_posts_stories",
+      "breakpoints": true
     }
   ]
 }

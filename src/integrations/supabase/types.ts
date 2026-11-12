@@ -258,6 +258,7 @@ export type Database = {
           doctor_id: string | null
           id: string
           is_featured: boolean
+          is_published: boolean
           patient_name: string
           slug: string
           story_content: string
@@ -270,6 +271,7 @@ export type Database = {
           doctor_id?: string | null
           id?: string
           is_featured?: boolean
+          is_published?: boolean
           patient_name: string
           slug: string
           story_content?: string
@@ -282,6 +284,7 @@ export type Database = {
           doctor_id?: string | null
           id?: string
           is_featured?: boolean
+          is_published?: boolean
           patient_name?: string
           slug?: string
           story_content?: string
@@ -308,6 +311,7 @@ export type Database = {
           featured_image: string
           id: string
           is_featured: boolean
+          is_published: boolean
           published_date: string
           slug: string
           title: string
@@ -321,6 +325,7 @@ export type Database = {
           featured_image?: string
           id?: string
           is_featured?: boolean
+          is_published?: boolean
           published_date?: string
           slug: string
           title: string
@@ -334,6 +339,7 @@ export type Database = {
           featured_image?: string
           id?: string
           is_featured?: boolean
+          is_published?: boolean
           published_date?: string
           slug?: string
           title?: string

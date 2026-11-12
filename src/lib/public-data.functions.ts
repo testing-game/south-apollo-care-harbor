@@ -55,26 +55,26 @@ export const listPackages = createServerFn({ method: "GET" }).handler(async () =
 );
 
 export const listStories = createServerFn({ method: "GET" }).handler(async () =>
-  rows(await publicClient().from("patient_stories").select("*").order("created_at", { ascending: false })),
+  rows(await publicClient().from("patient_stories").select("*").eq("is_published", true).order("created_at", { ascending: false })),
 );
 
 export const getStory = createServerFn({ method: "GET" })
   .inputValidator((d: { slug: string }) => ({ slug: String(d.slug).slice(0, 200) }))
   .handler(async ({ data }) => {
-    const res = await publicClient().from("patient_stories").select("*").eq("slug", data.slug).maybeSingle();
+    const res = await publicClient().from("patient_stories").select("*").eq("is_published", true).eq("slug", data.slug).maybeSingle();
     return res.data ?? null;
   });
 
 export const listPosts = createServerFn({ method: "GET" })
   .inputValidator((d: { type: "news" | "blog" }) => ({ type: d.type === "blog" ? ("blog" as const) : ("news" as const) }))
   .handler(async ({ data }) =>
-    rows(await publicClient().from("posts").select("*").eq("type", data.type).order("published_date", { ascending: false })),
+    rows(await publicClient().from("posts").select("*").eq("is_published", true).eq("type", data.type).order("published_date", { ascending: false })),
   );
 
 export const getPost = createServerFn({ method: "GET" })
   .inputValidator((d: { type: "news" | "blog"; slug: string }) => ({ type: d.type === "blog" ? ("blog" as const) : ("news" as const), slug: String(d.slug).slice(0, 200) }))
   .handler(async ({ data }) => {
-    const res = await publicClient().from("posts").select("*").eq("type", data.type).eq("slug", data.slug).maybeSingle();
+    const res = await publicClient().from("posts").select("*").eq("is_published", true).eq("type", data.type).eq("slug", data.slug).maybeSingle();
     return res.data ?? null;
   });
 

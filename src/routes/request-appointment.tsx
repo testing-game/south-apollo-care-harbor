@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { CheckCircle2, Download } from "lucide-react";
+import { CheckCircle2, Clock, Download } from "lucide-react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,7 @@ import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
 import { doctorsQuery, specialityRowsQuery } from "@/lib/public-queries";
 import { formatDate, todayInDhaka, upcomingVisitDates } from "@/lib/schedule";
 import { downloadSlip } from "@/lib/pdf";
+import { SAME_DAY_CUTOFF_MESSAGE, isPastSameDayCutoff, isPublicDateBookable } from "@/lib/booking-cutoff";
 import { weekdayName } from "@/lib/pdf-model";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -43,17 +44,32 @@ function AppointmentPage() {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<string | null>(null);
   const [bookedAt, setBookedAt] = useState(() => new Date());
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 30_000);
+    return () => clearInterval(t);
+  }, []);
 
   const withDoctors = specialities.filter((s) => doctors.some((d) => d.speciality_id === s.id));
   const specDoctors = doctors.filter((d) => d.speciality_id === spec);
   const doctor = doctors.find((d) => d.id === doctorId);
-  const dates = useMemo(() => (doctor ? upcomingVisitDates(doctor.visiting_days, todayInDhaka(), 10) : []), [doctor]);
+  const today = todayInDhaka(now);
+  const pastCutoff = isPastSameDayCutoff(now);
+  const dates = useMemo(() => (doctor ? upcomingVisitDates(doctor.visiting_days, today, 10) : []), [doctor, today]);
+  const firstBookable = dates.find((d) => isPublicDateBookable(d, now)) ?? "";
+
+  // If 9:00 PM passes while today is selected, move the choice to the next bookable visiting day.
+  useEffect(() => {
+    if (date && !isPublicDateBookable(date, now)) setDate(firstBookable);
+  }, [date, now, firstBookable]);
   const step = !spec ? 1 : !doctor ? 2 : !date ? 3 : 4;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const parsed = patientSchema.safeParse(form);
     if (!parsed.success) { toast.error(parsed.error.issues[0]!.message); return; }
+    const at = new Date();
+    if (!isPublicDateBookable(date, at)) { setNow(at); toast.error(SAME_DAY_CUTOFF_MESSAGE); return; }
     setBusy(true);
     const p = parsed.data;
     const { data, error } = await supabase.rpc("book_appointment", { _doctor_id: doctorId, _date: date, _name: p.name, _phone: p.phone, _age: p.age, _gender: p.gender, _notes: p.notes ?? "" });
@@ -120,8 +136,21 @@ function AppointmentPage() {
                 <Label>Visiting day</Label>
                 <p className="mb-3 text-xs text-muted-foreground">{doctor.visiting_hours || "Hours confirmed by phone"}{doctor.room_number ? ` · Room ${doctor.room_number}` : ""}</p>
                 <div className="flex flex-wrap gap-2">
-                  {dates.map((d) => <Button key={d} type="button" variant={d === date ? "default" : "outline"} className={`rounded-none ${d === date ? "bg-navy" : ""}`} onClick={() => setDate(d)}>{formatDate(d)}</Button>)}
+                  {dates.map((d) => {
+                    const closed = !isPublicDateBookable(d, now);
+                    return (
+                      <Button key={d} type="button" disabled={closed} title={closed ? "Same-day online booking closed" : undefined} variant={d === date ? "default" : "outline"} className={`rounded-none ${d === date ? "bg-navy" : ""} ${closed ? "line-through" : ""}`} onClick={() => setDate(d)}>
+                        {formatDate(d)}{closed ? " · Closed" : ""}
+                      </Button>
+                    );
+                  })}
                 </div>
+                {pastCutoff && (
+                  <p role="status" className="mt-3 flex items-start gap-2 border-l-4 border-clinical-teal bg-muted px-3 py-2 text-sm text-navy">
+                    <Clock className="mt-0.5 h-4 w-4 shrink-0 text-clinical-teal" aria-hidden />
+                    <span>{SAME_DAY_CUTOFF_MESSAGE}</span>
+                  </p>
+                )}
               </div>
             )}
             {date && (

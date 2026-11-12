@@ -394,6 +394,12 @@
   --footer-border-gradient: linear-gradient(90deg, transparent, var(--brand-sky), var(--footer-gold), var(--brand-sky), transparent);
   --status-done: oklch(0.52 0.13 150);
   --status-done-tint: oklch(0.95 0.05 150);
+  --status-pending: oklch(0.55 0.13 70);
+  --status-pending-tint: oklch(0.96 0.05 85);
+  --status-confirmed: oklch(0.45 0.12 245);
+  --status-confirmed-tint: oklch(0.94 0.04 240);
+  --status-cancelled: oklch(0.52 0.18 25);
+  --status-cancelled-tint: oklch(0.95 0.03 25);
   --primary: var(--brand-navy);
   --foreground: var(--brand-navy);
 }
@@ -418,6 +424,12 @@
   --color-line-soft: var(--line-soft);
   --color-status-done: var(--status-done);
   --color-status-done-tint: var(--status-done-tint);
+  --color-status-pending: var(--status-pending);
+  --color-status-pending-tint: var(--status-pending-tint);
+  --color-status-confirmed: var(--status-confirmed);
+  --color-status-confirmed-tint: var(--status-confirmed-tint);
+  --color-status-cancelled: var(--status-cancelled);
+  --color-status-cancelled-tint: var(--status-cancelled-tint);
   --font-sans: "BrownPro", "Hind Siliguri", system-ui, sans-serif;
   --font-bangla: "Hind Siliguri", sans-serif;
 }

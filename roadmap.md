@@ -14,4 +14,5 @@
 - [x] Appointment confirmation SMS: auto-send on Confirmed, Resend SMS button (now OneCodeSoft).
 - [x] OneCodeSoft API key saved and accepted (practice send passed).
 - [x] Staff walk-in / phone booking: + Book Appointment, saved as Confirmed, auto SMS, slip download.
+- [x] Staff portal Patient Search: full history, Doctor Appointments / Test Bookings tabs with counts, status badges, numbered pages; numbered pages on Appointments and Test Bookings.
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.

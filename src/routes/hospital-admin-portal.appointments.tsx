@@ -9,10 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { supabase } from "@/integrations/supabase/client";
+import { Pagination } from "@/components/admin/Pagination";
 import { BookAppointmentDialog, type WalkInBooking } from "@/components/admin/BookAppointmentDialog";
 import { adminDoctorsQuery, adminSpecialitiesQuery, appointmentsQuery, STATUSES } from "@/lib/admin";
 import { downloadManifest, downloadSlip } from "@/lib/pdf";
 import { ageGenderLabel, weekdayName } from "@/lib/pdf-model";
+import { paginate } from "@/lib/query-inbox";
 import { formatDate, todayInDhaka } from "@/lib/schedule";
 import { sendAppointmentSms } from "@/lib/sms.functions";
 import type { SmsResult } from "@/lib/sms";
@@ -25,6 +27,7 @@ function Appointments() {
   const [doctor, setDoctor] = useState("all");
   const [status, setStatus] = useState("all");
   const [q, setQ] = useState("");
+  const [page, setPage] = useState(1);
   const qc = useQueryClient();
   const { data = [], isLoading } = useQuery(appointmentsQuery(date));
   const doctors = useQuery(adminDoctorsQuery).data ?? [];
@@ -34,6 +37,9 @@ function Appointments() {
     const n = q.trim().toLowerCase();
     return data.filter((a) => (doctor === "all" || a.doctor_id === doctor) && (status === "all" || a.status === status) && (!n || `${a.patient_name} ${a.patient_phone} ${a.appointment_number}`.toLowerCase().includes(n)));
   }, [data, doctor, status, q]);
+  const view = paginate(list, page);
+  // Any filter change starts again from page 1.
+  const filterBy = <T,>(set: (v: T) => void) => (v: T) => { set(v); setPage(1); };
 
   const sendSmsFn = useServerFn(sendAppointmentSms);
   const [sending, setSending] = useState<Set<string>>(new Set());
@@ -72,6 +78,7 @@ function Appointments() {
   async function onBooked(b: WalkInBooking) {
     // Show the new row: jump to its date and clear filters that could hide it.
     setDate(b.date); setDoctor("all"); setStatus("all"); setQ("");
+    setPage(Number.MAX_SAFE_INTEGER); // newest booking is the last row; paginate() clamps to the last page
     await qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
     const id = toast.loading(`Appointment ${b.number} confirmed. Sending SMS…`);
     const m = walkInResultMessage(b.patient.phone, await runSms(b.id));
@@ -110,16 +117,17 @@ function Appointments() {
       </div>
       <BookAppointmentDialog open={booking} onOpenChange={setBooking} defaultDate={date} doctors={doctors} specialities={specialities} onBooked={(b) => void onBooked(b)} />
       <div className="grid gap-3 md:grid-cols-4">
-        <Input type="date" aria-label="Date" value={date} onChange={(e) => setDate(e.target.value)} />
-        <Select value={doctor} onValueChange={setDoctor}><SelectTrigger aria-label="Doctor"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All doctors</SelectItem>{doctors.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select>
-        <Select value={status} onValueChange={setStatus}><SelectTrigger aria-label="Status"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All statuses</SelectItem>{STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}</SelectContent></Select>
-        <Input placeholder="Search name, phone or number" value={q} onChange={(e) => setQ(e.target.value)} />
+        <Input type="date" aria-label="Date" value={date} onChange={(e) => filterBy(setDate)(e.target.value)} />
+        <Select value={doctor} onValueChange={filterBy(setDoctor)}><SelectTrigger aria-label="Doctor"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All doctors</SelectItem>{doctors.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}</SelectContent></Select>
+        <Select value={status} onValueChange={filterBy(setStatus)}><SelectTrigger aria-label="Status"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All statuses</SelectItem>{STATUSES.map((s) => <SelectItem key={s} value={s} className="capitalize">{s}</SelectItem>)}</SelectContent></Select>
+        <Input placeholder="Search name, phone or number" value={q} onChange={(e) => filterBy(setQ)(e.target.value)} />
       </div>
+      <div className="space-y-4">
       <div className="overflow-x-auto rounded-lg border border-line-soft bg-background">
         <Table>
           <TableHeader><TableRow><TableHead>No.</TableHead><TableHead>Patient</TableHead><TableHead>Phone</TableHead><TableHead>Age/Sex</TableHead><TableHead>Doctor</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
           <TableBody>
-            {list.map((a) => (
+            {view.items.map((a) => (
               <TableRow key={a.id}>
                 <TableCell className="font-mono text-xs">{a.appointment_number}</TableCell>
                 <TableCell>{a.patient_name}{a.notes && <p className="text-xs text-muted-foreground">{a.notes}</p>}</TableCell>
@@ -142,6 +150,8 @@ function Appointments() {
             {!list.length && <TableRow><TableCell colSpan={6} className="py-8 text-center text-muted-foreground">{isLoading ? "Loading…" : "No appointments for these filters."}</TableCell></TableRow>}
           </TableBody>
         </Table>
+      </div>
+      <Pagination view={view} onPage={setPage} noun={["appointment", "appointments"]} />
       </div>
     </div>
   );

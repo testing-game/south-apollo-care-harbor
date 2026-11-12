@@ -75,6 +75,7 @@ export type Database = {
           degrees: string
           department_name: string
           designation: string
+          display_order: number
           experience: string
           id: string
           image_url: string
@@ -93,6 +94,7 @@ export type Database = {
           degrees?: string
           department_name?: string
           designation?: string
+          display_order?: number
           experience?: string
           id?: string
           image_url?: string
@@ -111,6 +113,7 @@ export type Database = {
           degrees?: string
           department_name?: string
           designation?: string
+          display_order?: number
           experience?: string
           id?: string
           image_url?: string

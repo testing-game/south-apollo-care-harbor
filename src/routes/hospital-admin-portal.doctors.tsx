@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Pencil, Plus, Search, SearchX } from "lucide-react";
+import { ArrowDown, ArrowUp, Pencil, Plus, Search, SearchX } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -19,6 +19,7 @@ import type { Database } from "@/integrations/supabase/types";
 import { adminDoctorsQuery, adminSpecialitiesQuery, DAYS } from "@/lib/admin";
 import { ALL_SPECIALITIES, filterAdminDoctors } from "@/lib/admin-filters";
 import { paginate } from "@/lib/query-inbox";
+import { moveDoctor, nextSerial, sortDoctors } from "@/lib/doctor-order";
 
 export const Route = createFileRoute("/hospital-admin-portal/doctors")({ component: DoctorsAdmin });
 
@@ -28,10 +29,11 @@ const blank: DoctorInsert = { name: "", designation: "", degrees: "", department
 function DoctorsAdmin() {
   const qc = useQueryClient();
   const doctorsQ = useQuery(adminDoctorsQuery);
-  const doctors = doctorsQ.data ?? [];
+  const doctors = useMemo(() => sortDoctors(doctorsQ.data ?? []), [doctorsQ.data]);
   const specialities = useQuery(adminSpecialitiesQuery).data ?? [];
   const [edit, setEdit] = useState<DoctorInsert | null>(null);
   const [busy, setBusy] = useState(false);
+  const [moving, setMoving] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [specFilter, setSpecFilter] = useState(ALL_SPECIALITIES);
   const [page, setPage] = useState(1);
@@ -45,13 +47,25 @@ function DoctorsAdmin() {
     if (!edit.name.trim()) { toast.error("Enter the doctor's name"); return; }
     setBusy(true);
     const spec = specialities.find((s) => s.id === edit.speciality_id);
-    const row = { ...edit, name: edit.name.trim(), experience: (edit.experience ?? "").trim(), bio: (edit.bio ?? "").trim(), department_name: edit.department_name || spec?.name || "" };
+    const serial = Math.max(1, Math.round(Number(edit.display_order) || 1));
+    const row = { ...edit, display_order: serial, name: edit.name.trim(), experience: (edit.experience ?? "").trim(), bio: (edit.bio ?? "").trim(), department_name: edit.department_name || spec?.name || "" };
     const res = edit.id ? await supabase.from("doctors").update(row).eq("id", edit.id) : await supabase.from("doctors").insert(row);
     setBusy(false);
     if (res.error) { toast.error(res.error.message); return; }
     toast.success("Doctor saved");
     setEdit(null);
     qc.invalidateQueries({ queryKey: ["admin", "doctors"] });
+    qc.invalidateQueries({ queryKey: ["doctors"] });
+  }
+  async function move(id: string, dir: "up" | "down") {
+    const changes = moveDoctor(doctors, filtered, id, dir);
+    if (!changes.length) return;
+    setMoving(id);
+    const results = await Promise.all(changes.map((c) => supabase.from("doctors").update({ display_order: c.display_order }).eq("id", c.id)));
+    setMoving(null);
+    const failed = results.find((r) => r.error);
+    if (failed?.error) toast.error(failed.error.message);
+    await qc.invalidateQueries({ queryKey: ["admin", "doctors"] });
     qc.invalidateQueries({ queryKey: ["doctors"] });
   }
   const set = (patch: Partial<DoctorInsert>) => setEdit((d) => (d ? { ...d, ...patch } : d));
@@ -72,12 +86,17 @@ function DoctorsAdmin() {
               {specialities.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}
             </SelectContent>
           </Select>
-          <Button className="bg-navy md:ml-auto" onClick={() => setEdit({ ...blank })}><Plus /> Add doctor</Button>
+          <Button className="bg-navy md:ml-auto" onClick={() => setEdit({ ...blank, display_order: nextSerial(doctors) })}><Plus /> Add doctor</Button>
         </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {view.items.map((d) => (
           <div key={d.id} className={`flex gap-4 rounded-lg border border-line-soft bg-background p-4 ${d.is_active ? "" : "opacity-60"}`}>
+            <div className="flex shrink-0 flex-col items-center gap-1">
+              <span className="rounded bg-navy px-2 py-0.5 text-xs font-bold text-primary-foreground" title="Display serial">#{d.display_order}</span>
+              <Button size="icon" variant="ghost" className="h-7 w-7" aria-label={`Move ${d.name} up`} disabled={!!moving || filtered[0]?.id === d.id} onClick={() => move(d.id, "up")}><ArrowUp /></Button>
+              <Button size="icon" variant="ghost" className="h-7 w-7" aria-label={`Move ${d.name} down`} disabled={!!moving || filtered[filtered.length - 1]?.id === d.id} onClick={() => move(d.id, "down")}><ArrowDown /></Button>
+            </div>
             {d.image_url ? <img src={d.image_url} alt="" className="h-16 w-16 rounded object-cover" /> : <div className="h-16 w-16 rounded bg-surface-soft" />}
             <div className="min-w-0 flex-1">
               <p className="font-bold text-navy">{d.name}</p>
@@ -101,7 +120,12 @@ function DoctorsAdmin() {
           <DialogHeader><DialogTitle>{edit?.id ? "Edit doctor" : "Add doctor"}</DialogTitle></DialogHeader>
           {edit && (
             <form onSubmit={save} className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-1 md:col-span-2"><Label>Name</Label><Input value={edit.name} onChange={(e) => set({ name: e.target.value })} /></div>
+              <div className="space-y-1"><Label>Name</Label><Input value={edit.name} onChange={(e) => set({ name: e.target.value })} /></div>
+              <div className="space-y-1">
+                <Label htmlFor="doctor-serial">Display Serial / Order</Label>
+                <Input id="doctor-serial" type="number" min={1} step={1} value={edit.display_order || ""} onChange={(e) => set({ display_order: Number(e.target.value) || 0 })} />
+                <p className="text-xs text-muted-foreground">Lower numbers appear first on the homepage and Find a Doctor page.</p>
+              </div>
               <div className="space-y-1"><Label>Designation</Label><Input placeholder="Consultant" value={edit.designation ?? ""} onChange={(e) => set({ designation: e.target.value })} /></div>
               <div className="space-y-1"><Label>Degrees</Label><Input placeholder="MBBS, FCPS" value={edit.degrees ?? ""} onChange={(e) => set({ degrees: e.target.value })} /></div>
               <div className="space-y-1">

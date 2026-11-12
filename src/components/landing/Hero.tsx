@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { asset } from "@/lib/asset";
@@ -13,29 +13,100 @@ function Icon({ src }: { src: string }) {
 
 export function Hero({ banners }: { banners: Banner[] }) {
   const slides = banners.length ? banners : [{ id: "default", title: "Breast cancer awareness campaign", image_url: asset("slider.png"), cta_link: null }];
-  const [i, setI] = useState(0);
+  const n = slides.length;
+  // pos runs 0..n; pos === n shows the cloned first slide for a seamless forward loop.
+  const [pos, setPos] = useState(0);
+  const [anim, setAnim] = useState(true);
+  const [paused, setPaused] = useState(false);
+  const resume = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const snap = (target: number, then?: number) => {
+    setAnim(false);
+    setPos(target);
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        setAnim(true);
+        if (then !== undefined) setPos(then);
+      }),
+    );
+  };
+
+  const pauseBriefly = () => {
+    setPaused(true);
+    if (resume.current) clearTimeout(resume.current);
+    resume.current = setTimeout(() => setPaused(false), 8000);
+  };
+
+  const next = () => {
+    if (n < 2) return;
+    pauseBriefly();
+    setPos((p) => (p >= n ? p : p + 1));
+  };
+  const prev = () => {
+    if (n < 2) return;
+    pauseBriefly();
+    if (pos === 0) snap(n, n - 1);
+    else setPos((p) => p - 1);
+  };
+  const jump = (d: number) => {
+    if (n < 2 || d === pos % n) return;
+    pauseBriefly();
+    setPos(d);
+  };
+
   useEffect(() => {
-    if (slides.length < 2) return;
-    const t = setInterval(() => setI((x) => (x + 1) % slides.length), 3000);
+    if (n < 2 || paused) return;
+    const t = setInterval(() => setPos((p) => (p >= n ? p : p + 1)), 5000);
     return () => clearInterval(t);
-  }, [slides.length]);
-  const go = (d: number) => setI((x) => (x + d + slides.length) % slides.length);
+  }, [n, paused]);
+
+  useEffect(() => () => { if (resume.current) clearTimeout(resume.current); }, []);
+
+  const onEnd = () => {
+    if (pos === n) snap(0);
+  };
+
+  const current = pos % n;
+
   return (
     <section>
-      <div className="relative aspect-[1920/565] w-full overflow-hidden">
-        {slides.map((s, n) => {
-          const img = <img src={s.image_url} alt={s.title} className="h-full w-full object-cover" />;
-          return (
-            <div key={s.id} aria-hidden={n !== i} className={`absolute inset-0 transition-opacity duration-700 ${n === i ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-              {s.cta_link ? <a href={s.cta_link}>{img}</a> : img}
-            </div>
-          );
-        })}
-        {slides.length > 1 && ([["left-4", ChevronLeft, -1], ["right-4", ChevronRight, 1]] as const).map(([pos, I, d]) => (
-          <button key={pos} onClick={() => go(d)} aria-label={d < 0 ? "Previous slide" : "Next slide"} className={`absolute top-1/2 ${pos} hidden h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-background/60 text-navy sm:grid`}>
+      <div
+        className="relative aspect-[1920/565] w-full overflow-hidden"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        <div
+          className={`flex h-full${anim ? " transition-transform duration-700 ease-in-out" : ""}`}
+          style={{ transform: `translateX(-${pos * 100}%)` }}
+          onTransitionEnd={onEnd}
+        >
+          {(n > 1 && slides[0] ? [...slides, slides[0]] : slides).map((s, idx) => {
+            const img = <img src={s.image_url} alt={s.title} className="h-full w-full object-cover" />;
+            return (
+              <div key={`${s.id}-${idx}`} aria-hidden={idx !== pos} className="h-full w-full shrink-0">
+                {s.cta_link ? <a href={s.cta_link} tabIndex={idx === pos ? 0 : -1}>{img}</a> : img}
+              </div>
+            );
+          })}
+        </div>
+        {n > 1 && ([["left-4", ChevronLeft, prev, "Previous slide"], ["right-4", ChevronRight, next, "Next slide"]] as const).map(([p, I, fn, label]) => (
+          <button key={p} onClick={fn} aria-label={label} className={`absolute top-1/2 ${p} hidden h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-background/60 text-navy transition-colors hover:bg-background sm:grid`}>
             <I className="h-4 w-4" />
           </button>
         ))}
+        {n > 1 && (
+          <div className="absolute inset-x-0 bottom-3 z-10 flex justify-center gap-2 lg:hidden">
+            {slides.map((s, d) => (
+              <button
+                key={s.id}
+                onClick={() => jump(d)}
+                aria-label={`Go to slide ${d + 1}`}
+                aria-current={d === current}
+                className={`h-2 rounded-full transition-all duration-300 ${d === current ? "w-6 bg-sky" : "w-2 bg-background/70 hover:bg-background"}`}
+              />
+            ))}
+          </div>
+        )}
         <div className="container-site absolute inset-x-0 bottom-3 z-10 hidden grid-cols-5 gap-4 lg:grid">
           <Link to="/doctors" className={CARD}><span className={LABEL}>FIND A DOCTOR</span><Icon src="find-a-doctor.png" /></Link>
           <Link to="/request-appointment" className={CARD}><span className={LABEL}>REQUEST AN APPOINTMENT</span><Icon src="request-an-appointment.png" /></Link>

@@ -378,6 +378,8 @@
   --footer-gold: oklch(0.83 0.1 85);
   --footer-headline-gradient: linear-gradient(110deg, var(--brand-sky) 0%, var(--footer-gold) 28%, var(--primary-foreground) 45%, var(--footer-gold) 55%, var(--brand-sky) 75%, var(--footer-gold) 100%);
   --footer-border-gradient: linear-gradient(90deg, transparent, var(--brand-sky), var(--footer-gold), var(--brand-sky), transparent);
+  --status-done: oklch(0.52 0.13 150);
+  --status-done-tint: oklch(0.95 0.05 150);
   --primary: var(--brand-navy);
   --foreground: var(--brand-navy);
 }
@@ -400,6 +402,8 @@
   --color-dghs-line: var(--dghs-line);
   --color-dghs-tint: var(--dghs-tint);
   --color-line-soft: var(--line-soft);
+  --color-status-done: var(--status-done);
+  --color-status-done-tint: var(--status-done-tint);
   --font-sans: "BrownPro", "Hind Siliguri", system-ui, sans-serif;
   --font-bangla: "Hind Siliguri", sans-serif;
 }

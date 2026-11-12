@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { adminPackagesQuery, bookingsQuery, STATUSES } from "@/lib/admin";
 import { downloadManifest } from "@/lib/pdf";
+import { ageGenderLabel } from "@/lib/pdf-model";
 import { todayInDhaka } from "@/lib/schedule";
 
 const ageGender = (b: { patient_age: number | null; patient_gender: string | null }) => [b.patient_age ?? "", b.patient_gender ?? ""].filter((v) => v !== "").join(" / ") || "—";
@@ -33,10 +34,21 @@ function Bookings() {
     if (error) { toast.error(error.message); return; }
     qc.invalidateQueries({ queryKey: ["admin", "bookings"] });
   }
-  const print = () => downloadManifest("Daily Test Booking Sheet", date, ["#", "Booking No.", "Patient", "Age / Gender", "Phone", "Package", "Status"], list.map((b, i) => [String(i + 1), b.booking_number, b.patient_name, ageGender(b), b.patient_phone, b.health_packages?.title ?? "", b.status]), `tests-${date}.pdf`);
+  function print() {
+    if (!list.length) { toast.info("Nothing to print for these filters"); return; }
+    const p = pkg === "all" ? null : packages.find((x) => x.id === pkg);
+    const rows = list.map((b) => ({ number: b.booking_number, name: b.patient_name, phone: b.patient_phone, ageGender: ageGenderLabel(b.patient_age, b.patient_gender), item: b.health_packages?.title ?? "", status: b.status }));
+    downloadManifest({
+      kind: "tests", date, rows,
+      filter: p?.title ?? null,
+      statusFilter: status === "all" ? null : status,
+      search: q.trim() || null,
+      fileName: `test-booking-manifest-${date}.pdf`,
+    }).catch(() => toast.error("Couldn't create the PDF. Please try again."));
+  }
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-bold text-navy">Test Bookings</h1><Button onClick={print} className="bg-navy"><Printer /> Print daily sheet (PDF)</Button></div>
+      <div className="flex flex-wrap items-center justify-between gap-3"><h1 className="text-2xl font-bold text-navy">Test Bookings</h1><Button onClick={print} className="bg-navy"><Printer /> Print manifest (PDF)</Button></div>
       <div className="grid gap-3 md:grid-cols-4">
         <Input type="date" aria-label="Date" value={date} onChange={(e) => setDate(e.target.value)} />
         <Select value={pkg} onValueChange={setPkg}><SelectTrigger aria-label="Package"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">All packages</SelectItem>{packages.map((p) => <SelectItem key={p.id} value={p.id}>{p.title}</SelectItem>)}</SelectContent></Select>

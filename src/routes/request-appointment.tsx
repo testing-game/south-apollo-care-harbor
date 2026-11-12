@@ -12,7 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
 import { doctorsQuery, specialityRowsQuery } from "@/lib/public-queries";
 import { formatDate, todayInDhaka, upcomingVisitDates } from "@/lib/schedule";
-import { downloadReceipt } from "@/lib/pdf";
+import { downloadSlip } from "@/lib/pdf";
+import { weekdayName } from "@/lib/pdf-model";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/request-appointment")({
@@ -41,6 +42,7 @@ function AppointmentPage() {
   const [form, setForm] = useState({ name: "", phone: "", age: "", gender: "", notes: "" });
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<string | null>(null);
+  const [bookedAt, setBookedAt] = useState(() => new Date());
 
   const withDoctors = specialities.filter((s) => doctors.some((d) => d.speciality_id === s.id));
   const specDoctors = doctors.filter((d) => d.speciality_id === spec);
@@ -57,12 +59,24 @@ function AppointmentPage() {
     const { data, error } = await supabase.rpc("book_appointment", { _doctor_id: doctorId, _date: date, _name: p.name, _phone: p.phone, _age: p.age, _gender: p.gender, _notes: p.notes ?? "" });
     setBusy(false);
     if (error) { toast.error(error.message); return; }
+    setBookedAt(new Date());
     setDone(data as string);
   }
 
   function receipt() {
     if (!done || !doctor) return;
-    void downloadReceipt("Appointment Request", [["Appointment No.", done], ["Patient", form.name], ["Phone", form.phone], ["Doctor", doctor.name], ["Department", doctor.department_name], ["Date", formatDate(date)], ["Visiting hours", doctor.visiting_hours || "—"], ["Room", doctor.room_number || "—"]], `${done}.pdf`);
+    const speciality = specialities.find((s) => s.id === doctor.speciality_id)?.name || doctor.department_name || "—";
+    const details: [string, string][] = [
+      ["Doctor", doctor.name],
+      ["Degrees", doctor.degrees || "—"],
+      ["Speciality", speciality],
+      ["Visiting Day", weekdayName(date)],
+      ["Time Slot", doctor.visiting_hours || "Confirmed by phone"],
+      ...(doctor.room_number ? [["Room Number", doctor.room_number] as [string, string]] : []),
+      ["Scheduled Date", formatDate(date)],
+    ];
+    downloadSlip({ kind: "appointment", number: done, status: "pending", bookedAt, patient: { name: form.name.trim(), phone: form.phone.trim(), age: form.age, gender: form.gender }, details, fileName: `${done}.pdf` })
+      .catch(() => toast.error("The slip didn't download. Please try again."));
   }
 
   return (

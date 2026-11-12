@@ -13,7 +13,8 @@ import { packagesQuery } from "@/lib/public-queries";
 import type { HealthPackage } from "@/lib/public-data.functions";
 import { formatDate, price, todayInDhaka } from "@/lib/schedule";
 import { GENDERS, filterPackages, packageBadge, testBookingSchema } from "@/lib/packages";
-import { downloadReceipt } from "@/lib/pdf";
+import { downloadSlip, type SlipInput } from "@/lib/pdf";
+import { weekdayName } from "@/lib/pdf-model";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -99,11 +100,11 @@ function BookDialog({ pkg, onClose }: { pkg: HealthPackage | null; onClose: () =
   const [form, setForm] = useState(EMPTY);
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<string | null>(null);
-  const [slip, setSlip] = useState<[string, string][]>([]);
+  const [slip, setSlip] = useState<SlipInput | null>(null);
   const reduced = useReducedMotion();
   const set = (k: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, [k]: e.target.value });
-  const close = () => { setDone(null); setSlip([]); setForm(EMPTY); onClose(); };
-  const download = (num: string, rows: [string, string][]) => downloadReceipt("Health Check Booking", rows, `${num}.pdf`);
+  const close = () => { setDone(null); setSlip(null); setForm(EMPTY); onClose(); };
+  const download = (input: SlipInput | null) => (input ? downloadSlip(input) : Promise.resolve());
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -116,10 +117,15 @@ function BookDialog({ pkg, onClose }: { pkg: HealthPackage | null; onClose: () =
     setBusy(false);
     if (error) { toast.error(error.message); return; }
     const num = data as string;
-    const rows: [string, string][] = [["Booking No.", num], ["Patient", d.name], ["Age", String(d.age)], ["Gender", d.gender], ["Phone", d.phone], ["Package", pkg.title], ["Price", price(pkg.price)], ["Date", formatDate(d.date)]];
-    setSlip(rows);
+    const input: SlipInput = {
+      kind: "test", number: num, status: "pending", bookedAt: new Date(),
+      patient: { name: d.name, phone: d.phone, age: d.age, gender: d.gender },
+      details: [["Package", pkg.title], ["Price", price(pkg.price)], ["Visiting Day", weekdayName(d.date)], ["Scheduled Date", formatDate(d.date)]],
+      fileName: `${num}.pdf`,
+    };
+    setSlip(input);
     setDone(num);
-    download(num, rows).catch(() => toast.error("Your booking is saved, but the slip didn't download. Use the button to try again."));
+    download(input).catch(() => toast.error("Your booking is saved, but the slip didn't download. Use the button to try again."));
   }
 
   return (
@@ -144,7 +150,7 @@ function BookDialog({ pkg, onClose }: { pkg: HealthPackage | null; onClose: () =
                 <p className="mt-3 text-sm text-muted-foreground">Your booking reference</p>
                 <motion.p initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: reduced ? 0 : 0.5 }} className="mt-1 font-mono text-2xl font-bold tracking-wide text-navy">{done}</motion.p>
                 <p className="mt-2 text-xs text-muted-foreground">Please bring the slip and arrive 15 minutes early. Our team may call to confirm.</p>
-                <Button className="mt-5 h-11 w-full rounded-md bg-navy hover:bg-sky" onClick={() => download(done, slip)}><Download /> Download PDF slip</Button>
+                <Button className="mt-5 h-11 w-full rounded-md bg-navy hover:bg-sky" onClick={() => download(slip).catch(() => toast.error("The slip didn't download. Please try again."))}><Download /> Download PDF slip</Button>
                 <Button variant="ghost" className="mt-2 w-full" onClick={close}>Close</Button>
               </div>
             ) : (

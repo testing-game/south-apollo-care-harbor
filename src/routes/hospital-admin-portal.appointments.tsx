@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { adminDoctorsQuery, appointmentsQuery, STATUSES } from "@/lib/admin";
 import { downloadManifest } from "@/lib/pdf";
+import { ageGenderLabel } from "@/lib/pdf-model";
 import { todayInDhaka } from "@/lib/schedule";
 
 export const Route = createFileRoute("/hospital-admin-portal/appointments")({ component: Appointments });
@@ -33,13 +34,16 @@ function Appointments() {
     qc.invalidateQueries({ queryKey: ["admin", "appointments"] });
   }
   function print() {
-    const ids = doctor === "all" ? [...new Set(list.map((a) => a.doctor_id))] : [doctor];
-    if (!ids.length) { toast.info("Nothing to print for this day"); return; }
-    ids.forEach((id) => {
-      const d = doctors.find((x) => x.id === id);
-      const rows = list.filter((a) => a.doctor_id === id).map((a, i) => [String(i + 1), a.appointment_number, a.patient_name, `${a.patient_age} / ${a.patient_gender[0]!.toUpperCase()}`, a.patient_phone, a.status]);
-      void downloadManifest(`OPD Schedule — ${d?.name ?? "Doctor"}${d?.room_number ? ` (Room ${d.room_number})` : ""}`, date, ["#", "Appt No.", "Patient", "Age/Sex", "Phone", "Status"], rows, `opd-${date}-${(d?.name ?? id).replace(/\W+/g, "-")}.pdf`);
-    });
+    if (!list.length) { toast.info("Nothing to print for these filters"); return; }
+    const d = doctor === "all" ? null : doctors.find((x) => x.id === doctor);
+    const rows = list.map((a) => ({ number: a.appointment_number, name: a.patient_name, phone: a.patient_phone, ageGender: ageGenderLabel(a.patient_age, a.patient_gender), item: a.doctors?.name ?? "", status: a.status }));
+    downloadManifest({
+      kind: "appointments", date, rows,
+      filter: d ? `${d.name}${d.room_number ? ` (Room ${d.room_number})` : ""}` : null,
+      statusFilter: status === "all" ? null : status,
+      search: q.trim() || null,
+      fileName: `appointment-manifest-${date}${d ? `-${d.name.replace(/\W+/g, "-")}` : ""}.pdf`,
+    }).catch(() => toast.error("Couldn't create the PDF. Please try again."));
   }
 
   return (

@@ -36,15 +36,23 @@ export function Hero({ banners }: { banners: Banner[] }) {
             <I className="h-4 w-4" />
           </button>
         ))}
+        <div className="container-site absolute inset-x-0 bottom-8 z-10 hidden grid-cols-5 gap-4 lg:grid">
+          <Link to="/doctors" className={CARD}><span className={LABEL}>FIND A DOCTOR</span><Icon src="find-a-doctor.png" /></Link>
+          <Link to="/request-appointment" className={CARD}><span className={LABEL}>REQUEST AN APPOINTMENT</span><Icon src="request-an-appointment.png" /></Link>
+          <a href="https://report.southapollomedicalcollegehospital.com/" target="_blank" rel="noopener noreferrer" className={CARD}><span className={LABEL}>ONLINE REPORT</span><Icon src="online-report.png" /></a>
+          <a href="tel:+8801913240139" className={CARD}><span className={LABEL}>TELE-ONLINE</span><Icon src="tele-online.png" /></a>
+          <Link to="/patient-guide" className={CARD}><span className={LABEL}>PATIENT &amp; VISITORS GUIDE</span><Icon src="patient-visitors-guide.png" /></Link>
+        </div>
+        <div className="bg-strip absolute inset-x-0 bottom-0 h-1.5" />
       </div>
-      <div className="container-site relative z-10 grid grid-cols-1 gap-3 py-4 sm:grid-cols-2 lg:-mt-[70px] lg:grid-cols-5 lg:gap-4 lg:py-0">
+      <div className="container-site grid grid-cols-1 gap-3 py-4 sm:grid-cols-2 lg:hidden">
         <Link to="/doctors" className={CARD}><span className={LABEL}>FIND A DOCTOR</span><Icon src="find-a-doctor.png" /></Link>
         <Link to="/request-appointment" className={CARD}><span className={LABEL}>REQUEST AN APPOINTMENT</span><Icon src="request-an-appointment.png" /></Link>
         <a href="https://report.southapollomedicalcollegehospital.com/" target="_blank" rel="noopener noreferrer" className={CARD}><span className={LABEL}>ONLINE REPORT</span><Icon src="online-report.png" /></a>
         <a href="tel:+8801913240139" className={CARD}><span className={LABEL}>TELE-ONLINE</span><Icon src="tele-online.png" /></a>
         <Link to="/patient-guide" className={CARD}><span className={LABEL}>PATIENT &amp; VISITORS GUIDE</span><Icon src="patient-visitors-guide.png" /></Link>
       </div>
-      <div className="bg-strip mt-0 h-1.5 lg:mt-4" />
+      <div className="bg-strip h-1.5 lg:hidden" />
     </section>
   );
 }

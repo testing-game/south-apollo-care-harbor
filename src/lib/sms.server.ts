@@ -7,10 +7,13 @@ const DEFAULT_BASE = "https://sms.ocs-api.top/api";
 export async function sendOcsSms(number: string, message: string, opts: { apiKey: string; senderId?: string | undefined; baseUrl?: string | undefined }): Promise<SmsResult> {
   const base = (opts.baseUrl?.trim() || DEFAULT_BASE).replace(/\/+$/, "");
   const senderid = opts.senderId?.trim();
+  // Tolerate keys pasted with surrounding spaces/line breaks or a "Bearer " prefix.
+  const apiKey = opts.apiKey.replace(/^\s*bearer\s+/i, "").replace(/\s+/g, "");
+  if (!/^[\x21-\x7E]+$/.test(apiKey)) return { success: false, message: "The saved SMS key isn't in the expected format. Please re-enter it from OneCodeSoft Dashboard → API." };
   try {
     const res = await fetch(`${base}/v3/send-sms`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${opts.apiKey}`, Accept: "application/json", "Content-Type": "application/json" },
+      headers: { Authorization: `Bearer ${apiKey}`, Accept: "application/json", "Content-Type": "application/json" },
       body: JSON.stringify({ number, message, ...(senderid ? { senderid } : {}) }),
     });
     const body = await res.json().catch(() => null);

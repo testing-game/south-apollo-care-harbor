@@ -12,5 +12,5 @@
 - [x] Staff portal dashboard: Unread Queries block removed, Doctors on Duty Today panel kept.
 - [x] Homepage: Shasthoshongi section removed, Corporate Services logo carousel removed, map pinned to South Apollo Barishal with Open in Google Maps link.
 - [x] Appointment confirmation SMS: auto-send on Confirmed, Resend SMS button (now OneCodeSoft).
-- [ ] OneCodeSoft API key — blocked: waiting for the user to enter it.
+- [x] OneCodeSoft API key saved and accepted (practice send passed).
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.

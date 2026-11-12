@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ImageField } from "@/components/admin/ImageField";
 import { DOCTOR_PHOTO_HINT } from "@/lib/doctor-photo";
@@ -22,7 +23,7 @@ import { paginate } from "@/lib/query-inbox";
 export const Route = createFileRoute("/hospital-admin-portal/doctors")({ component: DoctorsAdmin });
 
 type DoctorInsert = Database["public"]["Tables"]["doctors"]["Insert"];
-const blank: DoctorInsert = { name: "", designation: "", degrees: "", department_name: "", image_url: "", visiting_days: [], visiting_hours: "", room_number: "", consultation_fee: null, speciality_id: null, is_featured: false, is_active: true };
+const blank: DoctorInsert = { name: "", designation: "", degrees: "", department_name: "", image_url: "", visiting_days: [], visiting_hours: "", room_number: "", experience: "", bio: "", consultation_fee: null, speciality_id: null, is_featured: false, is_active: true };
 
 function DoctorsAdmin() {
   const qc = useQueryClient();
@@ -44,7 +45,7 @@ function DoctorsAdmin() {
     if (!edit.name.trim()) { toast.error("Enter the doctor's name"); return; }
     setBusy(true);
     const spec = specialities.find((s) => s.id === edit.speciality_id);
-    const row = { ...edit, name: edit.name.trim(), department_name: edit.department_name || spec?.name || "" };
+    const row = { ...edit, name: edit.name.trim(), experience: (edit.experience ?? "").trim(), bio: (edit.bio ?? "").trim(), department_name: edit.department_name || spec?.name || "" };
     const res = edit.id ? await supabase.from("doctors").update(row).eq("id", edit.id) : await supabase.from("doctors").insert(row);
     setBusy(false);
     if (res.error) { toast.error(res.error.message); return; }
@@ -119,8 +120,13 @@ function DoctorsAdmin() {
                 </div>
               </div>
               <div className="space-y-1"><Label>Visiting hours</Label><Input placeholder="05:00 PM - 09:00 PM" value={edit.visiting_hours ?? ""} onChange={(e) => set({ visiting_hours: e.target.value })} /></div>
+              <div className="space-y-1"><Label htmlFor="doctor-experience">Experience</Label><Input id="doctor-experience" maxLength={80} placeholder="e.g., 10+ Years of Experience" value={edit.experience ?? ""} onChange={(e) => set({ experience: e.target.value })} /></div>
               <div className="space-y-1"><Label>Room number</Label><Input value={edit.room_number ?? ""} onChange={(e) => set({ room_number: e.target.value })} /></div>
               <div className="space-y-1"><Label>Consultation fee (৳)</Label><Input type="number" min={0} value={edit.consultation_fee ?? ""} onChange={(e) => set({ consultation_fee: e.target.value ? Number(e.target.value) : null })} /></div>
+              <div className="space-y-1 md:col-span-2">
+                <Label htmlFor="doctor-bio">About / Biography</Label>
+                <Textarea id="doctor-bio" rows={6} maxLength={4000} placeholder="Training, clinical expertise and areas of interest. Leave a blank line between paragraphs." value={edit.bio ?? ""} onChange={(e) => set({ bio: e.target.value })} />
+              </div>
               <ImageField label="Photo" hint={DOCTOR_PHOTO_HINT} folder="doctors" value={edit.image_url ?? ""} onChange={(url) => set({ image_url: url })} />
               <label className="flex items-center gap-2 text-sm"><Switch checked={!!edit.is_featured} onCheckedChange={(c) => set({ is_featured: c })} /> Featured on homepage</label>
               <label className="flex items-center gap-2 text-sm"><Switch checked={edit.is_active !== false} onCheckedChange={(c) => set({ is_active: c })} /> Active</label>

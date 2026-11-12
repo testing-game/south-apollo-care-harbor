@@ -69,11 +69,13 @@ export type Database = {
       }
       doctors: {
         Row: {
+          bio: string
           consultation_fee: number | null
           created_at: string
           degrees: string
           department_name: string
           designation: string
+          experience: string
           id: string
           image_url: string
           is_active: boolean
@@ -85,11 +87,13 @@ export type Database = {
           visiting_hours: string
         }
         Insert: {
+          bio?: string
           consultation_fee?: number | null
           created_at?: string
           degrees?: string
           department_name?: string
           designation?: string
+          experience?: string
           id?: string
           image_url?: string
           is_active?: boolean
@@ -101,11 +105,13 @@ export type Database = {
           visiting_hours?: string
         }
         Update: {
+          bio?: string
           consultation_fee?: number | null
           created_at?: string
           degrees?: string
           department_name?: string
           designation?: string
+          experience?: string
           id?: string
           image_url?: string
           is_active?: boolean

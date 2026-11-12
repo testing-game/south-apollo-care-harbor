@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CareerRouteImport } from './routes/career'
-import { Route as DoctorsRouteImport } from './routes/doctors'
 import { Route as HealthCheckupAllPackagesRouteImport } from './routes/health-checkup-all-packages'
 import { Route as HospitalAdminPortalRouteImport } from './routes/hospital-admin-portal'
 import { Route as PatientGuideRouteImport } from './routes/patient-guide'
@@ -23,6 +22,8 @@ import { Route as SendQueryRouteImport } from './routes/send-query'
 import { Route as SpecialitiesRouteImport } from './routes/specialities'
 import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
+import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
+import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
 import { Route as HospitalAdminPortalIndexRouteImport } from './routes/hospital-admin-portal.index'
 import { Route as HospitalAdminPortalAppointmentsRouteImport } from './routes/hospital-admin-portal.appointments'
 import { Route as HospitalAdminPortalBookingsRouteImport } from './routes/hospital-admin-portal.bookings'
@@ -50,11 +51,6 @@ const AboutRoute = AboutRouteImport.update({
 const CareerRoute = CareerRouteImport.update({
   id: '/career',
   path: '/career',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DoctorsRoute = DoctorsRouteImport.update({
-  id: '/doctors',
-  path: '/doctors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HealthCheckupAllPackagesRoute =
@@ -106,6 +102,16 @@ const BlogsIndexRoute = BlogsIndexRouteImport.update({
 const BlogsSlugRoute = BlogsSlugRouteImport.update({
   id: '/blogs/$slug',
   path: '/blogs/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorsIndexRoute = DoctorsIndexRouteImport.update({
+  id: '/doctors/',
+  path: '/doctors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorsIdRoute = DoctorsIdRouteImport.update({
+  id: '/doctors/$id',
+  path: '/doctors/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HospitalAdminPortalIndexRoute =
@@ -187,7 +193,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
-  '/doctors': typeof DoctorsRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
@@ -197,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/doctors/$id': typeof DoctorsIdRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
   '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
+  '/doctors/': typeof DoctorsIndexRoute
   '/hospital-admin-portal/': typeof HospitalAdminPortalIndexRoute
   '/news/': typeof NewsIndexRoute
   '/stories/': typeof StoriesIndexRoute
@@ -216,7 +223,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
-  '/doctors': typeof DoctorsRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
@@ -225,6 +231,7 @@ export interface FileRoutesByTo {
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/doctors/$id': typeof DoctorsIdRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
   '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
@@ -236,6 +243,7 @@ export interface FileRoutesByTo {
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs': typeof BlogsIndexRoute
+  '/doctors': typeof DoctorsIndexRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalIndexRoute
   '/news': typeof NewsIndexRoute
   '/stories': typeof StoriesIndexRoute
@@ -245,7 +253,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
-  '/doctors': typeof DoctorsRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
@@ -255,6 +262,7 @@ export interface FileRoutesById {
   '/send-query': typeof SendQueryRoute
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
+  '/doctors/$id': typeof DoctorsIdRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
   '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
+  '/doctors/': typeof DoctorsIndexRoute
   '/hospital-admin-portal/': typeof HospitalAdminPortalIndexRoute
   '/news/': typeof NewsIndexRoute
   '/stories/': typeof StoriesIndexRoute
@@ -276,7 +285,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/career'
-    | '/doctors'
     | '/health-checkup-all-packages'
     | '/hospital-admin-portal'
     | '/patient-guide'
@@ -286,6 +294,7 @@ export interface FileRouteTypes {
     | '/send-query'
     | '/specialities'
     | '/blogs/$slug'
+    | '/doctors/$id'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
     | '/hospital-admin-portal/content'
@@ -297,6 +306,7 @@ export interface FileRouteTypes {
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
+    | '/doctors/'
     | '/hospital-admin-portal/'
     | '/news/'
     | '/stories/'
@@ -305,7 +315,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/career'
-    | '/doctors'
     | '/health-checkup-all-packages'
     | '/patient-guide'
     | '/privacy-policy'
@@ -314,6 +323,7 @@ export interface FileRouteTypes {
     | '/send-query'
     | '/specialities'
     | '/blogs/$slug'
+    | '/doctors/$id'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
     | '/hospital-admin-portal/content'
@@ -325,6 +335,7 @@ export interface FileRouteTypes {
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs'
+    | '/doctors'
     | '/hospital-admin-portal'
     | '/news'
     | '/stories'
@@ -333,7 +344,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/career'
-    | '/doctors'
     | '/health-checkup-all-packages'
     | '/hospital-admin-portal'
     | '/patient-guide'
@@ -343,6 +353,7 @@ export interface FileRouteTypes {
     | '/send-query'
     | '/specialities'
     | '/blogs/$slug'
+    | '/doctors/$id'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
     | '/hospital-admin-portal/content'
@@ -354,6 +365,7 @@ export interface FileRouteTypes {
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
+    | '/doctors/'
     | '/hospital-admin-portal/'
     | '/news/'
     | '/stories/'
@@ -363,7 +375,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CareerRoute: typeof CareerRoute
-  DoctorsRoute: typeof DoctorsRoute
   HealthCheckupAllPackagesRoute: typeof HealthCheckupAllPackagesRoute
   HospitalAdminPortalRoute: typeof HospitalAdminPortalRouteWithChildren
   PatientGuideRoute: typeof PatientGuideRoute
@@ -373,9 +384,11 @@ export interface RootRouteChildren {
   SendQueryRoute: typeof SendQueryRoute
   SpecialitiesRoute: typeof SpecialitiesRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
+  DoctorsIdRoute: typeof DoctorsIdRoute
   NewsSlugRoute: typeof NewsSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
+  DoctorsIndexRoute: typeof DoctorsIndexRoute
   NewsIndexRoute: typeof NewsIndexRoute
   StoriesIndexRoute: typeof StoriesIndexRoute
 }
@@ -401,13 +414,6 @@ declare module '@tanstack/react-router' {
       path: '/career'
       fullPath: '/career'
       preLoaderRoute: typeof CareerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/doctors': {
-      id: '/doctors'
-      path: '/doctors'
-      fullPath: '/doctors'
-      preLoaderRoute: typeof DoctorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/health-checkup-all-packages': {
@@ -478,6 +484,20 @@ declare module '@tanstack/react-router' {
       path: '/blogs/$slug'
       fullPath: '/blogs/$slug'
       preLoaderRoute: typeof BlogsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctors/': {
+      id: '/doctors/'
+      path: '/doctors'
+      fullPath: '/doctors/'
+      preLoaderRoute: typeof DoctorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctors/$id': {
+      id: '/doctors/$id'
+      path: '/doctors/$id'
+      fullPath: '/doctors/$id'
+      preLoaderRoute: typeof DoctorsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hospital-admin-portal/': {
@@ -605,7 +625,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CareerRoute: CareerRoute,
-  DoctorsRoute: DoctorsRoute,
   HealthCheckupAllPackagesRoute: HealthCheckupAllPackagesRoute,
   HospitalAdminPortalRoute: HospitalAdminPortalRouteWithChildren,
   PatientGuideRoute: PatientGuideRoute,
@@ -615,9 +634,11 @@ const rootRouteChildren: RootRouteChildren = {
   SendQueryRoute: SendQueryRoute,
   SpecialitiesRoute: SpecialitiesRoute,
   BlogsSlugRoute: BlogsSlugRoute,
+  DoctorsIdRoute: DoctorsIdRoute,
   NewsSlugRoute: NewsSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
   BlogsIndexRoute: BlogsIndexRoute,
+  DoctorsIndexRoute: DoctorsIndexRoute,
   NewsIndexRoute: NewsIndexRoute,
   StoriesIndexRoute: StoriesIndexRoute,
 }

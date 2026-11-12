@@ -1,0 +1,2 @@
+ALTER TABLE public.doctors ADD COLUMN IF NOT EXISTS experience text NOT NULL DEFAULT '';
+ALTER TABLE public.doctors ADD COLUMN IF NOT EXISTS bio text NOT NULL DEFAULT '';

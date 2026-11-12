@@ -366,6 +366,7 @@
 :root {
   --brand-navy: oklch(0.27 0.11 258);
   --brand-navy-deep: oklch(0.22 0.09 258);
+  --brand-navy-hover: oklch(0.34 0.09 255);
   --speciality-active: hsl(215 100% 17%);
   --speciality-surface: hsl(216 100% 98%);
   --speciality-border: hsl(214 32% 91%);
@@ -406,6 +407,7 @@
 @theme inline {
   --color-navy: var(--brand-navy);
   --color-navy-deep: var(--brand-navy-deep);
+  --color-navy-hover: var(--brand-navy-hover);
   --color-speciality-active: var(--speciality-active);
   --color-speciality-surface: var(--speciality-surface);
   --color-speciality-border: var(--speciality-border);

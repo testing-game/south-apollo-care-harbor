@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { publicCirculars } from "@/lib/careers";
 import { todayInDhaka } from "@/lib/schedule";
+import { isDoctorId } from "@/lib/doctors";
 
 type Tables = Database["public"]["Tables"];
 export type Doctor = Tables["doctors"]["Row"];
@@ -49,6 +50,14 @@ export const listSpecialityRows = createServerFn({ method: "GET" }).handler(asyn
 export const listDoctors = createServerFn({ method: "GET" }).handler(async () =>
   rows(await publicClient().from("doctors").select("*").eq("is_active", true).order("name")),
 );
+
+export const getDoctor = createServerFn({ method: "GET" })
+  .inputValidator((d: { id: string }) => ({ id: String(d.id).slice(0, 64) }))
+  .handler(async ({ data }) => {
+    if (!isDoctorId(data.id)) return null;
+    const res = await publicClient().from("doctors").select("*").eq("is_active", true).eq("id", data.id).maybeSingle();
+    return res.data ?? null;
+  });
 
 export const listPackages = createServerFn({ method: "GET" }).handler(async () =>
   rows(await publicClient().from("health_packages").select("*").eq("is_active", true).order("display_order")),

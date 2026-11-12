@@ -8,7 +8,7 @@ import { DoctorCard } from "@/components/site/DoctorCard";
 import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
 import { doctorsQuery, specialityRowsQuery } from "@/lib/public-queries";
 
-export const Route = createFileRoute("/doctors")({
+export const Route = createFileRoute("/doctors/")({
   head: () => meta("Find a Doctor", "Search South Apollo's consultants by name or speciality and book an appointment."),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(doctorsQuery), context.queryClient.ensureQueryData(specialityRowsQuery)]),
   component: DoctorsPage,

@@ -3,15 +3,21 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import campus from "@/assets/about-campus-illustration.jpg";
 
-export function PageHero({ crumb, title, children }: { crumb: string; title: string; children?: ReactNode }) {
+export function PageHero({ crumb, title, children, parent }: { crumb: string; title: string; children?: ReactNode; parent?: { label: string; to: "/doctors" } }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-deep text-primary-foreground">
       <img src={campus} alt="" width={1440} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover" />
       <div className="bg-about-overlay absolute inset-0 -z-10" />
       <div className="container-site py-9 md:py-12">
-        <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm">
+        <nav aria-label="Breadcrumb" className="mb-6 flex flex-wrap items-center gap-2 text-sm">
           <Link to="/" className="hover:underline">Home</Link>
           <ChevronRight className="h-4 w-4 text-sky" />
+          {parent && (
+            <>
+              <Link to={parent.to} className="hover:underline">{parent.label}</Link>
+              <ChevronRight className="h-4 w-4 text-sky" />
+            </>
+          )}
           <span aria-current="page">{crumb}</span>
         </nav>
         <p className="mb-3 text-sm font-semibold text-sky">South Apollo Medical College Hospital</p>

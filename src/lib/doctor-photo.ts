@@ -1,8 +1,8 @@
 /**
- * Doctor photo shape. Homepage "Our Esteemed Doctors" and /doctors both use DoctorCard,
- * which crops to 4:3 with object-top. The size is 2x the widest the card is ever shown
+ * Doctor photo shape. Homepage "Our Esteemed Doctors", /doctors (DoctorCard) and the /doctors/$id profile
+ * photo card all crop to 4:3 with object-top. The size is 2x the widest the card is ever shown
  * (single-column phone layout, ~600px) so photos stay sharp on high-density screens.
- * Keep in sync with the aspect class in src/components/site/DoctorCard.tsx.
+ * Keep in sync with the aspect classes in src/components/site/DoctorCard.tsx and src/routes/doctors.$id.tsx.
  */
 export const DOCTOR_PHOTO_SIZE = { ratio: "4:3", width: 1200, height: 900, minWidth: 800, minHeight: 600 } as const;
 

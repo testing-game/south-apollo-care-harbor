@@ -57,6 +57,13 @@
       "when": 1794492473399,
       "tag": "0007_package_home_card_image",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794495626525,
+      "tag": "0008_doctor_experience_bio",
+      "breakpoints": true
     }
   ]
 }

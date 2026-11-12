@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Session } from "@supabase/supabase-js";
-import { BookOpen, CalendarCheck, FlaskConical, LayoutDashboard, LogOut, Menu, MessageSquare, Package, Search, Share2, Stethoscope } from "lucide-react";
+import { BookOpen, CalendarCheck, FlaskConical, LayoutDashboard, LogOut, Menu, MessageSquare, Package, PanelLeftClose, PanelLeftOpen, Search, Share2, Stethoscope, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { supabase } from "@/integrations/supabase/client";
 import { asset } from "@/lib/asset";
 
@@ -28,10 +29,13 @@ const NAV = [
   { to: "/hospital-admin-portal/social", label: "Social Links", icon: Share2 },
 ] as const;
 
+const COLLAPSE_KEY = "admin-sidebar-collapsed";
+
 function AdminLayout() {
   const [session, setSession] = useState<Session | null | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(undefined);
   const [open, setOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -48,6 +52,17 @@ function AdminLayout() {
     supabase.rpc("has_role", { _user_id: session.user.id, _role: "admin" }).then(({ data }) => setIsAdmin(!!data));
   }, [session]);
 
+  useEffect(() => {
+    setCollapsed(window.localStorage.getItem(COLLAPSE_KEY) === "1");
+  }, []);
+
+  function toggleCollapsed() {
+    setCollapsed((c) => {
+      window.localStorage.setItem(COLLAPSE_KEY, c ? "0" : "1");
+      return !c;
+    });
+  }
+
   async function signOut() {
     await queryClient.cancelQueries();
     queryClient.clear();
@@ -63,23 +78,47 @@ function AdminLayout() {
     </div>
   );
 
+  const hideLabel = collapsed ? "lg:sr-only" : "";
   return (
+    <TooltipProvider delayDuration={100}>
     <div className="flex min-h-screen bg-surface-soft">
-      <aside className={`fixed inset-y-0 left-0 z-40 w-64 border-r border-line-soft bg-background transition-transform lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex items-center gap-3 border-b border-line-soft p-4">
-          <img src={asset("logoo.png")} alt="" className="h-10 w-10" />
-          <div className="text-sm font-bold leading-tight text-navy">South Apollo<br /><span className="text-xs font-medium text-muted-foreground">Admin Portal</span></div>
+      <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-hidden border-r border-line-soft bg-background transition-[width,transform] duration-300 ease-in-out lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${collapsed ? "lg:w-16" : "lg:w-64"} ${open ? "translate-x-0" : "-translate-x-full"}`}>
+        <div className={`flex items-center gap-3 border-b border-line-soft p-4 ${collapsed ? "lg:flex-col lg:gap-2 lg:px-2" : ""}`}>
+          <img src={asset("logoo.png")} alt="" className={`h-10 w-10 shrink-0 ${collapsed ? "lg:h-9 lg:w-9" : ""}`} />
+          <div className={`min-w-0 flex-1 whitespace-nowrap text-sm font-bold leading-tight text-navy ${hideLabel}`}>South Apollo<br /><span className="text-xs font-medium text-muted-foreground">Admin Portal</span></div>
+          <Button variant="ghost" size="icon" className="hidden shrink-0 text-navy lg:inline-flex" aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} aria-expanded={!collapsed} onClick={toggleCollapsed}>
+            {collapsed ? <PanelLeftOpen /> : <PanelLeftClose />}
+          </Button>
+          <Button variant="ghost" size="icon" className="shrink-0 text-navy lg:hidden" aria-label="Close menu" onClick={() => setOpen(false)}><X /></Button>
         </div>
-        <nav className="flex flex-col gap-1 p-3">
+        <nav className={`flex flex-1 flex-col gap-1 overflow-y-auto p-3 ${collapsed ? "lg:px-2" : ""}`}>
           {NAV.map(({ to, label, icon: Icon }) => (
-            <Link key={to} to={to} onClick={() => setOpen(false)} activeOptions={{ exact: true }} className="flex items-center gap-3 rounded-md px-3 py-2 text-sm text-navy hover:bg-surface-soft" activeProps={{ className: "bg-navy text-primary-foreground hover:bg-navy" }}>
-              <Icon className="h-4 w-4" />{label}
-            </Link>
+            <Tooltip key={to}>
+              <TooltipTrigger asChild>
+                <Link
+                  to={to}
+                  onClick={() => setOpen(false)}
+                  activeOptions={{ exact: true }}
+                  aria-label={label}
+                  className={`flex items-center gap-3 whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors duration-200 ${collapsed ? "lg:justify-center lg:px-0" : ""}`}
+                  activeProps={{ className: "bg-navy text-primary-foreground hover:bg-navy hover:text-primary-foreground" }}
+                  inactiveProps={{ className: "text-navy hover:bg-surface-soft hover:text-navy" }}
+                >
+                  <Icon className="h-4 w-4 shrink-0" /><span className={hideLabel}>{label}</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right" className={collapsed ? "hidden lg:block" : "hidden"}>{label}</TooltipContent>
+            </Tooltip>
           ))}
         </nav>
-        <div className="absolute inset-x-0 bottom-0 border-t border-line-soft p-3">
-          <p className="mb-2 truncate px-3 text-xs text-muted-foreground">{session.user.email}</p>
-          <Button variant="ghost" className="w-full justify-start" onClick={signOut}><LogOut /> Sign out</Button>
+        <div className={`border-t border-line-soft p-3 ${collapsed ? "lg:px-2" : ""}`}>
+          <p className={`mb-2 truncate px-3 text-xs text-muted-foreground ${hideLabel}`}>{session.user.email}</p>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" aria-label="Sign out" className={`w-full justify-start ${collapsed ? "lg:justify-center lg:px-0" : ""}`} onClick={signOut}><LogOut /><span className={hideLabel}>Sign out</span></Button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className={collapsed ? "hidden lg:block" : "hidden"}>Sign out</TooltipContent>
+          </Tooltip>
         </div>
       </aside>
       {open && <button aria-label="Close menu" className="fixed inset-0 z-30 bg-foreground/30 lg:hidden" onClick={() => setOpen(false)} />}
@@ -91,6 +130,7 @@ function AdminLayout() {
         <main className="p-4 md:p-8"><Outlet /></main>
       </div>
     </div>
+    </TooltipProvider>
   );
 }
 

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "@tanstack/react-router";
 
 const NAV = ["Home", "About Us", "Specialities", "Health Check", "Online Report", "Patient Stories", "Career"];
-const ROUTES: Record<string, "/" | "/about" | "/specialities" | "/health-checkup-all-packages" | "/stories" | undefined> = { Home: "/", "About Us": "/about", Specialities: "/specialities", "Health Check": "/health-checkup-all-packages", "Patient Stories": "/stories" };
+const ROUTES: Record<string, "/" | "/about" | "/specialities" | "/health-checkup-all-packages" | "/stories" | "/career" | undefined> = { Home: "/", "About Us": "/about", Specialities: "/specialities", "Health Check": "/health-checkup-all-packages", "Patient Stories": "/stories", Career: "/career" };
 const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 
 export function Header() {

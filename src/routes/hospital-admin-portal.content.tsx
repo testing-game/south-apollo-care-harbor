@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageField } from "@/components/admin/ImageField";
+import { JobCircularsManager } from "@/components/admin/JobCircularsManager";
 import { supabase } from "@/integrations/supabase/client";
 import { must } from "@/lib/admin";
 import type { MediaFolder } from "@/lib/media-name";
@@ -33,8 +34,9 @@ function ContentAdmin() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-navy">Website Content</h1>
       <Tabs defaultValue="banners">
-        <TabsList className="flex-wrap">{KINDS.map((k) => <TabsTrigger key={k.id} value={k.id}>{k.label}</TabsTrigger>)}</TabsList>
+        <TabsList className="h-auto flex-wrap">{KINDS.map((k) => <TabsTrigger key={k.id} value={k.id}>{k.label}</TabsTrigger>)}<TabsTrigger value="jobs">Job Circulars</TabsTrigger></TabsList>
         {KINDS.map((k) => <TabsContent key={k.id} value={k.id}><KindManager kind={k} /></TabsContent>)}
+        <TabsContent value="jobs"><JobCircularsManager /></TabsContent>
       </Tabs>
     </div>
   );

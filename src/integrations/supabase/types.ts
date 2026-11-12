@@ -204,6 +204,54 @@ export type Database = {
         }
         Relationships: []
       }
+      job_circulars: {
+        Row: {
+          apply_email: string
+          apply_instructions: string
+          created_at: string
+          deadline: string | null
+          department: string
+          description: string
+          employment_type: string
+          id: string
+          is_active: boolean
+          qualifications: string
+          salary: string
+          title: string
+          vacancies: number
+        }
+        Insert: {
+          apply_email?: string
+          apply_instructions?: string
+          created_at?: string
+          deadline?: string | null
+          department?: string
+          description?: string
+          employment_type?: string
+          id?: string
+          is_active?: boolean
+          qualifications?: string
+          salary?: string
+          title: string
+          vacancies?: number
+        }
+        Update: {
+          apply_email?: string
+          apply_instructions?: string
+          created_at?: string
+          deadline?: string | null
+          department?: string
+          description?: string
+          employment_type?: string
+          id?: string
+          is_active?: boolean
+          qualifications?: string
+          salary?: string
+          title?: string
+          vacancies?: number
+        }
+        Relationships: []
+      }
       patient_stories: {
         Row: {
           created_at: string

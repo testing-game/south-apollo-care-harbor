@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getPost, getStory, listBanners, listDoctors, listPackages, listPosts, listSocialLinks, listSpecialityRows, listStories } from "./public-data.functions";
+import { getPost, getStory, listBanners, listDoctors, listJobCirculars, listPackages, listPosts, listSocialLinks, listSpecialityRows, listStories } from "./public-data.functions";
 
 export const bannersQuery = queryOptions({ queryKey: ["banners"], queryFn: () => listBanners() });
 export const specialityRowsQuery = queryOptions({ queryKey: ["speciality-rows"], queryFn: () => listSpecialityRows() });
@@ -10,3 +10,4 @@ export const storyQuery = (slug: string) => queryOptions({ queryKey: ["story", s
 export const postsQuery = (type: "news" | "blog") => queryOptions({ queryKey: ["posts", type], queryFn: () => listPosts({ data: { type } }) });
 export const postQuery = (type: "news" | "blog", slug: string) => queryOptions({ queryKey: ["post", type, slug], queryFn: () => getPost({ data: { type, slug } }) });
 export const socialLinksQuery = queryOptions({ queryKey: ["social-links"], queryFn: () => listSocialLinks(), staleTime: 5 * 60_000 });
+export const jobCircularsQuery = queryOptions({ queryKey: ["job-circulars"], queryFn: () => listJobCirculars() });

@@ -9,4 +9,5 @@
 - [x] Footer overhaul: all links working, Career/Privacy Policy/Pulse Magazine pages, phone hover, social links managed in staff portal, header logo, Send Query hover, floating medical background.
 - [x] Staff portal Doctors and Packages: live search, speciality filter, numbered pages.
 - [x] Branded PDFs: logo, Brown Pro/Hind Siliguri, redesigned booking slips and staff manifests with page numbers and signature line.
+- [x] Staff portal dashboard: Unread Queries block removed, Doctors on Duty Today panel kept.
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.

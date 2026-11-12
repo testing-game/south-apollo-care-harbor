@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { CalendarCheck, FlaskConical, Stethoscope, UserCheck } from "lucide-react";
-import { adminDoctorsQuery, appointmentsQuery, bookingsQuery, queriesQuery } from "@/lib/admin";
+import { adminDoctorsQuery, appointmentsQuery, bookingsQuery } from "@/lib/admin";
 import { formatDate, isOnDuty, todayInDhaka } from "@/lib/schedule";
 
 export const Route = createFileRoute("/hospital-admin-portal/")({ component: Dashboard });
@@ -11,7 +11,6 @@ function Dashboard() {
   const appts = useQuery(appointmentsQuery(today)).data ?? [];
   const bookings = useQuery(bookingsQuery(today)).data ?? [];
   const doctors = useQuery(adminDoctorsQuery).data ?? [];
-  const queries = (useQuery(queriesQuery).data ?? []).filter((q) => q.status === "unread");
   const onDuty = doctors.filter((d) => isOnDuty(d, today));
   const cards = [
     { label: "Today's appointments", value: appts.length, icon: CalendarCheck },
@@ -34,10 +33,7 @@ function Dashboard() {
         <Panel title="Today's schedule" link={<Link to="/hospital-admin-portal/appointments" className="text-xs font-semibold text-sky">View all</Link>}>
           {appts.length ? appts.slice(0, 8).map((a) => <Row key={a.id} left={`${a.appointment_number} · ${a.patient_name}`} right={`${a.doctors?.name ?? ""} · ${a.status}`} />) : <Empty>No appointments today.</Empty>}
         </Panel>
-        <Panel title="Unread queries" link={<Link to="/hospital-admin-portal/queries" className="text-xs font-semibold text-sky">View all</Link>}>
-          {queries.length ? queries.slice(0, 8).map((q) => <Row key={q.id} left={`${q.name} · ${q.subject}`} right={q.phone} />) : <Empty>No unread queries.</Empty>}
-        </Panel>
-        <Panel title="Doctors on duty today">
+        <Panel title="Doctors on duty today" link={<Link to="/hospital-admin-portal/doctors" className="text-xs font-semibold text-sky">View all</Link>}>
           {onDuty.length ? onDuty.map((d) => <Row key={d.id} left={d.name} right={`${d.visiting_hours}${d.room_number ? ` · Room ${d.room_number}` : ""}`} />) : <Empty>No doctors scheduled today.</Empty>}
         </Panel>
       </div>

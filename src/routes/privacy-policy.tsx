@@ -110,7 +110,7 @@ const SECTIONS: DocSection[] = [
         <p>You may ask us to show, update, correct or delete the personal information you submitted through this website, or tell us you no longer wish to be contacted. Appointments for children should be made by a parent or guardian. We may update this policy from time to time; the latest version and its date are always shown on this page.</p>
         <div className="grid gap-3 sm:grid-cols-3">
           <ContactTile icon={MapPin} label="Visit us">South Apollo Medical College Hospital, Jagua, Kalijira, Barishal Sadar, Barishal</ContactTile>
-          <ContactTile icon={Phone} label="Call us"><a href="tel:+8801913240139">+880 1913-240139</a></ContactTile>
+          <ContactTile icon={Phone} label="Call us"><a href="tel:+8801885941937">+880 1885-941937</a></ContactTile>
           <ContactTile icon={Mail} label="Email us"><a href={`mailto:${EMAIL}`} className="[overflow-wrap:anywhere]">{EMAIL}</a></ContactTile>
         </div>
         <p>You can also send a request through our <Link to="/send-query">Send Query</Link> page, and we will respond as soon as possible.</p>

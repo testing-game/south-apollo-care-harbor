@@ -3,7 +3,7 @@
 export const PDF_BRAND = {
   hospital: "South Apollo Medical College Hospital",
   address: "Jagua, Kalijira, Barishal Sadar, Barishal",
-  helpline: "+880 1913-240139",
+  helpline: "+880 1885-941937",
   navy: [11, 37, 69] as const, // #0b2545
   teal: [14, 165, 233] as const, // #0ea5e9
   tealSoft: [56, 189, 248] as const, // #38bdf8

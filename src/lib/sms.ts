@@ -1,7 +1,7 @@
 /** Shared, browser-safe rules for appointment SMS (OneCodeSoft Bulk SMS v3). */
 
 export const HOSPITAL_SMS_NAME = "South Apollo Medical College Hospital";
-export const SMS_HELPLINE = "+8801913240139";
+export const SMS_HELPLINE = "+8801885941937";
 
 /**
  * Bangladeshi mobile number -> international format 8801XXXXXXXXX.

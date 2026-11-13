@@ -4,7 +4,7 @@ import { todayInDhaka } from "./schedule";
 export const SAME_DAY_CUTOFF_HOUR = 21;
 
 export const SAME_DAY_CUTOFF_MESSAGE =
-  "Same-day online appointments close at 9:00 PM. Please select tomorrow or a future date, or call our helpline (+8801913240139) for urgent assistance.";
+  "Same-day online appointments close at 9:00 PM. Please select tomorrow or a future date, or call our helpline (+8801885941937) for urgent assistance.";
 
 /** Current hour (0–23) in Bangladesh time (UTC+6, no daylight saving). */
 export function dhakaHour(now = new Date()): number {

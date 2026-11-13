@@ -124,7 +124,7 @@ function DoctorProfilePage() {
                   <ul className="mt-3 flex flex-wrap gap-2">
                     {days.map((d) => <li key={d} className="border border-navy bg-background px-3 py-1.5 text-sm font-medium text-navy">{d}</li>)}
                   </ul>
-                ) : <p className="mt-2 text-sm text-muted-foreground">Please call +880 1913-240139 for consultation days.</p>}
+                ) : <p className="mt-2 text-sm text-muted-foreground">Please call +880 1885-941937 for consultation days.</p>}
               </div>
               <div>
                 <p className="flex items-center gap-2 text-sm font-semibold text-navy"><Clock className="h-4 w-4 text-clinical-teal" /> Visiting hours</p>

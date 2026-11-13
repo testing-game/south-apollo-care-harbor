@@ -24,7 +24,7 @@ export const FOOTER_LINKS: FooterLink[] = [
   { label: "About Us", to: "/about" },
   { label: "Patient Stories", to: "/stories" },
   { label: "Health Magazine", to: "/health-magazine" },
-  { label: "Tele Online", href: "tel:+8801913240139" },
+  { label: "Tele Online", href: "tel:+8801885941937" },
   { label: "Privacy Policy", to: "/privacy-policy" },
   { label: "Patient & Visitor Guide", to: "/patient-guide" },
 ];
@@ -124,7 +124,8 @@ export function Footer() {
           <motion.div variants={stagger} className="footer-contact space-y-3 text-sm">
             <motion.p variants={reveal} className="font-bold">South Apollo Tele Online</motion.p>
             <motion.div variants={reveal}><a href="mailto:info@southapollomedicalcollegehospital.com" className="footer-contact-link flex w-fit max-w-full items-center gap-2"><Mail className="h-4 w-4 shrink-0" /><span className="min-w-0 [overflow-wrap:anywhere]">info@<wbr />southapollomedicalcollegehospital.com</span></a></motion.div>
-            <motion.div variants={reveal}><a href="tel:+8801913240139" className="footer-contact-link flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4 shrink-0" /> +880 1913-240139</a></motion.div>
+            <motion.div variants={reveal}><a href="tel:+8801885941937" className="footer-contact-link flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4 shrink-0" /> Appointment: +880 1885-941937</a></motion.div>
+            <motion.div variants={reveal}><a href="tel:+8801324165631" className="footer-contact-link flex w-fit items-center gap-2 font-bold"><Phone className="h-4 w-4 shrink-0" /> Helpline: +880 1324-165631</a></motion.div>
             {links.length > 0 && (
               <motion.div variants={stagger} className="flex flex-wrap gap-3 pt-1">
                 {links.map((l) => {

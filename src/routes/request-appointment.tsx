@@ -109,7 +109,7 @@ function AppointmentPage() {
             <Button onClick={receipt} className="mt-6 rounded-none bg-navy hover:bg-sky"><Download /> Download PDF slip</Button>
           </div>
         ) : !doctors.length ? (
-          <EmptyState>Online booking opens once doctor schedules are published. Please call +880 1913-240139.</EmptyState>
+          <EmptyState>Online booking opens once doctor schedules are published. Please call +880 1885-941937.</EmptyState>
         ) : (
           <div className="space-y-8">
             <ol className="grid grid-cols-4 gap-2 text-xs font-semibold">

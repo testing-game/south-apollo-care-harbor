@@ -19,11 +19,11 @@ export const Route = createFileRoute("/send-query")({
 });
 
 const EMPTY: QueryForm = { name: "", phone: "", email: "", category: "" as QueryForm["category"], message: "" };
-const PHONE = "+880 1913-240139";
+const PHONE = "+880 1885-941937";
 const EMAIL = "info@southapollomedicalcollegehospital.com";
 
 const CONTACTS = [
-  { icon: Phone, label: "Phone", value: PHONE, href: "tel:+8801913240139" },
+  { icon: Phone, label: "Phone", value: PHONE, href: "tel:+8801885941937" },
   { icon: MapPin, label: "Location", value: "Jagua, Barishal Sadar, Barishal, Bangladesh" },
   { icon: Mail, label: "Email", value: EMAIL, href: `mailto:${EMAIL}` },
   { icon: Clock, label: "Visiting / OPD Hours", value: "Saturday – Thursday: 8:00 AM – 9:00 PM (Emergency 24/7)" },
@@ -55,7 +55,7 @@ function SendQueryPage() {
 function ContactInfo() {
   return (
     <div className="space-y-5">
-      <a href="tel:+8801913240139" className="group flex items-center gap-4 rounded-2xl bg-navy p-5 text-primary-foreground shadow-xl transition-transform duration-300 hover:-translate-y-1 motion-reduce:transform-none">
+      <a href="tel:+8801885941937" className="group flex items-center gap-4 rounded-2xl bg-navy p-5 text-primary-foreground shadow-xl transition-transform duration-300 hover:-translate-y-1 motion-reduce:transform-none">
         <span className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-destructive">
           <span className="absolute inset-0 animate-ping rounded-full bg-destructive/60 motion-reduce:hidden" />
           <Siren className="relative h-6 w-6" aria-hidden="true" />

@@ -8,8 +8,8 @@ export const Route = createFileRoute("/patient-guide")({
   component: GuidePage,
 });
 
-const HOTLINE = "+880 1913-240139";
-const HOTLINE_TEL = "tel:+8801913240139";
+const HOTLINE = "+880 1885-941937";
+const HOTLINE_TEL = "tel:+8801885941937";
 const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 
 const SECTIONS: DocSection[] = [

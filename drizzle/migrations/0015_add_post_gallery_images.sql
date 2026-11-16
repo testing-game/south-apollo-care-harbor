@@ -1,0 +1,2 @@
+ALTER TABLE public.posts ADD COLUMN IF NOT EXISTS gallery_images text[] NOT NULL DEFAULT '{}'::text[];
+COMMENT ON COLUMN public.posts.gallery_images IS 'Additional photo gallery URLs shown below the article body; featured_image stays the cover.';

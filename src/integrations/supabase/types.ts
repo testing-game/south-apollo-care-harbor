@@ -366,6 +366,7 @@ export type Database = {
           created_at: string
           excerpt: string
           featured_image: string
+          gallery_images: string[]
           id: string
           is_featured: boolean
           is_published: boolean
@@ -380,6 +381,7 @@ export type Database = {
           created_at?: string
           excerpt?: string
           featured_image?: string
+          gallery_images?: string[]
           id?: string
           is_featured?: boolean
           is_published?: boolean
@@ -394,6 +396,7 @@ export type Database = {
           created_at?: string
           excerpt?: string
           featured_image?: string
+          gallery_images?: string[]
           id?: string
           is_featured?: boolean
           is_published?: boolean

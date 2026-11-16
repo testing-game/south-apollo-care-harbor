@@ -12,13 +12,14 @@ function Icon({ src }: { src: string }) {
 }
 
 export function Hero({ banners }: { banners: Banner[] }) {
-  const slides = banners.length ? banners : [{ id: "default", title: "Breast cancer awareness campaign", image_url: asset("slider.png"), cta_link: null }];
+  const slides = banners.length ? banners : [{ id: "default", title: "Breast cancer awareness campaign", image_url: asset("slider.png"), cta_link: null, media_type: "image", video_url: "" }];
   const n = slides.length;
   // pos runs 0..n; pos === n shows the cloned first slide for a seamless forward loop.
   const [pos, setPos] = useState(0);
   const [anim, setAnim] = useState(true);
   const [paused, setPaused] = useState(false);
   const resume = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
 
   const snap = (target: number, then?: number) => {
     setAnim(false);
@@ -62,6 +63,19 @@ export function Hero({ banners }: { banners: Banner[] }) {
 
   useEffect(() => () => { if (resume.current) clearTimeout(resume.current); }, []);
 
+  // Only the slide in view plays; others pause once the slide-out finishes. Reduced-motion visitors see the poster.
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const active = videos.current[pos];
+    if (active) {
+      active.muted = true;
+      if (reduce) active.pause();
+      else active.play().catch(() => {});
+    }
+    const t = setTimeout(() => videos.current.forEach((v, idx) => { if (v && idx !== pos) v.pause(); }), 2000);
+    return () => clearTimeout(t);
+  }, [pos, n]);
+
   const onEnd = () => {
     if (pos === n) snap(0);
   };
@@ -81,7 +95,24 @@ export function Hero({ banners }: { banners: Banner[] }) {
           onTransitionEnd={onEnd}
         >
           {(n > 1 && slides[0] ? [...slides, slides[0]] : slides).map((s, idx) => {
-            const img = <img src={s.image_url} alt={s.title} className="h-full w-full object-cover" />;
+            const img =
+              s.media_type === "video" && s.video_url ? (
+                <video
+                  ref={(el) => { videos.current[idx] = el; }}
+                  autoPlay={idx === 0}
+                  muted
+                  loop
+                  playsInline
+                  preload={idx === 0 ? "auto" : "metadata"}
+                  poster={s.image_url || undefined}
+                  aria-label={s.title}
+                  className="h-full w-full object-cover"
+                >
+                  <source src={s.video_url} type={/\.webm(\?|$)/i.test(s.video_url) ? "video/webm" : "video/mp4"} />
+                </video>
+              ) : (
+                <img src={s.image_url} alt={s.title} className="h-full w-full object-cover" />
+              );
             return (
               <div key={`${s.id}-${idx}`} aria-hidden={idx !== pos} className="h-full w-full shrink-0">
                 {s.cta_link ? <a href={s.cta_link} tabIndex={idx === pos ? 0 : -1}>{img}</a> : img}

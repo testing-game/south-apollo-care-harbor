@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getDoctor, getPackage, getPost, getStory, listBanners, listDoctors, listJobCirculars, listPackages, listPosts, listSocialLinks, listSpecialityRows, listStories } from "./public-data.functions";
+import { getDoctor, getPackage, getPageVideo, getPost, getStory, listBanners, listDoctors, listJobCirculars, listPackages, listPosts, listSocialLinks, listSpecialityRows, listStories } from "./public-data.functions";
 
 export const bannersQuery = queryOptions({ queryKey: ["banners"], queryFn: () => listBanners() });
 export const specialityRowsQuery = queryOptions({ queryKey: ["speciality-rows"], queryFn: () => listSpecialityRows() });
@@ -13,3 +13,4 @@ export const postsQuery = (type: "news" | "blog") => queryOptions({ queryKey: ["
 export const postQuery = (type: "news" | "blog", slug: string) => queryOptions({ queryKey: ["post", type, slug], queryFn: () => getPost({ data: { type, slug } }) });
 export const socialLinksQuery = queryOptions({ queryKey: ["social-links"], queryFn: () => listSocialLinks(), staleTime: 5 * 60_000 });
 export const jobCircularsQuery = queryOptions({ queryKey: ["job-circulars"], queryFn: () => listJobCirculars() });
+export const pageVideoQuery = (slot: string) => queryOptions({ queryKey: ["page-video", slot], queryFn: () => getPageVideo({ data: { slot } }) });

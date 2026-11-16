@@ -14,6 +14,7 @@ export type Story = Tables["patient_stories"]["Row"];
 export type Post = Tables["posts"]["Row"];
 export type SpecialityRow = Tables["specialities"]["Row"];
 export type JobCircular = Tables["job_circulars"]["Row"];
+export type PageVideo = Tables["page_videos"]["Row"];
 
 /** Server-side read-only client using the publishable key (RLS applies as anon). */
 function publicClient() {
@@ -104,3 +105,11 @@ export const listSocialLinks = createServerFn({ method: "GET" }).handler(async (
 export const listJobCirculars = createServerFn({ method: "GET" }).handler(async () =>
   publicCirculars(rows(await publicClient().from("job_circulars").select("*").eq("is_active", true).order("created_at", { ascending: false })), todayInDhaka()),
 );
+
+/** A page video slot (e.g. the About page intro) — only returned when switched on and filled in. */
+export const getPageVideo = createServerFn({ method: "GET" })
+  .inputValidator((d: { slot: string }) => ({ slot: String(d.slot).slice(0, 64) }))
+  .handler(async ({ data }) => {
+    const res = await publicClient().from("page_videos").select("*").eq("slot", data.slot).eq("is_active", true).neq("video_url", "").maybeSingle();
+    return res.data ?? null;
+  });

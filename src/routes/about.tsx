@@ -1,8 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Activity, BedDouble, CalendarDays, ChevronRight, GraduationCap, HeartPulse, MapPin, ScanLine, ShieldCheck, Siren, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import campus from "@/assets/about-campus-illustration.jpg";
+import { IntroVideoPlayer } from "@/components/site/IntroVideo";
+import { pageVideoQuery } from "@/lib/public-queries";
+
+const introQuery = pageVideoQuery("about_intro");
 
 export const Route = createFileRoute("/about")({
   head: () => ({ meta: [
@@ -13,6 +18,7 @@ export const Route = createFileRoute("/about")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }),
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(introQuery),
   component: AboutPage,
 });
 
@@ -29,6 +35,7 @@ function AboutPage() {
   const reducedMotion = useReducedMotion();
   const reveal: Variants = { hidden: { opacity: 0, y: reducedMotion ? 0 : 22 }, visible: { opacity: 1, y: 0, transition: { duration: reducedMotion ? 0 : 0.6 } } };
   const stagger: Variants = { hidden: {}, visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.09 } } };
+  const { data: intro } = useSuspenseQuery(introQuery);
   return (
     <main className="bg-background">
       <section className="relative isolate overflow-hidden bg-navy-deep text-primary-foreground">
@@ -58,6 +65,21 @@ function AboutPage() {
           </div>
         </motion.div>
       </motion.section>
+
+      {intro && (
+        <section aria-labelledby="intro-video-heading" className="relative isolate overflow-hidden bg-navy-deep py-14 text-primary-foreground md:py-20">
+          <div aria-hidden className="absolute -right-24 -top-24 -z-10 h-72 w-72 rounded-full bg-sky/10 blur-3xl" />
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger} className="container-site grid items-center gap-9 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-14">
+            <motion.div variants={reveal}>
+              <p className="mb-3 text-sm font-semibold text-sky">Hospital Intro Video</p>
+              <h2 id="intro-video-heading" className="text-2xl font-bold leading-tight md:text-3xl lg:text-4xl">{intro.title || "See South Apollo in action"}</h2>
+              <div className="mt-5 h-1 w-16 rounded-full bg-sky" />
+              {intro.caption && <p className="mt-5 text-base leading-relaxed text-primary-foreground/85">{intro.caption}</p>}
+            </motion.div>
+            <motion.div variants={reveal}><IntroVideoPlayer video={intro} /></motion.div>
+          </motion.div>
+        </section>
+      )}
 
       <section className="bg-surface-soft py-14 md:py-20">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={stagger} className="container-site">

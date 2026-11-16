@@ -8,15 +8,14 @@ import { specialityBatch, specialityPageCount, type Speciality } from "@/lib/spe
 import specialitiesDoctorPatient from "@/assets/specialities-doctor-patient.jpg";
 
 export function WhyChoose() {
-  const reducedMotion = useReducedMotion();
   return (
-    <motion.section initial={{ opacity: 0, y: reducedMotion ? 0 : 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }} transition={{ duration: reducedMotion ? 0 : 0.45, ease: "easeOut" }} className="container-site py-14 text-center md:py-20">
+    <section className="container-site py-14 text-center md:py-20">
       <h2 className="section-title">Why Choose South Apollo Medical College Hospital</h2>
       <div className="mx-auto mt-6 max-w-4xl space-y-5 text-sm leading-[1.85] text-navy md:text-base">
         <p>Established in 2018 in Jagua, Barishal Sadar, South Apollo Medical College &amp; Hospital is dedicated to delivering world-class, accessible healthcare and advancing medical education across the Barishal Division.</p>
         <p>With a comprehensive 250-bed modern facility, advanced diagnostic technology including Digital Radiography (X-ray), and round-the-clock 24/7 emergency response, our hospital stands as a premier center of clinical excellence and medical training in the southern region.</p>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { BriefcaseMedical, CalendarCheck, CalendarDays, Clock, DoorOpen, GraduationCap, Stethoscope, UserRound } from "lucide-react";
+import { BriefcaseMedical, Building2, CalendarCheck, CalendarDays, Clock, DoorOpen, GraduationCap, Stethoscope, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
 import { doctorQuery } from "@/lib/public-queries";
@@ -10,11 +10,11 @@ export const Route = createFileRoute("/doctors/$id")({
   loader: async ({ context, params }) => {
     const doctor = await context.queryClient.ensureQueryData(doctorQuery(params.id));
     if (!doctor) throw notFound();
-    return { name: doctor.name, designation: doctor.designation, department: doctor.department_name, image: doctor.image_url };
+    return { name: doctor.name, designation: doctor.designation, institution: doctor.institution, department: doctor.department_name, image: doctor.image_url };
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return { meta: [{ title: "Doctor unavailable | South Apollo Medical College Hospital" }, { name: "robots", content: "noindex" }] };
-    const role = [loaderData.designation, loaderData.department].filter(Boolean).join(", ");
+    const role = [loaderData.designation, loaderData.institution, loaderData.department].filter(Boolean).join(", ");
     const base = meta(loaderData.name, `${loaderData.name}${role ? `, ${role}` : ""} at South Apollo Medical College Hospital, Barishal. See consultation days and book an appointment.`);
     const url = `https://sa.jahidzone.cv/doctors/${params.id}`;
     const image = loaderData.image.startsWith("https://") ? [{ property: "og:image", content: loaderData.image }, { name: "twitter:image", content: loaderData.image }] : [];
@@ -75,6 +75,7 @@ function DoctorProfilePage() {
   const bio = bioParagraphs(doctor.bio);
   const facts = [
     doctor.designation && { icon: Stethoscope, label: "Designation", value: doctor.designation },
+    doctor.institution && { icon: Building2, label: "Institution / Hospital Name", value: doctor.institution },
     doctor.degrees && { icon: GraduationCap, label: "Degrees", value: doctor.degrees },
     doctor.experience && { icon: BriefcaseMedical, label: "Experience", value: doctor.experience },
     doctor.room_number && { icon: DoorOpen, label: "Room", value: doctor.room_number },
@@ -83,7 +84,7 @@ function DoctorProfilePage() {
   return (
     <main>
       <PageHero crumb={doctor.name} title={doctor.name} parent={{ label: "Find a Doctor", to: "/doctors" }}>
-        {[doctor.designation, doctor.department_name].filter(Boolean).join(" · ")}
+        {[doctor.designation, doctor.institution, doctor.department_name].filter(Boolean).join(" · ")}
       </PageHero>
       <section className="container-site grid gap-8 py-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
         <aside className="lg:sticky lg:top-28 lg:self-start">

@@ -21,6 +21,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
         <h3 className="text-base font-bold text-navy">{doctor.name}</h3>
         {doctor.degrees && <p className="text-sm text-muted-foreground">{doctor.degrees}</p>}
         {doctor.designation && <p className="text-sm font-medium text-navy">{doctor.designation}</p>}
+        {doctor.institution && <p className="text-sm text-muted-foreground">{doctor.institution}</p>}
         {doctor.department_name && <p className="text-xs font-semibold uppercase tracking-wide text-sky">{doctor.department_name}</p>}
         {doctor.experience && (
           <p className="mt-2 flex items-center gap-2 text-xs text-muted-foreground"><BriefcaseMedical className="h-3.5 w-3.5 shrink-0 text-clinical-teal" />{doctor.experience}</p>

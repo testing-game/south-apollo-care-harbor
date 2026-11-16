@@ -85,6 +85,13 @@
       "when": 1794799067755,
       "tag": "0011_speciality_active_flag",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794801612255,
+      "tag": "0012_add_doctor_institution",
+      "breakpoints": true
     }
   ]
 }

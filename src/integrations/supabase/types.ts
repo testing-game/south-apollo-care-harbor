@@ -79,6 +79,7 @@ export type Database = {
           experience: string
           id: string
           image_url: string
+          institution: string
           is_active: boolean
           is_featured: boolean
           name: string
@@ -98,6 +99,7 @@ export type Database = {
           experience?: string
           id?: string
           image_url?: string
+          institution?: string
           is_active?: boolean
           is_featured?: boolean
           name: string
@@ -117,6 +119,7 @@ export type Database = {
           experience?: string
           id?: string
           image_url?: string
+          institution?: string
           is_active?: boolean
           is_featured?: boolean
           name?: string

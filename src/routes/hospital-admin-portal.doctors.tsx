@@ -24,7 +24,7 @@ import { moveDoctor, nextSerial, sortDoctors } from "@/lib/doctor-order";
 export const Route = createFileRoute("/hospital-admin-portal/doctors")({ component: DoctorsAdmin });
 
 type DoctorInsert = Database["public"]["Tables"]["doctors"]["Insert"];
-const blank: DoctorInsert = { name: "", designation: "", degrees: "", department_name: "", image_url: "", visiting_days: [], visiting_hours: "", room_number: "", experience: "", bio: "", consultation_fee: null, speciality_id: null, is_featured: false, is_active: true };
+const blank: DoctorInsert = { name: "", designation: "", institution: "", degrees: "", department_name: "", image_url: "", visiting_days: [], visiting_hours: "", room_number: "", experience: "", bio: "", consultation_fee: null, speciality_id: null, is_featured: false, is_active: true };
 
 function DoctorsAdmin() {
   const qc = useQueryClient();
@@ -48,7 +48,7 @@ function DoctorsAdmin() {
     setBusy(true);
     const spec = specialities.find((s) => s.id === edit.speciality_id);
     const serial = Math.max(1, Math.round(Number(edit.display_order) || 1));
-    const row = { ...edit, display_order: serial, name: edit.name.trim(), experience: (edit.experience ?? "").trim(), bio: (edit.bio ?? "").trim(), department_name: edit.department_name || spec?.name || "" };
+    const row = { ...edit, display_order: serial, name: edit.name.trim(), institution: (edit.institution ?? "").trim(), experience: (edit.experience ?? "").trim(), bio: (edit.bio ?? "").trim(), department_name: edit.department_name || spec?.name || "" };
     const res = edit.id ? await supabase.from("doctors").update(row).eq("id", edit.id) : await supabase.from("doctors").insert(row);
     setBusy(false);
     if (res.error) { toast.error(res.error.message); return; }
@@ -126,11 +126,16 @@ function DoctorsAdmin() {
                 <Input id="doctor-serial" type="number" min={1} step={1} value={edit.display_order || ""} onChange={(e) => set({ display_order: Number(e.target.value) || 0 })} />
                 <p className="text-xs text-muted-foreground">Lower numbers appear first on the homepage and Find a Doctor page.</p>
               </div>
-              <div className="space-y-1"><Label>Designation</Label><Input placeholder="Consultant" value={edit.designation ?? ""} onChange={(e) => set({ designation: e.target.value })} /></div>
-              <div className="space-y-1"><Label>Degrees</Label><Input placeholder="MBBS, FCPS" value={edit.degrees ?? ""} onChange={(e) => set({ degrees: e.target.value })} /></div>
-              <div className="space-y-1">
-                <Label>Speciality</Label>
-                <Select value={edit.speciality_id ?? ""} onValueChange={(v) => set({ speciality_id: v })}><SelectTrigger><SelectValue placeholder="Choose" /></SelectTrigger><SelectContent>{specialities.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}</SelectContent></Select>
+              <div className="space-y-4">
+                <div className="space-y-1"><Label>Designation</Label><Input placeholder="Consultant" value={edit.designation ?? ""} onChange={(e) => set({ designation: e.target.value })} /></div>
+                <div className="space-y-1"><Label htmlFor="doctor-institution">Institution / Hospital Name</Label><Input id="doctor-institution" placeholder="e.g., South Apollo Medical College Hospital" value={edit.institution ?? ""} onChange={(e) => set({ institution: e.target.value })} /></div>
+              </div>
+              <div className="space-y-4">
+                <div className="space-y-1"><Label>Degrees</Label><Input placeholder="MBBS, FCPS" value={edit.degrees ?? ""} onChange={(e) => set({ degrees: e.target.value })} /></div>
+                <div className="space-y-1">
+                  <Label>Speciality</Label>
+                  <Select value={edit.speciality_id ?? ""} onValueChange={(v) => set({ speciality_id: v })}><SelectTrigger><SelectValue placeholder="Choose" /></SelectTrigger><SelectContent>{specialities.map((s) => <SelectItem key={s.id} value={s.id}>{s.name}</SelectItem>)}</SelectContent></Select>
+                </div>
               </div>
               <div className="space-y-1"><Label>Department name</Label><Input placeholder="Defaults to speciality" value={edit.department_name ?? ""} onChange={(e) => set({ department_name: e.target.value })} /></div>
               <div className="space-y-2 md:col-span-2">

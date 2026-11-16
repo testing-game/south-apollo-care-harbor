@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import type { Session } from "@supabase/supabase-js";
-import { BookOpen, CalendarCheck, FlaskConical, LayoutDashboard, LogOut, Menu, MessageSquare, Package, PanelLeftClose, PanelLeftOpen, Search, Share2, Stethoscope, X } from "lucide-react";
+import { BookOpen, CalendarCheck, FlaskConical, LayoutDashboard, LogOut, Menu, MessageSquare, Package, PanelLeftClose, PanelLeftOpen, Search, Share2, Shapes, Stethoscope, X } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,7 @@ const NAV = [
   { to: "/hospital-admin-portal/appointments", label: "Appointments", icon: CalendarCheck },
   { to: "/hospital-admin-portal/bookings", label: "Test Bookings", icon: FlaskConical },
   { to: "/hospital-admin-portal/doctors", label: "Doctors", icon: Stethoscope },
+  { to: "/hospital-admin-portal/specialities", label: "Specialities", icon: Shapes },
   { to: "/hospital-admin-portal/packages", label: "Packages", icon: Package },
   { to: "/hospital-admin-portal/content", label: "Content", icon: BookOpen },
   { to: "/hospital-admin-portal/patients", label: "Patient Search", icon: Search },

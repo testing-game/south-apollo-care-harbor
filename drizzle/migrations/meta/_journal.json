@@ -78,6 +78,13 @@
       "when": 1794498897700,
       "tag": "0010_doctor_display_order",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794799067755,
+      "tag": "0011_speciality_active_flag",
+      "breakpoints": true
     }
   ]
 }

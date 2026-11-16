@@ -44,7 +44,7 @@ export const listBanners = createServerFn({ method: "GET" }).handler(async () =>
 );
 
 export const listSpecialityRows = createServerFn({ method: "GET" }).handler(async () =>
-  rows(await publicClient().from("specialities").select("*").order("display_order")),
+  rows(await publicClient().from("specialities").select("*").eq("is_active", true).order("display_order").order("created_at")),
 );
 
 export const listDoctors = createServerFn({ method: "GET" }).handler(async () =>

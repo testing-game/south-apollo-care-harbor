@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { SpecialityCard } from "@/components/specialities/SpecialityCard";
-import { SPECIALITIES, SPECIALITIES_PAGE_SIZE, specialityBatch } from "@/lib/specialities";
+import { specialityBatch, specialityPageCount, type Speciality } from "@/lib/specialities";
 import specialitiesDoctorPatient from "@/assets/specialities-doctor-patient.jpg";
 
 export function WhyChoose() {
@@ -20,11 +20,11 @@ export function WhyChoose() {
   );
 }
 
-export function Specialities() {
+export function Specialities({ specialities }: { specialities: Speciality[] }) {
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(1);
   const reducedMotion = useReducedMotion();
-  const lastPage = Math.ceil(SPECIALITIES.length / SPECIALITIES_PAGE_SIZE) - 1;
+  const lastPage = specialityPageCount(specialities) - 1;
   function changePage(next: number) {
     setDirection(next > page ? 1 : -1);
     setPage(Math.max(0, Math.min(lastPage, next)));
@@ -37,9 +37,10 @@ export function Specialities() {
         <div className="mt-6 overflow-hidden p-1">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div key={page} initial={{ opacity: reducedMotion ? 1 : 0, x: reducedMotion ? 0 : direction * 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: reducedMotion ? 1 : 0, x: reducedMotion ? 0 : -direction * 20 }} transition={{ duration: reducedMotion ? 0 : 0.18 }} aria-label="Specialities batch" className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {specialityBatch(page).map((speciality) => <SpecialityCard key={speciality.title} speciality={speciality} />)}
+              {specialityBatch(specialities, page).map((speciality) => <SpecialityCard key={speciality.id} speciality={speciality} />)}
             </motion.div>
           </AnimatePresence>
+          {!specialities.length && <p className="py-10 text-center text-sm text-muted-foreground">Our specialities will appear here soon.</p>}
         </div>
         <p className="sr-only" aria-live="polite">Specialities page {page + 1} of {lastPage + 1}</p>
         <div className="mt-6 flex items-center justify-between gap-3">

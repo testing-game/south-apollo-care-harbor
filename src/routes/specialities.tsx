@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronRight, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SpecialityCard } from "@/components/specialities/SpecialityCard";
-import { filterSpecialities } from "@/lib/specialities";
+import { filterSpecialities, toSpeciality } from "@/lib/specialities";
+import { specialityRowsQuery } from "@/lib/public-queries";
 import campus from "@/assets/about-campus-illustration.jpg";
 
 export const Route = createFileRoute("/specialities")({
@@ -16,13 +18,16 @@ export const Route = createFileRoute("/specialities")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(specialityRowsQuery),
   component: SpecialitiesPage,
 });
 
 function SpecialitiesPage() {
   const [query, setQuery] = useState("");
   const reducedMotion = useReducedMotion();
-  const specialities = filterSpecialities(query);
+  const { data: rows } = useSuspenseQuery(specialityRowsQuery);
+  const all = useMemo(() => rows.map(toSpeciality), [rows]);
+  const specialities = filterSpecialities(all, query);
   const reveal: Variants = { hidden: { opacity: 0, y: reducedMotion ? 0 : 22 }, visible: { opacity: 1, y: 0, transition: { duration: reducedMotion ? 0 : 0.6 } } };
   const stagger: Variants = { hidden: {}, visible: { transition: { staggerChildren: reducedMotion ? 0 : 0.09 } } };
   return (
@@ -50,7 +55,7 @@ function SpecialitiesPage() {
         </motion.div>
         <div aria-live="polite" aria-atomic="true" className="sr-only">{specialities.length} specialities found</div>
         {specialities.length ? <div aria-label="All specialities" className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
-          {specialities.map((speciality) => <motion.div key={speciality.title} layout={!reducedMotion} initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.2 }}><SpecialityCard speciality={speciality} directory /></motion.div>)}
+          {specialities.map((speciality) => <motion.div key={speciality.id} layout={!reducedMotion} initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.2 }}><SpecialityCard speciality={speciality} directory /></motion.div>)}
         </div> : <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: reducedMotion ? 0 : 0.2 }} className="flex min-h-72 items-center justify-center border-y border-line-soft text-muted-foreground"><p>No specialities found</p></motion.div>}
       </motion.div>
     </main>

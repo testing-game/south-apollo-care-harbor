@@ -34,6 +34,7 @@ import { Route as HospitalAdminPortalPackagesRouteImport } from './routes/hospit
 import { Route as HospitalAdminPortalPatientsRouteImport } from './routes/hospital-admin-portal.patients'
 import { Route as HospitalAdminPortalQueriesRouteImport } from './routes/hospital-admin-portal.queries'
 import { Route as HospitalAdminPortalSocialRouteImport } from './routes/hospital-admin-portal.social'
+import { Route as HospitalAdminPortalSpecialitiesRouteImport } from './routes/hospital-admin-portal.specialities'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
 import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
@@ -174,6 +175,12 @@ const HospitalAdminPortalSocialRoute =
     path: '/social',
     getParentRoute: () => HospitalAdminPortalRoute,
   } as any)
+const HospitalAdminPortalSpecialitiesRoute =
+  HospitalAdminPortalSpecialitiesRouteImport.update({
+    id: '/specialities',
+    path: '/specialities',
+    getParentRoute: () => HospitalAdminPortalRoute,
+  } as any)
 const NewsIndexRoute = NewsIndexRouteImport.update({
   id: '/news/',
   path: '/news/',
@@ -218,6 +225,7 @@ export interface FileRoutesByFullPath {
   '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
   '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
   '/hospital-admin-portal/social': typeof HospitalAdminPortalSocialRoute
+  '/hospital-admin-portal/specialities': typeof HospitalAdminPortalSpecialitiesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -248,6 +256,7 @@ export interface FileRoutesByTo {
   '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
   '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
   '/hospital-admin-portal/social': typeof HospitalAdminPortalSocialRoute
+  '/hospital-admin-portal/specialities': typeof HospitalAdminPortalSpecialitiesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs': typeof BlogsIndexRoute
@@ -280,6 +289,7 @@ export interface FileRoutesById {
   '/hospital-admin-portal/patients': typeof HospitalAdminPortalPatientsRoute
   '/hospital-admin-portal/queries': typeof HospitalAdminPortalQueriesRoute
   '/hospital-admin-portal/social': typeof HospitalAdminPortalSocialRoute
+  '/hospital-admin-portal/specialities': typeof HospitalAdminPortalSpecialitiesRoute
   '/news/$slug': typeof NewsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/blogs/': typeof BlogsIndexRoute
@@ -313,6 +323,7 @@ export interface FileRouteTypes {
     | '/hospital-admin-portal/patients'
     | '/hospital-admin-portal/queries'
     | '/hospital-admin-portal/social'
+    | '/hospital-admin-portal/specialities'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
@@ -343,6 +354,7 @@ export interface FileRouteTypes {
     | '/hospital-admin-portal/patients'
     | '/hospital-admin-portal/queries'
     | '/hospital-admin-portal/social'
+    | '/hospital-admin-portal/specialities'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs'
@@ -374,6 +386,7 @@ export interface FileRouteTypes {
     | '/hospital-admin-portal/patients'
     | '/hospital-admin-portal/queries'
     | '/hospital-admin-portal/social'
+    | '/hospital-admin-portal/specialities'
     | '/news/$slug'
     | '/stories/$slug'
     | '/blogs/'
@@ -583,6 +596,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HospitalAdminPortalSocialRouteImport
       parentRoute: typeof HospitalAdminPortalRoute
     }
+    '/hospital-admin-portal/specialities': {
+      id: '/hospital-admin-portal/specialities'
+      path: '/specialities'
+      fullPath: '/hospital-admin-portal/specialities'
+      preLoaderRoute: typeof HospitalAdminPortalSpecialitiesRouteImport
+      parentRoute: typeof HospitalAdminPortalRoute
+    }
     '/news/': {
       id: '/news/'
       path: '/news'
@@ -623,6 +643,7 @@ interface HospitalAdminPortalRouteChildren {
   HospitalAdminPortalPatientsRoute: typeof HospitalAdminPortalPatientsRoute
   HospitalAdminPortalQueriesRoute: typeof HospitalAdminPortalQueriesRoute
   HospitalAdminPortalSocialRoute: typeof HospitalAdminPortalSocialRoute
+  HospitalAdminPortalSpecialitiesRoute: typeof HospitalAdminPortalSpecialitiesRoute
   HospitalAdminPortalIndexRoute: typeof HospitalAdminPortalIndexRoute
 }
 
@@ -635,6 +656,7 @@ const HospitalAdminPortalRouteChildren: HospitalAdminPortalRouteChildren = {
   HospitalAdminPortalPatientsRoute: HospitalAdminPortalPatientsRoute,
   HospitalAdminPortalQueriesRoute: HospitalAdminPortalQueriesRoute,
   HospitalAdminPortalSocialRoute: HospitalAdminPortalSocialRoute,
+  HospitalAdminPortalSpecialitiesRoute: HospitalAdminPortalSpecialitiesRoute,
   HospitalAdminPortalIndexRoute: HospitalAdminPortalIndexRoute,
 }
 

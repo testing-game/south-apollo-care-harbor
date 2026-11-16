@@ -15,5 +15,6 @@
 - [x] OneCodeSoft API key saved and accepted (practice send passed).
 - [x] Staff walk-in / phone booking: + Book Appointment, saved as Confirmed, auto SMS, slip download.
 - [x] Staff portal Patient Search: full history, Doctor Appointments / Test Bookings tabs with counts, status badges, numbered pages; numbered pages on Appointments and Test Bookings.
-- [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports.
+- [x] Staff portal Specialities manager: add/edit/reorder/show-hide/delete with SVG/PNG icon upload; homepage and Specialities page read from it.
+- [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports (staff can now upload them per speciality).
 - [x] Career page: live job circulars with search, department tabs, details modal; staff portal Job Circulars manager.

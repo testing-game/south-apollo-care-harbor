@@ -423,6 +423,7 @@ export type Database = {
           display_order: number
           icon_url: string
           id: string
+          is_active: boolean
           name: string
           slug: string
         }
@@ -432,6 +433,7 @@ export type Database = {
           display_order?: number
           icon_url?: string
           id?: string
+          is_active?: boolean
           name: string
           slug: string
         }
@@ -441,6 +443,7 @@ export type Database = {
           display_order?: number
           icon_url?: string
           id?: string
+          is_active?: boolean
           name?: string
           slug?: string
         }

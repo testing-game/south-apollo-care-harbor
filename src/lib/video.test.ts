@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { bannerMediaProblem, parseVideoUrl, videoFileProblem, videoStoragePath } from "./video";
+import { bannerMediaProblem, embedCommand, inlineEmbedUrl, INTRO_AUTOPLAY_THRESHOLD, parseVideoUrl, videoFileProblem, videoStoragePath } from "./video";
 
 describe("parseVideoUrl", () => {
   it("reads YouTube watch, short and shorts links", () => {
@@ -46,5 +46,24 @@ describe("bannerMediaProblem", () => {
   it("needs a picture for image slides", () => {
     expect(bannerMediaProblem({ media_type: "image", image_url: "" })).toMatch(/image/);
     expect(bannerMediaProblem({ media_type: "image", image_url: "https://x/a.webp" })).toBeNull();
+  });
+});
+
+describe("intro video inline playback", () => {
+  it("starts when 40% of the video is on screen", () => {
+    expect(INTRO_AUTOPLAY_THRESHOLD).toBe(0.4);
+  });
+  it("loads embeds muted, inline and without self-starting", () => {
+    const yt = parseVideoUrl("https://youtu.be/dQw4w9WgXcQ")!;
+    const vm = parseVideoUrl("https://vimeo.com/76979871/abc123")!;
+    if (yt.kind !== "youtube" || vm.kind !== "vimeo") throw new Error("bad parse");
+    expect(inlineEmbedUrl(yt)).toBe("https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?enablejsapi=1&mute=1&playsinline=1&rel=0");
+    expect(inlineEmbedUrl(vm)).toBe("https://player.vimeo.com/video/76979871?muted=1&playsinline=1&autopause=0&h=abc123");
+  });
+  it("sends the right play/pause/sound commands", () => {
+    expect(JSON.parse(embedCommand("youtube", "play"))).toEqual({ event: "command", func: "playVideo", args: [] });
+    expect(JSON.parse(embedCommand("youtube", "unmute")).func).toBe("unMute");
+    expect(JSON.parse(embedCommand("vimeo", "pause"))).toEqual({ method: "pause" });
+    expect(JSON.parse(embedCommand("vimeo", "mute"))).toEqual({ method: "setVolume", value: 0 });
   });
 });

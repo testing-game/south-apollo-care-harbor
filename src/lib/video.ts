@@ -8,7 +8,7 @@ export const HERO_VIDEO_HINT =
 export const HERO_POSTER_HINT = "Shown while the video loads and on devices that block autoplay. 1920×565 px.";
 export const INTRO_VIDEO_HINT =
   "Recommended: 16:9 landscape, 1920×1080 px, MP4 (H.264) or WebM, up to 100 MB. For longer videos, upload to YouTube and paste the link instead.";
-export const INTRO_POSTER_HINT = "16:9 landscape, 1920×1080 px recommended. Shown with a play button until a visitor clicks.";
+export const INTRO_POSTER_HINT = "16:9 landscape, 1920×1080 px recommended. Shown while the video loads.";
 
 export type VideoExt = "mp4" | "webm";
 type FileLike = { name: string; type: string; size: number };
@@ -34,7 +34,7 @@ export function videoStoragePath(folder: string, original: string, ext: VideoExt
 
 export type VideoSource =
   | { kind: "youtube"; id: string; embedUrl: string; thumbnail: string }
-  | { kind: "vimeo"; id: string; embedUrl: string }
+  | { kind: "vimeo"; id: string; embedUrl: string; hash?: string }
   | { kind: "file"; src: string };
 
 /** Understand a pasted or uploaded video address; null when it is not a usable http(s) video link. */
@@ -65,11 +65,32 @@ export function parseVideoUrl(raw: string | null | undefined): VideoSource | nul
     if (at < 0) return null;
     const id = parts[at]!;
     const hash = url.searchParams.get("h") ?? (parts[at + 1] && /^[a-f0-9]+$/i.test(parts[at + 1]!) ? parts[at + 1] : null);
-    return { kind: "vimeo", id, embedUrl: `https://player.vimeo.com/video/${id}?autoplay=1${hash ? `&h=${hash}` : ""}` };
+    return { kind: "vimeo", id, embedUrl: `https://player.vimeo.com/video/${id}?autoplay=1${hash ? `&h=${hash}` : ""}`, ...(hash ? { hash } : {}) };
   }
 
   return { kind: "file", src: url.toString() };
 }
+
+/** Embed address for an inline player that loads straight away, starts muted and is played/paused by the page (not by the embed itself). */
+export function inlineEmbedUrl(source: Exclude<VideoSource, { kind: "file" }>): string {
+  if (source.kind === "youtube") return `https://www.youtube-nocookie.com/embed/${source.id}?enablejsapi=1&mute=1&playsinline=1&rel=0`;
+  return `https://player.vimeo.com/video/${source.id}?muted=1&playsinline=1&autopause=0${source.hash ? `&h=${source.hash}` : ""}`;
+}
+
+export type EmbedAction = "play" | "pause" | "mute" | "unmute";
+
+/** postMessage payload that tells a YouTube or Vimeo embed to play, pause, mute or unmute. */
+export function embedCommand(kind: "youtube" | "vimeo", action: EmbedAction): string {
+  if (kind === "youtube") {
+    const func = { play: "playVideo", pause: "pauseVideo", mute: "mute", unmute: "unMute" }[action];
+    return JSON.stringify({ event: "command", func, args: [] });
+  }
+  if (action === "mute" || action === "unmute") return JSON.stringify({ method: "setVolume", value: action === "mute" ? 0 : 1 });
+  return JSON.stringify({ method: action });
+}
+
+/** Share of the intro video that must be on screen before it starts playing by itself. */
+export const INTRO_AUTOPLAY_THRESHOLD = 0.4;
 
 export type BannerMedia = { media_type?: unknown; image_url?: unknown; video_url?: unknown };
 

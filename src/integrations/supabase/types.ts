@@ -195,8 +195,10 @@ export type Database = {
           id: string
           image_url: string
           is_active: boolean
+          media_type: string
           subtitle: string | null
           title: string
+          video_url: string
         }
         Insert: {
           created_at?: string
@@ -206,8 +208,10 @@ export type Database = {
           id?: string
           image_url: string
           is_active?: boolean
+          media_type?: string
           subtitle?: string | null
           title: string
+          video_url?: string
         }
         Update: {
           created_at?: string
@@ -217,8 +221,10 @@ export type Database = {
           id?: string
           image_url?: string
           is_active?: boolean
+          media_type?: string
           subtitle?: string | null
           title?: string
+          video_url?: string
         }
         Relationships: []
       }
@@ -267,6 +273,39 @@ export type Database = {
           salary?: string
           title?: string
           vacancies?: number
+        }
+        Relationships: []
+      }
+      page_videos: {
+        Row: {
+          caption: string
+          is_active: boolean
+          poster_url: string
+          slot: string
+          source_type: string
+          title: string
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          caption?: string
+          is_active?: boolean
+          poster_url?: string
+          slot: string
+          source_type?: string
+          title?: string
+          updated_at?: string
+          video_url?: string
+        }
+        Update: {
+          caption?: string
+          is_active?: boolean
+          poster_url?: string
+          slot?: string
+          source_type?: string
+          title?: string
+          updated_at?: string
+          video_url?: string
         }
         Relationships: []
       }

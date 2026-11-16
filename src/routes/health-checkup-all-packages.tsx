@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
@@ -17,8 +17,10 @@ import { downloadSlip, type SlipInput } from "@/lib/pdf";
 import { weekdayName } from "@/lib/pdf-model";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { validateListingSearch } from "@/lib/site-search";
 
 export const Route = createFileRoute("/health-checkup-all-packages")({
+  validateSearch: validateListingSearch,
   head: () => meta("Health Check Packages", "Compare South Apollo health check packages, search by test name and book your check-up online."),
   loader: ({ context }) => context.queryClient.ensureQueryData(packagesQuery),
   component: PackagesPage,
@@ -26,7 +28,9 @@ export const Route = createFileRoute("/health-checkup-all-packages")({
 
 function PackagesPage() {
   const { data: packages } = useSuspenseQuery(packagesQuery);
-  const [query, setQuery] = useState("");
+  const { search } = Route.useSearch();
+  const [query, setQuery] = useState(search ?? "");
+  useEffect(() => setQuery(search ?? ""), [search]);
   const [open, setOpen] = useState<HealthPackage | null>(null);
   const reduced = useReducedMotion();
   const list = filterPackages(packages, query);

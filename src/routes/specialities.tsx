@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { SpecialityCard } from "@/components/specialities/SpecialityCard";
 import { filterSpecialities, toSpeciality } from "@/lib/specialities";
 import { specialityRowsQuery } from "@/lib/public-queries";
+import { validateListingSearch } from "@/lib/site-search";
 import campus from "@/assets/about-campus-illustration.jpg";
 
 export const Route = createFileRoute("/specialities")({
+  validateSearch: validateListingSearch,
   head: () => ({ meta: [
     { title: "Our All Specialities | South Apollo Medical College Hospital" },
     { name: "description", content: "Explore and search the medical specialities at South Apollo Medical College Hospital, from emergency and cardiac care to paediatrics and diagnostics." },
@@ -23,7 +25,9 @@ export const Route = createFileRoute("/specialities")({
 });
 
 function SpecialitiesPage() {
-  const [query, setQuery] = useState("");
+  const { search } = Route.useSearch();
+  const [query, setQuery] = useState(search ?? "");
+  useEffect(() => setQuery(search ?? ""), [search]);
   const reducedMotion = useReducedMotion();
   const { data: rows } = useSuspenseQuery(specialityRowsQuery);
   const all = useMemo(() => rows.map(toSpeciality), [rows]);

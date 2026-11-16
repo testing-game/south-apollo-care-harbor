@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Menu, Phone, Search, X } from "lucide-react";
+import { Menu, Phone, X } from "lucide-react";
 import { asset } from "@/lib/asset";
 import { useScrollHeader } from "@/hooks/use-scroll-header";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "@tanstack/react-router";
+import { SiteSearch } from "@/components/site/SiteSearch";
+import { REPORT_URL } from "@/lib/site-search";
 
 const NAV = ["Home", "About Us", "Specialities", "Doctors", "Health Check", "Online Report", "Career"];
 const ROUTES: Record<string, "/" | "/about" | "/specialities" | "/doctors" | "/health-checkup-all-packages" | "/career" | undefined> = { Home: "/", "About Us": "/about", Specialities: "/specialities", Doctors: "/doctors", "Health Check": "/health-checkup-all-packages", Career: "/career" };
-const REPORT_URL = "https://report.southapollomedicalcollegehospital.com";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -27,13 +28,10 @@ export function Header() {
             <span className="flex items-center gap-1 rounded-sm bg-sky px-2 py-0.5 font-medium">
               <img src={asset("variant78.png")} alt="" className="h-3.5 w-3.5" /> SouthApollo
             </span>
-            <span className="hidden sm:inline">Welcome to South Apollo Medical College Hospital.</span>
+            <span className="hidden sm:inline md:hidden xl:inline">Welcome to South Apollo Medical College Hospital.</span>
           </div>
           <div className="flex items-center gap-3 md:gap-6">
-            <label className="hidden items-center gap-2 rounded-sm bg-background px-2 py-1 text-foreground lg:flex">
-              <input placeholder="Search" className="w-36 bg-transparent text-xs outline-hidden" />
-              <Search className="h-3.5 w-3.5" />
-            </label>
+            <SiteSearch />
             <a
               href="https://www.samcb.edu.bd"
               target="_blank"
@@ -88,6 +86,7 @@ export function Header() {
       {open && (
         <nav id="mobile-navigation" className="max-h-[calc(100dvh-133px)] overflow-y-auto border-t border-line-soft bg-background lg:hidden">
           <div className="container-site flex flex-col py-2">
+            <div className="pb-3 pt-1 md:hidden"><SiteSearch variant="full" onNavigate={() => setOpen(false)} /></div>
             {NAV.map((n) => {
               const to = ROUTES[n];
               return to ? (

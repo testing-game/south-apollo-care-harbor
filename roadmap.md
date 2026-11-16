@@ -18,3 +18,4 @@
 - [x] Staff portal Specialities manager: add/edit/reorder/show-hide/delete with SVG/PNG icon upload; homepage and Specialities page read from it.
 - [ ] Replace PNG medical artwork with exact SVG originals — blocked: needs original vector exports (staff can now upload them per speciality).
 - [x] Career page: live job circulars with search, department tabs, details modal; staff portal Job Circulars manager.
+- [x] Header search: instant grouped results (doctors, specialities, packages, pages), keyboard navigation, Enter opens top or filtered list.

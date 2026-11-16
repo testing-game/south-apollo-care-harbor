@@ -69,7 +69,7 @@ function Bookings() {
             {view.items.map((b) => (
               <TableRow key={b.id}>
                 <TableCell className="font-mono text-xs">{b.booking_number}</TableCell>
-                <TableCell>{b.patient_name}</TableCell>
+                <TableCell>{b.patient_name}{b.notes && <p className="mt-0.5 max-w-xs whitespace-pre-line text-xs text-muted-foreground"><span className="font-semibold">Note:</span> {b.notes}</p>}</TableCell>
                 <TableCell>{ageGender(b)}</TableCell>
                 <TableCell>{b.patient_phone}</TableCell>
                 <TableCell>{b.health_packages?.title}</TableCell>

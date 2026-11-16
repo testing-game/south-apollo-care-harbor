@@ -92,6 +92,13 @@
       "when": 1794801612255,
       "tag": "0012_add_doctor_institution",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1794802129184,
+      "tag": "0013_package_preparation_and_booking_notes",
+      "breakpoints": true
     }
   ]
 }

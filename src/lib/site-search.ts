@@ -14,7 +14,7 @@ export type PagePath =
 export type SearchTarget =
   | { kind: "doctor"; id: string }
   | { kind: "speciality"; name: string }
-  | { kind: "package"; title: string }
+  | { kind: "package"; id: string; title: string }
   | { kind: "page"; to: PagePath }
   | { kind: "external"; url: string }
   | { kind: "doctor-list"; search: string }
@@ -84,7 +84,7 @@ export function searchSite(data: SearchData, query: string, formatPrice: (p: num
   const packages = rank(data.packages.filter((p) => matches(tokens, `${p.title} ${p.included_tests.join(" ")}`)), (p) => p.title, query)
     .map<SearchHit>((p) => {
       const test = matches(tokens, p.title) ? undefined : p.included_tests.find((t) => tokens.some((tok) => t.toLowerCase().includes(tok)));
-      return { key: `package-${p.id}`, group: "packages", title: p.title, subtitle: formatPrice(p.price), meta: test ? `Includes ${test}` : undefined, target: { kind: "package", title: p.title } };
+      return { key: `package-${p.id}`, group: "packages", title: p.title, subtitle: formatPrice(p.price), meta: test ? `Includes ${test}` : undefined, target: { kind: "package", id: p.id, title: p.title } };
     });
 
   const pages = rank(SITE_PAGES.filter((p) => matches(tokens, `${p.title} ${p.keywords}`)), (p) => p.title, query)

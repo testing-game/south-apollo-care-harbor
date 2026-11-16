@@ -54,7 +54,7 @@ export function SiteSearch({ variant = "compact", onNavigate }: { variant?: "com
     switch (target.kind) {
       case "doctor": return navigate({ to: "/doctors/$id", params: { id: target.id } });
       case "speciality": return navigate({ to: "/specialities", search: { search: target.name } });
-      case "package": return navigate({ to: "/health-checkup-all-packages", search: { search: target.title } });
+      case "package": return navigate({ to: "/health-checkup-packages/$id", params: { id: target.id } });
       case "doctor-list": return navigate({ to: "/doctors", search: { search: target.search } });
       case "speciality-list": return navigate({ to: "/specialities", search: { search: target.search } });
       case "package-list": return navigate({ to: "/health-checkup-all-packages", search: { search: target.search } });

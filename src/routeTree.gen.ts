@@ -25,6 +25,7 @@ import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
 import { Route as DoctorsIndexRouteImport } from './routes/doctors.index'
 import { Route as DoctorsIdRouteImport } from './routes/doctors.$id'
+import { Route as HealthCheckupPackagesIdRouteImport } from './routes/health-checkup-packages.$id'
 import { Route as HospitalAdminPortalIndexRouteImport } from './routes/hospital-admin-portal.index'
 import { Route as HospitalAdminPortalAppointmentsRouteImport } from './routes/hospital-admin-portal.appointments'
 import { Route as HospitalAdminPortalBookingsRouteImport } from './routes/hospital-admin-portal.bookings'
@@ -119,6 +120,11 @@ const DoctorsIndexRoute = DoctorsIndexRouteImport.update({
 const DoctorsIdRoute = DoctorsIdRouteImport.update({
   id: '/doctors/$id',
   path: '/doctors/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HealthCheckupPackagesIdRoute = HealthCheckupPackagesIdRouteImport.update({
+  id: '/health-checkup-packages/$id',
+  path: '/health-checkup-packages/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HospitalAdminPortalIndexRoute =
@@ -217,6 +223,7 @@ export interface FileRoutesByFullPath {
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/health-checkup-packages/$id': typeof HealthCheckupPackagesIdRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
   '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
@@ -248,6 +255,7 @@ export interface FileRoutesByTo {
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/health-checkup-packages/$id': typeof HealthCheckupPackagesIdRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
   '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
+  '/health-checkup-packages/$id': typeof HealthCheckupPackagesIdRoute
   '/hospital-admin-portal/appointments': typeof HospitalAdminPortalAppointmentsRoute
   '/hospital-admin-portal/bookings': typeof HospitalAdminPortalBookingsRoute
   '/hospital-admin-portal/content': typeof HospitalAdminPortalContentRoute
@@ -315,6 +324,7 @@ export interface FileRouteTypes {
     | '/specialities'
     | '/blogs/$slug'
     | '/doctors/$id'
+    | '/health-checkup-packages/$id'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
     | '/hospital-admin-portal/content'
@@ -346,6 +356,7 @@ export interface FileRouteTypes {
     | '/specialities'
     | '/blogs/$slug'
     | '/doctors/$id'
+    | '/health-checkup-packages/$id'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
     | '/hospital-admin-portal/content'
@@ -378,6 +389,7 @@ export interface FileRouteTypes {
     | '/specialities'
     | '/blogs/$slug'
     | '/doctors/$id'
+    | '/health-checkup-packages/$id'
     | '/hospital-admin-portal/appointments'
     | '/hospital-admin-portal/bookings'
     | '/hospital-admin-portal/content'
@@ -411,6 +423,7 @@ export interface RootRouteChildren {
   SpecialitiesRoute: typeof SpecialitiesRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
+  HealthCheckupPackagesIdRoute: typeof HealthCheckupPackagesIdRoute
   NewsSlugRoute: typeof NewsSlugRoute
   StoriesSlugRoute: typeof StoriesSlugRoute
   BlogsIndexRoute: typeof BlogsIndexRoute
@@ -531,6 +544,13 @@ declare module '@tanstack/react-router' {
       path: '/doctors/$id'
       fullPath: '/doctors/$id'
       preLoaderRoute: typeof DoctorsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/health-checkup-packages/$id': {
+      id: '/health-checkup-packages/$id'
+      path: '/health-checkup-packages/$id'
+      fullPath: '/health-checkup-packages/$id'
+      preLoaderRoute: typeof HealthCheckupPackagesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hospital-admin-portal/': {
@@ -678,6 +698,7 @@ const rootRouteChildren: RootRouteChildren = {
   SpecialitiesRoute: SpecialitiesRoute,
   BlogsSlugRoute: BlogsSlugRoute,
   DoctorsIdRoute: DoctorsIdRoute,
+  HealthCheckupPackagesIdRoute: HealthCheckupPackagesIdRoute,
   NewsSlugRoute: NewsSlugRoute,
   StoriesSlugRoute: StoriesSlugRoute,
   BlogsIndexRoute: BlogsIndexRoute,

@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import type { ReactNode } from "react";
 import campus from "@/assets/about-campus-illustration.jpg";
 
-export function PageHero({ crumb, title, children, parent }: { crumb: string; title: string; children?: ReactNode; parent?: { label: string; to: "/doctors" } }) {
+export function PageHero({ crumb, title, children, parent }: { crumb: string; title: string; children?: ReactNode; parent?: { label: string; to: "/doctors" | "/health-checkup-all-packages" } }) {
   return (
     <section className="relative isolate overflow-hidden bg-navy-deep text-primary-foreground">
       <img src={campus} alt="" width={1440} height={1024} className="absolute inset-0 -z-20 h-full w-full object-cover" />

@@ -4,6 +4,7 @@ import type { Database } from "@/integrations/supabase/types";
 import { publicCirculars } from "@/lib/careers";
 import { todayInDhaka } from "@/lib/schedule";
 import { isDoctorId } from "@/lib/doctors";
+import { isPackageId } from "@/lib/packages";
 
 type Tables = Database["public"]["Tables"];
 export type Doctor = Tables["doctors"]["Row"];
@@ -62,6 +63,14 @@ export const getDoctor = createServerFn({ method: "GET" })
 export const listPackages = createServerFn({ method: "GET" }).handler(async () =>
   rows(await publicClient().from("health_packages").select("*").eq("is_active", true).order("display_order")),
 );
+
+export const getPackage = createServerFn({ method: "GET" })
+  .inputValidator((d: { id: string }) => ({ id: String(d.id).slice(0, 64) }))
+  .handler(async ({ data }) => {
+    if (!isPackageId(data.id)) return null;
+    const res = await publicClient().from("health_packages").select("*").eq("is_active", true).eq("id", data.id).maybeSingle();
+    return res.data ?? null;
+  });
 
 export const listStories = createServerFn({ method: "GET" }).handler(async () =>
   rows(await publicClient().from("patient_stories").select("*").eq("is_published", true).order("created_at", { ascending: false })),

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PACKAGE_IMAGE_SIZES, filterPackages, homeCardImage, testBookingSchema } from "./packages";
+import { PACKAGE_IMAGE_SIZES, detailsBannerImage, filterPackages, homeCardImage, isPackageId, splitPackageTitle, testBookingSchema } from "./packages";
 
 const pkgs = [
   { title: "Heart Check (For Men)", included_tests: ["ECG", "Lipid Profile"], is_featured: true },
@@ -20,12 +20,12 @@ describe("filterPackages", () => {
 });
 
 describe("package banner sizes", () => {
-  it("homepage banner is 1160x1280, a 29:32 portrait", () => {
+  it("card banner is 1160x1280, a 29:32 portrait", () => {
     const { width, height } = PACKAGE_IMAGE_SIZES.home;
     expect([width, height]).toEqual([1160, 1280]);
     expect(width * 32).toBe(height * 29);
   });
-  it("all packages page banner is 1600x1000, a 16:10 landscape", () => {
+  it("package details banner is 1600x1000, a 16:10 landscape", () => {
     const { width, height } = PACKAGE_IMAGE_SIZES.page;
     expect([width, height]).toEqual([1600, 1000]);
     expect(width * 10).toBe(height * 16);
@@ -51,5 +51,33 @@ describe("testBookingSchema", () => {
   });
   it("requires a gender", () => {
     expect(testBookingSchema.safeParse({ ...ok, gender: "" }).success).toBe(false);
+  });
+  it("accepts optional notes up to 500 characters and rejects longer notes", () => {
+    expect(testBookingSchema.parse({ ...ok, notes: " Fasting since 10pm " }).notes).toBe("Fasting since 10pm");
+    expect(testBookingSchema.parse(ok).notes).toBe("");
+    expect(testBookingSchema.safeParse({ ...ok, notes: "a".repeat(501) }).success).toBe(false);
+  });
+});
+
+describe("splitPackageTitle", () => {
+  it("separates the bracketed target group shown under the card title", () => {
+    expect(splitPackageTitle("Whole Body Check (For Men Above 45 Years)")).toEqual({ name: "Whole Body Check", subtitle: "For Men Above 45 Years" });
+  });
+  it("leaves titles without brackets whole", () => {
+    expect(splitPackageTitle("Executive Health Check")).toEqual({ name: "Executive Health Check", subtitle: "" });
+  });
+});
+
+describe("detailsBannerImage", () => {
+  it("prefers the wide details banner and falls back to the card banner", () => {
+    expect(detailsBannerImage({ home_image_url: "home.webp", image_url: "page.webp" })).toBe("page.webp");
+    expect(detailsBannerImage({ home_image_url: "home.webp", image_url: "" })).toBe("home.webp");
+  });
+});
+
+describe("isPackageId", () => {
+  it("only accepts package ids, not slugs", () => {
+    expect(isPackageId("3f8a2c1e-9b7d-4e6f-a1b2-c3d4e5f60718")).toBe(true);
+    expect(isPackageId("executive-health-check")).toBe(false);
   });
 });

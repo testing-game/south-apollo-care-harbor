@@ -35,6 +35,7 @@ describe("Global site search", () => {
     expect(groups.find((g) => g.key === "specialities")?.hits[0]?.title).toBe("Cardiology Care Centre");
     const pkg = searchSite(data, "lipid", price).find((g) => g.key === "packages")?.hits[0];
     expect(pkg).toMatchObject({ title: "Executive Health Check", subtitle: "৳ 5000", meta: "Includes Lipid Profile" });
+    expect(pkg?.target).toEqual({ kind: "package", id: "p1", title: "Executive Health Check" });
   });
   it("finds key pages such as Career and Contact Us", () => {
     expect(searchSite(data, "jobs", price).find((g) => g.key === "pages")?.hits[0]?.title).toBe("Career");

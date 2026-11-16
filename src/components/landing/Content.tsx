@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { asset } from "@/lib/asset";
-import { homeCardImage } from "@/lib/packages";
+import { homeCardImage, splitPackageTitle } from "@/lib/packages";
+import { PackageCard } from "@/components/site/PackageCard";
 import { DoctorCard } from "@/components/site/DoctorCard";
 import { PostCard, StoryCard } from "@/components/site/Articles";
 import type { Doctor, HealthPackage, Post as PostRow, Story } from "@/lib/public-data.functions";
@@ -62,17 +63,9 @@ export function Packages({ packages }: { packages: HealthPackage[] }) {
       <div className="container-site">
         <h2 className="section-title">Health Check Packages</h2>
         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {(live.length ? live.map((p) => { const m = p.title.match(/^(.*?)\s*(\(.*\))?$/); return [m?.[1] ?? p.title, m?.[2] ?? "", homeCardImage(p)] as [string, string, string]; }) : PACKAGES.map(([t, s, img]) => [t, s, asset(img)] as [string, string, string])).map(([t, s, img]) => (
-            <Link key={img + t} to="/health-checkup-all-packages" className="group relative block aspect-[29/32] overflow-hidden">
-              <img src={img} alt={`${t} ${s}`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              <div className="bg-card-fade absolute inset-0" />
-              <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
-                <p className="font-bold leading-snug">{t}</p>
-                <p className="text-xs font-bold uppercase">{s}</p>
-                <span className="mt-3 inline-block text-sm font-bold text-sky">See Package</span>
-              </div>
-            </Link>
-          ))}
+          {live.length
+            ? live.map((p) => <PackageCard key={p.id} id={p.id} image={homeCardImage(p)} {...splitPackageTitle(p.title)} />)
+            : PACKAGES.map(([t, s, img]) => <PackageCard key={img} name={t} subtitle={s.replace(/^\(|\)$/g, "")} image={asset(img)} />)}
         </div>
         <ViewAll label="View All Packages" to="/health-checkup-all-packages" />
       </div>

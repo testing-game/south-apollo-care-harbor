@@ -1,11 +1,12 @@
 import { queryOptions } from "@tanstack/react-query";
-import { getDoctor, getPost, getStory, listBanners, listDoctors, listJobCirculars, listPackages, listPosts, listSocialLinks, listSpecialityRows, listStories } from "./public-data.functions";
+import { getDoctor, getPackage, getPost, getStory, listBanners, listDoctors, listJobCirculars, listPackages, listPosts, listSocialLinks, listSpecialityRows, listStories } from "./public-data.functions";
 
 export const bannersQuery = queryOptions({ queryKey: ["banners"], queryFn: () => listBanners() });
 export const specialityRowsQuery = queryOptions({ queryKey: ["speciality-rows"], queryFn: () => listSpecialityRows() });
 export const doctorsQuery = queryOptions({ queryKey: ["doctors"], queryFn: () => listDoctors() });
 export const doctorQuery = (id: string) => queryOptions({ queryKey: ["doctor", id], queryFn: () => getDoctor({ data: { id } }) });
 export const packagesQuery = queryOptions({ queryKey: ["packages"], queryFn: () => listPackages() });
+export const packageQuery = (id: string) => queryOptions({ queryKey: ["package", id], queryFn: () => getPackage({ data: { id } }) });
 export const storiesQuery = queryOptions({ queryKey: ["stories"], queryFn: () => listStories() });
 export const storyQuery = (slug: string) => queryOptions({ queryKey: ["story", slug], queryFn: () => getStory({ data: { slug } }) });
 export const postsQuery = (type: "news" | "blog") => queryOptions({ queryKey: ["posts", type], queryFn: () => listPosts({ data: { type } }) });

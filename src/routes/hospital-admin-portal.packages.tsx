@@ -61,7 +61,7 @@ function PackagesAdmin() {
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input className="pl-9" aria-label="Search packages" placeholder="Search package by title, price, or included tests..." value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
           </div>
-          <Button className="bg-navy md:ml-auto" onClick={() => setEdit({ title: "", slug: "", price: null, image_url: "", home_image_url: "", description: "", is_featured: false, is_active: true, display_order: packages.length, testsText: "" })}><Plus /> Add package</Button>
+          <Button className="bg-navy md:ml-auto" onClick={() => setEdit({ title: "", slug: "", price: null, image_url: "", home_image_url: "", description: "", preparation: "", is_featured: false, is_active: true, display_order: packages.length, testsText: "" })}><Plus /> Add package</Button>
         </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -89,9 +89,10 @@ function PackagesAdmin() {
               <div className="space-y-1"><Label>Price (৳) — leave empty for "Price on request"</Label><Input type="number" min={0} value={edit.price ?? ""} onChange={(e) => set({ price: e.target.value ? Number(e.target.value) : null })} /></div>
               <div className="space-y-1"><Label>Description</Label><Textarea value={edit.description ?? ""} onChange={(e) => set({ description: e.target.value })} /></div>
               <div className="space-y-1"><Label>Included tests (one per line)</Label><Textarea rows={6} value={edit.testsText} onChange={(e) => set({ testsText: e.target.value })} /></div>
+              <div className="space-y-1"><Label>Preparation / fasting notes (optional)</Label><Textarea rows={3} placeholder="e.g. 10–12 hours overnight fasting. Water is allowed." value={edit.preparation ?? ""} onChange={(e) => set({ preparation: e.target.value })} /><p className="text-xs text-muted-foreground">Shown on the package's details page. Leave empty to hide.</p></div>
               <div className="grid gap-4 sm:grid-cols-2">
-                <ImageField label={SIZES.home.label} hint={`${sizeHint(SIZES.home)} If empty, the page banner is used.`} folder="packages" value={edit.home_image_url ?? ""} onChange={(url) => set({ home_image_url: url })} />
-                <ImageField label={SIZES.page.label} hint={sizeHint(SIZES.page)} folder="packages" value={edit.image_url ?? ""} onChange={(url) => set({ image_url: url })} />
+                <ImageField label={SIZES.home.label} hint={`${sizeHint(SIZES.home)} Used for the cards on both the Homepage and All Packages page. If empty, the details banner is used.`} folder="packages" value={edit.home_image_url ?? ""} onChange={(url) => set({ home_image_url: url })} />
+                <ImageField label={SIZES.page.label} hint={`${sizeHint(SIZES.page)} Shown at the top of the package's details page.`} folder="packages" value={edit.image_url ?? ""} onChange={(url) => set({ image_url: url })} />
               </div>
               <div className="flex gap-6">
                 <label className="flex items-center gap-2 text-sm"><Switch checked={!!edit.is_featured} onCheckedChange={(c) => set({ is_featured: c })} /> Featured</label>

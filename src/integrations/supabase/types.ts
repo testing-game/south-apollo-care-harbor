@@ -149,6 +149,7 @@ export type Database = {
           included_tests: string[]
           is_active: boolean
           is_featured: boolean
+          preparation: string
           price: number | null
           slug: string
           title: string
@@ -163,6 +164,7 @@ export type Database = {
           included_tests?: string[]
           is_active?: boolean
           is_featured?: boolean
+          preparation?: string
           price?: number | null
           slug: string
           title: string
@@ -177,6 +179,7 @@ export type Database = {
           included_tests?: string[]
           is_active?: boolean
           is_featured?: boolean
+          preparation?: string
           price?: number | null
           slug?: string
           title?: string
@@ -458,6 +461,7 @@ export type Database = {
           booking_number: string
           created_at: string
           id: string
+          notes: string
           package_id: string
           patient_age: number | null
           patient_gender: string | null
@@ -470,6 +474,7 @@ export type Database = {
           booking_number?: string
           created_at?: string
           id?: string
+          notes?: string
           package_id: string
           patient_age?: number | null
           patient_gender?: string | null
@@ -482,6 +487,7 @@ export type Database = {
           booking_number?: string
           created_at?: string
           id?: string
+          notes?: string
           package_id?: string
           patient_age?: number | null
           patient_gender?: string | null
@@ -540,6 +546,7 @@ export type Database = {
           _date: string
           _gender?: string
           _name: string
+          _notes?: string
           _package_id: string
           _phone: string
         }

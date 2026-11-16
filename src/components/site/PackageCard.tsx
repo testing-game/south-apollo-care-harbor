@@ -16,7 +16,7 @@ export function PackageCard({ name, subtitle, image, id }: CardProps) {
       <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
         <p className="font-bold leading-snug">{name}</p>
         {subtitle && <p className="text-xs font-bold uppercase">({subtitle})</p>}
-        <span className="mt-3 inline-block text-sm font-bold text-sky group-hover:underline">See Package</span>
+        <span className="relative mt-3 inline-block text-sm font-bold text-sky after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:bg-sky after:transition-transform after:duration-300 after:ease-out after:content-[''] hover:after:scale-x-100 group-hover:after:scale-x-100 motion-reduce:after:transition-none">See Package</span>
       </div>
     </>
   );

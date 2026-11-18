@@ -9,6 +9,8 @@ import { REPORT_URL } from "@/lib/site-search";
 
 const NAV = ["Home", "About Us", "Specialities", "Doctors", "Health Check", "Online Report", "Career"];
 const ROUTES: Record<string, "/" | "/about" | "/specialities" | "/doctors" | "/health-checkup-all-packages" | "/career" | undefined> = { Home: "/", "About Us": "/about", Specialities: "/specialities", Doctors: "/doctors", "Health Check": "/health-checkup-all-packages", Career: "/career" };
+// Shared by every mobile menu row (internal links and external ones) so all items line up in one column.
+const MOBILE_ITEM = "flex h-auto items-center justify-start rounded-none border-b border-line-soft px-4 py-3 text-sm font-normal text-navy";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -90,11 +92,11 @@ export function Header() {
             {NAV.map((n) => {
               const to = ROUTES[n];
               return to ? (
-                <Button key={n} asChild variant="ghost" className="h-auto justify-start rounded-none border-b border-line-soft py-3 text-sm font-normal text-navy"><Link to={to} onClick={() => setOpen(false)}>{n}</Link></Button>
+                <Button key={n} asChild variant="ghost" className={MOBILE_ITEM}><Link to={to} onClick={() => setOpen(false)}>{n}</Link></Button>
               ) : n === "Online Report" ? (
-                <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className="border-b border-line-soft py-3 text-sm text-navy">{n}</a>
+                <a key={n} href={REPORT_URL} target="_blank" rel="noopener noreferrer" className={MOBILE_ITEM}>{n}</a>
               ) : (
-                <a key={n} href="#" className="border-b border-line-soft py-3 text-sm text-navy">{n}</a>
+                <a key={n} href="#" className={MOBILE_ITEM}>{n}</a>
               );
             })}
             <Link to="/send-query" onClick={() => setOpen(false)} className="my-3 bg-navy py-3 text-center text-sm font-medium text-primary-foreground">Send Query</Link>

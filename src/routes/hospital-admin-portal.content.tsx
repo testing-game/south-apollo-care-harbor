@@ -22,7 +22,7 @@ import { galleryImages } from "@/lib/gallery";
 import { slugify, todayInDhaka } from "@/lib/schedule";
 import { HERO_POSTER_HINT, HERO_VIDEO_HINT, HERO_VIDEO_MAX_MB, bannerMediaProblem } from "@/lib/video";
 
-export const Route = createFileRoute("/hospital-admin-portal/content")({ component: ContentAdmin });
+export const Route = createFileRoute("/hospital-admin-portal/content")({ staticData: { sitemap: false }, component: ContentAdmin });
 
 type Row = Record<string, unknown>;
 type Field = { key: string; label: string | ((r: Row) => string); hint?: string | ((r: Row) => string); kind?: "text" | "textarea" | "image" | "gallery" | "switch" | "date" | "number" | "mediaType" | "video"; when?: (r: Row) => boolean };

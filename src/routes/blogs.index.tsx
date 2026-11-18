@@ -3,12 +3,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { PostCard } from "@/components/site/Articles";
 import { ListingHeader, ListingSearch, NoMatches } from "@/components/site/ListingSearch";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { filterPosts } from "@/lib/article-search";
 import { postsQuery } from "@/lib/public-queries";
 
 export const Route = createFileRoute("/blogs/")({
-  head: () => meta("Health Blog", "Health tips and medical insights from South Apollo's specialists."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/blogs", title: "Health Blog | Advice from Specialist Doctors in Barishal | South Apollo", description: "Health tips and medical insights written by the specialist doctors of South Apollo Medical College Hospital, Barishal.", keywords: ["Health blog Bangladesh", "Medical advice Barishal", "Health tips", "South Apollo blog"], crumbs: [{name: "Health Blog", path: "/blogs"}] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(postsQuery("blog")),
   component: ListPage,
 });

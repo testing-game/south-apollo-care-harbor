@@ -8,13 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { supabase } from "@/integrations/supabase/client";
 import { MESSAGE_MAX, QUERY_CATEGORIES, querySchema, type QueryForm } from "@/lib/query-form";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/send-query")({
-  head: () => meta("Send a Query", "Ask South Apollo Medical College Hospital about treatments, health check packages or doctor schedules — our patient care team will respond promptly."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/send-query", title: "Contact Us & Send a Query | South Apollo Medical College Hospital, Barishal", description: "Contact South Apollo Medical College Hospital in Jagua, Barishal: call +8801885941937 or +8801324165631, email us, or send a query and our team will reply within 24 hours.", keywords: ["Contact South Apollo", "South Apollo phone number", "South Apollo Barishal address", "Hospital hotline Barishal"], crumbs: [{name: "Send Query", path: "/send-query"}] }),
   component: SendQueryPage,
 });
 

@@ -51,7 +51,7 @@ export function Header() {
       {/* Main nav */}
       <div className="container-site flex h-20 items-center justify-between gap-6 md:h-24">
         <Link to="/" className="shrink-0" aria-label="South Apollo Medical College Hospital — Home">
-          <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital" className="h-14 w-auto md:h-[68px]" />
+          <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital, Barishal logo" className="h-14 w-auto md:h-[68px]" />
         </Link>
         <nav className="hidden items-center gap-1 lg:flex">
           {NAV.map((n) => {

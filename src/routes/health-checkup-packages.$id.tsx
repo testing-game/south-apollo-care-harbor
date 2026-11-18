@@ -3,7 +3,8 @@ import { createFileRoute, Link, notFound, useRouter, type ErrorComponentProps } 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { CalendarCheck, CheckCircle2, ClipboardList, FileText, Phone, Utensils } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead, unavailableHead } from "@/lib/seo";
 import { PackageBookingDialog } from "@/components/site/PackageBookingDialog";
 import { packageQuery } from "@/lib/public-queries";
 import { detailsBannerImage, splitPackageTitle } from "@/lib/packages";
@@ -11,18 +12,25 @@ import { bioParagraphs } from "@/lib/doctors";
 import { price } from "@/lib/schedule";
 
 export const Route = createFileRoute("/health-checkup-packages/$id")({
+  staticData: { sitemap: true },
   loader: async ({ context, params }) => {
     const pkg = await context.queryClient.ensureQueryData(packageQuery(params.id));
     if (!pkg) throw notFound();
-    return { title: pkg.title, description: pkg.description, tests: pkg.included_tests.length, image: detailsBannerImage(pkg) };
+    return { id: pkg.id, title: pkg.title, description: pkg.description, tests: pkg.included_tests, image: detailsBannerImage(pkg) };
   },
-  head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Package unavailable | South Apollo Medical College Hospital" }, { name: "robots", content: "noindex" }] };
-    const summary = loaderData.description.trim().split(/\n/)[0]?.slice(0, 140);
-    const base = meta(loaderData.title, summary || `${loaderData.title} at South Apollo Medical College Hospital, Barishal — ${loaderData.tests} included tests. Book your health check online.`);
-    const url = `https://sa.jahidzone.cv/health-checkup-packages/${params.id}`;
-    const image = loaderData.image.startsWith("https://") ? [{ property: "og:image", content: loaderData.image }, { name: "twitter:image", content: loaderData.image }] : [];
-    return { meta: [...base.meta, { property: "og:url", content: url }, ...image], links: [{ rel: "canonical", href: url }] };
+  head: ({ loaderData }) => {
+    if (!loaderData) return unavailableHead("Package unavailable");
+    const p = loaderData;
+    const tests = p.tests.slice(0, 6).join(", ");
+    const summary = p.description.trim().split(/\n/)[0] ?? "";
+    return pageHead({
+      path: `/health-checkup-packages/${p.id}`,
+      title: `${p.title} — Health Checkup Barishal | South Apollo Medical College Hospital`,
+      description: `${p.title} health checkup package in Barishal at South Apollo Medical College Hospital.${tests ? ` Includes ${tests}.` : summary ? ` ${summary}` : ""} Book online.`,
+      keywords: [p.title, `${p.title} Barishal`, "Health checkup Barishal", ...p.tests.slice(0, 6)],
+      image: p.image,
+      crumbs: [{ name: "Health Check Packages", path: "/health-checkup-all-packages" }, { name: p.title, path: `/health-checkup-packages/${p.id}` }],
+    });
   },
   component: PackageDetailsPage,
   errorComponent: PackageError,
@@ -83,7 +91,7 @@ function PackageDetailsPage() {
       <section className="container-site py-10 md:py-14">
         <article className="grid overflow-hidden border border-line-soft bg-background shadow-card md:grid-cols-2">
           <div className="relative aspect-[16/10] bg-surface-soft md:aspect-auto md:min-h-[360px]">
-            {image ? <img src={image} alt={pkg.title} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 grid place-items-center text-muted-foreground"><ClipboardList className="h-16 w-16" /></div>}
+            {image ? <img src={image} alt={`${pkg.title} health checkup package — South Apollo Medical College Hospital, Barishal`} className="absolute inset-0 h-full w-full object-cover" /> : <div className="absolute inset-0 grid place-items-center text-muted-foreground"><ClipboardList className="h-16 w-16" /></div>}
           </div>
           <div className="flex flex-col justify-center gap-5 p-6 md:p-10">
             <div>

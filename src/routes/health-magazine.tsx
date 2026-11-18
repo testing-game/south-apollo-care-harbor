@@ -2,10 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "framer-motion";
 import { Apple, BookOpenText, HeartPulse, Newspaper, Stethoscope, UsersRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/health-magazine")({
-  head: () => meta("South Apollo Health Magazine", "South Apollo Health Magazine — the hospital's health magazine with doctor insights, wellness tips, patient journeys and hospital news."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/health-magazine", title: "Health Magazine | Health Tips & Doctor Insights | South Apollo Medical College Hospital", description: "South Apollo Health Magazine: doctor insights, wellness tips, patient journeys and hospital news from South Apollo Medical College Hospital, Barishal.", keywords: ["South Apollo Health Magazine", "Health magazine Bangladesh", "Health tips Barishal", "Doctor advice"], crumbs: [{name: "Health Magazine", path: "/health-magazine"}] }),
   component: HealthMagazinePage,
 });
 

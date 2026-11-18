@@ -4,7 +4,7 @@ import { CalendarCheck, FlaskConical, Stethoscope, UserCheck } from "lucide-reac
 import { adminDoctorsQuery, appointmentsQuery, bookingsQuery } from "@/lib/admin";
 import { formatDate, isOnDuty, todayInDhaka } from "@/lib/schedule";
 
-export const Route = createFileRoute("/hospital-admin-portal/")({ component: Dashboard });
+export const Route = createFileRoute("/hospital-admin-portal/")({ staticData: { sitemap: false }, component: Dashboard });
 
 function Dashboard() {
   const today = todayInDhaka();

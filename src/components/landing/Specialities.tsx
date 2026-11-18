@@ -30,7 +30,7 @@ export function Specialities({ specialities }: { specialities: Speciality[] }) {
   }
   return (
     <section aria-label="Our Specialities" className="container-site grid gap-8 pb-16 lg:grid-cols-[minmax(0,26rem)_1fr] lg:gap-8">
-      <img src={specialitiesDoctorPatient} alt="Doctor consulting with a patient" loading="lazy" width={960} height={1200} className="aspect-[4/3] w-full rounded-xl object-cover lg:aspect-auto lg:h-full lg:max-h-[440px]" />
+      <img src={specialitiesDoctorPatient} alt="Specialist doctor consulting with a patient — medical specialities in Barishal" loading="lazy" width={960} height={1200} className="aspect-[4/3] w-full rounded-xl object-cover lg:aspect-auto lg:h-full lg:max-h-[440px]" />
       <div className="min-w-0">
         <h2 className="section-title">Our Specialities</h2>
         <div className="mt-6 overflow-hidden p-1">

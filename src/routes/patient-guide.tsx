@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Ambulance, BedDouble, CalendarClock, Car, Clock, Coffee, ExternalLink, FlaskConical, HeartHandshake, Info, Phone, Pill, Siren, Users } from "lucide-react";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { Callout, CheckList, DocLayout, InfoTiles, Steps, type DocSection } from "@/components/site/DocLayout";
 
 export const Route = createFileRoute("/patient-guide")({
-  head: () => meta("Patient & Visitors Guide", "OPD hours, admission and discharge, visiting rules, report collection, patient rights and facilities at South Apollo Medical College Hospital, Barishal."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/patient-guide", title: "Patient & Visitors Guide | South Apollo Medical College Hospital, Barishal", description: "OPD hours, admission and discharge, visiting hours, report collection, patient rights and facilities at South Apollo Medical College Hospital, Barishal.", keywords: ["OPD hours Barishal", "Hospital visiting hours", "South Apollo patient guide", "Medical report collection"], crumbs: [{name: "Patient & Visitors Guide", path: "/patient-guide"}] }),
   component: GuidePage,
 });
 

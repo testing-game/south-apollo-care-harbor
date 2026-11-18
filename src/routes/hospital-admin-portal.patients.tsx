@@ -12,7 +12,7 @@ import { pageRange, patientSearchFilter, serverPageView, type SearchTab } from "
 import { formatDate } from "@/lib/schedule";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/hospital-admin-portal/patients")({ component: PatientSearch });
+export const Route = createFileRoute("/hospital-admin-portal/patients")({ staticData: { sitemap: false }, component: PatientSearch });
 
 type Row = { id: string; number: string; name: string; phone: string; ageSex: string; item: string; date: string; time: string | null; status: string };
 type PageResult = { rows: Row[]; total: number };

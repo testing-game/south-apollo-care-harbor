@@ -21,7 +21,7 @@ import { PACKAGE_IMAGE_SIZES as SIZES } from "@/lib/packages";
 
 const sizeHint = (s: (typeof SIZES)[keyof typeof SIZES]) => `Recommended ${s.width} × ${s.height} px (${s.ratio}). Keep text and faces near the centre.`;
 
-export const Route = createFileRoute("/hospital-admin-portal/packages")({ component: PackagesAdmin });
+export const Route = createFileRoute("/hospital-admin-portal/packages")({ staticData: { sitemap: false }, component: PackagesAdmin });
 
 type PkgInsert = Database["public"]["Tables"]["health_packages"]["Insert"];
 

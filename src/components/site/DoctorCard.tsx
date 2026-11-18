@@ -12,7 +12,7 @@ export function DoctorCard({ doctor }: { doctor: Doctor }) {
     >
       <div className="aspect-[4/3] overflow-hidden bg-surface-soft">
         {doctor.image_url ? (
-          <img src={doctor.image_url} alt={doctor.name} loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]" />
+          <img src={doctor.image_url} alt={`${doctor.name}${doctor.designation ? `, ${doctor.designation}` : ""} — South Apollo Medical College Hospital, Barishal`} loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]" />
         ) : (
           <div className="grid h-full place-items-center text-muted-foreground"><UserRound className="h-16 w-16" /></div>
         )}

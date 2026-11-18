@@ -5,13 +5,15 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DoctorCard } from "@/components/site/DoctorCard";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { doctorsQuery, specialityRowsQuery } from "@/lib/public-queries";
 import { validateListingSearch } from "@/lib/site-search";
 
 export const Route = createFileRoute("/doctors/")({
+  staticData: { sitemap: true },
   validateSearch: validateListingSearch,
-  head: () => meta("Find a Doctor", "Search South Apollo's consultants by name or speciality and book an appointment."),
+  head: () => pageHead({ path: "/doctors", title: "Find a Doctor | Specialist Doctors in Barishal | South Apollo Medical College Hospital", description: "Search specialist doctors in Barishal by name or department at South Apollo Medical College Hospital, see their consultation days and book an appointment online.", keywords: ["Find a doctor Barishal", "Best doctors in Barishal", "Consultant doctors Barishal", "South Apollo doctors"], crumbs: [{name: "Find a Doctor", path: "/doctors"}] }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(doctorsQuery), context.queryClient.ensureQueryData(specialityRowsQuery)]),
   component: DoctorsPage,
 });

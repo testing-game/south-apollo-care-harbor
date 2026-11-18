@@ -12,7 +12,7 @@ import { Pagination } from "@/components/admin/Pagination";
 import { countByTab, filterInbox, paginate, type InboxTab } from "@/lib/query-inbox";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/hospital-admin-portal/queries")({ component: Queries });
+export const Route = createFileRoute("/hospital-admin-portal/queries")({ staticData: { sitemap: false }, component: Queries });
 
 type QueryRow = Tables<"queries_contact">;
 

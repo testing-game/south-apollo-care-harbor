@@ -2,23 +2,33 @@ import { createFileRoute, Link, notFound, useRouter, type ErrorComponentProps } 
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { BriefcaseMedical, Building2, CalendarCheck, CalendarDays, Clock, DoorOpen, GraduationCap, Stethoscope, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead, physicianJsonLd, unavailableHead } from "@/lib/seo";
 import { doctorQuery } from "@/lib/public-queries";
 import { bioParagraphs, orderedVisitingDays } from "@/lib/doctors";
 
 export const Route = createFileRoute("/doctors/$id")({
+  staticData: { sitemap: true },
   loader: async ({ context, params }) => {
     const doctor = await context.queryClient.ensureQueryData(doctorQuery(params.id));
     if (!doctor) throw notFound();
-    return { name: doctor.name, designation: doctor.designation, institution: doctor.institution, department: doctor.department_name, image: doctor.image_url };
+    return { id: doctor.id, name: doctor.name, designation: doctor.designation, degrees: doctor.degrees, institution: doctor.institution, department: doctor.department_name, image: doctor.image_url, bio: doctor.bio };
   },
-  head: ({ loaderData, params }) => {
-    if (!loaderData) return { meta: [{ title: "Doctor unavailable | South Apollo Medical College Hospital" }, { name: "robots", content: "noindex" }] };
-    const role = [loaderData.designation, loaderData.institution, loaderData.department].filter(Boolean).join(", ");
-    const base = meta(loaderData.name, `${loaderData.name}${role ? `, ${role}` : ""} at South Apollo Medical College Hospital, Barishal. See consultation days and book an appointment.`);
-    const url = `https://sa.jahidzone.cv/doctors/${params.id}`;
-    const image = loaderData.image.startsWith("https://") ? [{ property: "og:image", content: loaderData.image }, { name: "twitter:image", content: loaderData.image }] : [];
-    return { meta: [...base.meta.filter((m) => !("property" in m && m.property === "og:type")), { property: "og:type", content: "profile" }, { property: "og:url", content: url }, ...image], links: [{ rel: "canonical", href: url }] };
+  head: ({ loaderData }) => {
+    if (!loaderData) return unavailableHead("Doctor unavailable");
+    const d = loaderData;
+    const focus = d.department || d.designation;
+    const role = [d.designation, d.institution].filter(Boolean).join(", ");
+    return pageHead({
+      path: `/doctors/${d.id}`,
+      title: `${d.name}${focus ? ` — ${focus}` : ""} | South Apollo Medical College Hospital, Barishal`,
+      description: `${d.name}${d.degrees ? ` (${d.degrees})` : ""}${role ? `, ${role}` : ""}${d.department ? ` — ${d.department}` : ""}. Consult at South Apollo Medical College Hospital, Barishal: see visiting days and book online.`,
+      keywords: [d.name, ...(d.department ? [`${d.department} doctor Barishal`, `${d.department} specialist Barishal`] : []), "Specialist doctor Barishal"],
+      type: "profile",
+      image: d.image,
+      crumbs: [{ name: "Find a Doctor", path: "/doctors" }, { name: d.name, path: `/doctors/${d.id}` }],
+      jsonLd: [physicianJsonLd(d)],
+    });
   },
   component: DoctorProfilePage,
   errorComponent: DoctorError,
@@ -91,7 +101,7 @@ function DoctorProfilePage() {
           <div className="border border-line-soft bg-background shadow-card">
             <div className="aspect-[4/3] overflow-hidden bg-surface-soft">
               {doctor.image_url ? (
-                <img src={doctor.image_url} alt={doctor.name} className="h-full w-full object-cover object-top" />
+                <img src={doctor.image_url} alt={`${doctor.name}${doctor.designation ? `, ${doctor.designation}` : ""} — South Apollo Medical College Hospital, Barishal`} className="h-full w-full object-cover object-top" />
               ) : (
                 <div className="grid h-full place-items-center text-muted-foreground"><UserRound className="h-20 w-20" /></div>
               )}

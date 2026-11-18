@@ -3,12 +3,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { StoryCard } from "@/components/site/Articles";
 import { ListingHeader, ListingSearch, NoMatches } from "@/components/site/ListingSearch";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { filterStories } from "@/lib/article-search";
 import { storiesQuery } from "@/lib/public-queries";
 
 export const Route = createFileRoute("/stories/")({
-  head: () => meta("Patient Stories", "Real recovery stories from patients treated at South Apollo Medical College Hospital."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/stories", title: "Patient Stories | South Apollo Medical College Hospital, Barishal", description: "Real recovery stories from patients treated by the doctors and nurses of South Apollo Medical College Hospital in Barishal.", keywords: ["Patient reviews South Apollo", "Patient stories Barishal", "Treatment success Barishal"], crumbs: [{name: "Patient Stories", path: "/stories"}] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(storiesQuery),
   component: StoriesPage,
 });

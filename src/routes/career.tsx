@@ -5,7 +5,8 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight, BriefcaseBusiness, CalendarClock, ClipboardList, GraduationCap, Mail, Search, Users, Wallet, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { jobCircularsQuery } from "@/lib/public-queries";
 import type { JobCircular } from "@/lib/public-data.functions";
 import { ALL_DEPARTMENTS, DEPARTMENTS, HR_EMAIL, applyMailto, deadlineBadge, departmentLabel, employmentLabel, filterCirculars, isDepartment, toBlocks, type Department } from "@/lib/careers";
@@ -13,8 +14,9 @@ import { todayInDhaka } from "@/lib/schedule";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/career")({
+  staticData: { sitemap: true },
   validateSearch: (search: Record<string, unknown>): { department?: Department } => (isDepartment(search["department"]) ? { department: search["department"] } : {}),
-  head: () => meta("Career & Job Circulars", "Explore current job openings for doctors, nurses, diagnostics and support staff at South Apollo Medical College Hospital, Barishal, and apply online."),
+  head: () => pageHead({ path: "/career", title: "Career & Job Circulars | Jobs at South Apollo Medical College Hospital, Barishal", description: "Current job circulars for doctors, nurses, diagnostics and support staff at South Apollo Medical College Hospital, Barishal. Read the details and apply online.", keywords: ["Hospital jobs Barishal", "Doctor jobs Barishal", "Nurse jobs Barishal", "South Apollo career", "Medical college job circular"], crumbs: [{name: "Career", path: "/career"}] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(jobCircularsQuery),
   component: CareerPage,
   errorComponent: ({ error }) => <main className="container-site py-16 text-center text-muted-foreground">Job circulars could not be loaded. {error instanceof Error ? error.message : String(error)}</main>,

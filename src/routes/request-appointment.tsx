@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { doctorsQuery, specialityRowsQuery } from "@/lib/public-queries";
 import { formatDate, todayInDhaka, upcomingVisitDates } from "@/lib/schedule";
 import { downloadSlip } from "@/lib/pdf";
@@ -18,8 +19,9 @@ import { weekdayName } from "@/lib/pdf-model";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/request-appointment")({
+  staticData: { sitemap: true },
   validateSearch: (s: Record<string, unknown>): { doctor?: string | undefined } => ({ doctor: typeof s["doctor"] === "string" ? s["doctor"] : undefined }),
-  head: () => meta("Request an Appointment", "Book a consultation with a South Apollo doctor: choose a speciality, doctor and visiting day."),
+  head: () => pageHead({ path: "/request-appointment", title: "Book Doctor Appointment Online | South Apollo Medical College Hospital, Barishal", description: "Book a doctor appointment online at South Apollo Medical College Hospital, Barishal. Choose a speciality, specialist doctor and visiting day, or call +8801885941937.", keywords: ["Doctor appointment Barishal", "Book doctor online Barishal", "Doctor serial Barishal", "South Apollo appointment"], crumbs: [{name: "Request an Appointment", path: "/request-appointment"}] }),
   loader: ({ context }) => Promise.all([context.queryClient.ensureQueryData(doctorsQuery), context.queryClient.ensureQueryData(specialityRowsQuery)]),
   component: AppointmentPage,
 });

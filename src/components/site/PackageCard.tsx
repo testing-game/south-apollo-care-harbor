@@ -11,7 +11,7 @@ export function PackageCard({ name, subtitle, image, id }: CardProps) {
   const cls = "group relative block aspect-[29/32] overflow-hidden bg-navy-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky focus-visible:ring-offset-2";
   const body: ReactNode = (
     <>
-      {image && <img src={image} alt={[name, subtitle].filter(Boolean).join(" ")} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none" />}
+      {image && <img src={image} alt={`${[name, subtitle].filter(Boolean).join(" ")} health checkup package — South Apollo Medical College Hospital, Barishal`} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transform-none" />}
       <div className="bg-card-fade absolute inset-0" />
       <div className="absolute inset-x-0 bottom-0 p-5 text-primary-foreground">
         <p className="font-bold leading-snug">{name}</p>

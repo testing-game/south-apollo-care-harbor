@@ -4,15 +4,17 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { PackageCard } from "@/components/site/PackageCard";
 import { packagesQuery } from "@/lib/public-queries";
 import { filterPackages, homeCardImage, splitPackageTitle } from "@/lib/packages";
 import { validateListingSearch } from "@/lib/site-search";
 
 export const Route = createFileRoute("/health-checkup-all-packages")({
+  staticData: { sitemap: true },
   validateSearch: validateListingSearch,
-  head: () => meta("Health Check Packages", "Compare South Apollo health check packages, search by test name and book your check-up online."),
+  head: () => pageHead({ path: "/health-checkup-all-packages", title: "Health Checkup Packages in Barishal | South Apollo Medical College Hospital", description: "Compare health checkup packages in Barishal at South Apollo Medical College Hospital. Search packages by test name and book your preventive check-up online.", keywords: ["Health checkup Barishal", "Full body checkup Barishal", "Medical checkup packages", "South Apollo health packages"], crumbs: [{name: "Health Check Packages", path: "/health-checkup-all-packages"}] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(packagesQuery),
   component: PackagesPage,
 });

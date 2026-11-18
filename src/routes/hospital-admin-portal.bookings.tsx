@@ -17,7 +17,7 @@ import { todayInDhaka } from "@/lib/schedule";
 
 const ageGender = (b: { patient_age: number | null; patient_gender: string | null }) => [b.patient_age ?? "", b.patient_gender ?? ""].filter((v) => v !== "").join(" / ") || "—";
 
-export const Route = createFileRoute("/hospital-admin-portal/bookings")({ component: Bookings });
+export const Route = createFileRoute("/hospital-admin-portal/bookings")({ staticData: { sitemap: false }, component: Bookings });
 
 function Bookings() {
   const [date, setDate] = useState(todayInDhaka());

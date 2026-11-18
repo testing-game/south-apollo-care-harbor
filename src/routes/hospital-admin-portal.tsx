@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { asset } from "@/lib/asset";
 
 export const Route = createFileRoute("/hospital-admin-portal")({
+  staticData: { sitemap: "exclude-subtree" },
   ssr: false,
   head: () => ({ meta: [{ title: "Admin Portal | South Apollo" }, { name: "robots", content: "noindex, nofollow" }, { name: "description", content: "Staff-only administration portal." }, { property: "og:title", content: "Admin Portal | South Apollo" }, { property: "og:description", content: "Staff-only administration portal." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   component: AdminLayout,

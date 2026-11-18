@@ -140,7 +140,7 @@ export function Footer() {
           </motion.div>
           <motion.div variants={stagger} className="footer-brand flex flex-col items-center gap-4">
             <motion.div variants={reveal} className="grid h-36 w-36 place-items-center rounded-full bg-primary-foreground p-2 shadow-lg">
-              <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital" className="h-full w-full object-contain" />
+              <img src={asset("logoo.png")} alt="South Apollo Medical College Hospital, Barishal logo" className="h-full w-full object-contain" />
             </motion.div>
             <motion.div variants={reveal}>
               <Button asChild className="footer-query-btn rounded-full bg-sky px-8 text-primary-foreground shadow-md transition-all duration-300 hover:scale-105 hover:bg-sky hover:text-primary-foreground hover:shadow-lg hover:brightness-110">

@@ -31,17 +31,3 @@ export function PageHero({ crumb, title, children, parent }: { crumb: string; ti
 export function EmptyState({ children }: { children: ReactNode }) {
   return <div className="flex min-h-48 items-center justify-center border border-dashed border-line-soft p-8 text-center text-muted-foreground">{children}</div>;
 }
-
-export function meta(title: string, description: string) {
-  const full = `${title} | South Apollo Medical College Hospital`;
-  return {
-    meta: [
-      { title: full },
-      { name: "description", content: description },
-      { property: "og:title", content: full },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  };
-}

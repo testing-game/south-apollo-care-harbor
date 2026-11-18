@@ -6,18 +6,21 @@ import { Button } from "@/components/ui/button";
 import campus from "@/assets/about-campus-illustration.jpg";
 import { IntroVideoPlayer } from "@/components/site/IntroVideo";
 import { pageVideoQuery } from "@/lib/public-queries";
+import { pageHead } from "@/lib/seo";
 
 const introQuery = pageVideoQuery("about_intro");
 
 export const Route = createFileRoute("/about")({
-  head: () => ({ meta: [
-    { title: "About Us | South Apollo Medical College Hospital" },
-    { name: "description", content: "Discover South Apollo Medical College Hospital in Jagua, Barishal Sadar: 250-bed healthcare, 24/7 emergency services and medical education since 2018." },
-    { property: "og:title", content: "About South Apollo Medical College Hospital" },
-    { property: "og:description", content: "Pioneering healthcare and medical education in Southern Bangladesh since 2018." },
-    { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+  staticData: { sitemap: true },
+  head: () =>
+    pageHead({
+      path: "/about",
+      title: "About South Apollo Medical College Hospital | Only Private Medical College in Barishal",
+      description:
+        "Since 2018, South Apollo Medical College Hospital in Jagua, Barishal has been the only private medical college and 250-bed multi-specialty hospital in Barishal Division.",
+      keywords: ["About South Apollo", "Private medical college Barishal", "250 bed hospital Barishal", "MBBS medical college Barishal"],
+      crumbs: [{ name: "About Us", path: "/about" }],
+    }),
   loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(introQuery),
   component: AboutPage,
 });

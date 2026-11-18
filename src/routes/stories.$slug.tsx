@@ -1,17 +1,31 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArticleBody } from "@/components/site/Articles";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead, unavailableHead } from "@/lib/seo";
 import { storyQuery } from "@/lib/public-queries";
 import { youtubeEmbed } from "@/lib/schedule";
 
 export const Route = createFileRoute("/stories/$slug")({
+  staticData: { sitemap: true },
   loader: async ({ context, params }) => {
     const story = await context.queryClient.ensureQueryData(storyQuery(params.slug));
     if (!story) throw notFound();
-    return { title: story.treatment_title, patient: story.patient_name };
+    return { slug: story.slug, title: story.treatment_title, patient: story.patient_name, image: story.thumbnail_url };
   },
-  head: ({ loaderData }) => loaderData ? meta(loaderData.title, `${loaderData.patient}'s treatment story at South Apollo Medical College Hospital.`) : { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] },
+  head: ({ loaderData }) => {
+    if (!loaderData) return unavailableHead("Unavailable");
+    const s = loaderData;
+    const path = `/stories/${s.slug}`;
+    return pageHead({
+      path,
+      title: `${s.title} — ${s.patient}'s Story | South Apollo Medical College Hospital`,
+      description: `${s.patient}'s treatment and recovery story at South Apollo Medical College Hospital, Barishal: ${s.title}.`,
+      type: "article",
+      image: s.image ?? undefined,
+      crumbs: [{ name: "Patient Stories", path: "/stories" }, { name: s.title, path }],
+    });
+  },
   component: StoryPage,
 });
 

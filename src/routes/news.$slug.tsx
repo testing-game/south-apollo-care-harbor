@@ -3,17 +3,33 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArticleBody } from "@/components/site/Articles";
 import { NewsGallery } from "@/components/site/NewsGallery";
 import { galleryImages } from "@/lib/gallery";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { articleJsonLd, pageHead, unavailableHead } from "@/lib/seo";
 import { postQuery } from "@/lib/public-queries";
 import { formatDate } from "@/lib/schedule";
 
 export const Route = createFileRoute("/news/$slug")({
+  staticData: { sitemap: true },
   loader: async ({ context, params }) => {
     const post = await context.queryClient.ensureQueryData(postQuery("news", params.slug));
     if (!post) throw notFound();
-    return { title: post.title, excerpt: post.excerpt };
+    return { slug: post.slug, title: post.title, excerpt: post.excerpt, image: post.featured_image, date: post.published_date, author: post.author_name };
   },
-  head: ({ loaderData }) => loaderData ? meta(loaderData.title, loaderData.excerpt || "Latest news and events from South Apollo Medical College Hospital.") : { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] },
+  head: ({ loaderData }) => {
+    if (!loaderData) return unavailableHead("Unavailable");
+    const a = loaderData;
+    const path = `/news/${a.slug}`;
+    const description = a.excerpt || "Latest news and events from South Apollo Medical College Hospital, Barishal.";
+    return pageHead({
+      path,
+      title: `${a.title} | News & Media — South Apollo Medical College Hospital`,
+      description,
+      type: "article",
+      image: a.image ?? undefined,
+      crumbs: [{ name: "News & Media", path: "/news" }, { name: a.title, path }],
+      jsonLd: [articleJsonLd({ kind: "NewsArticle", path, title: a.title, description, image: a.image, date: a.date, author: a.author })],
+    });
+  },
   component: ArticlePage,
 });
 

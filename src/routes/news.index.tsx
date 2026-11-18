@@ -3,12 +3,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { PostCard } from "@/components/site/Articles";
 import { ListingHeader, ListingSearch, NoMatches } from "@/components/site/ListingSearch";
-import { EmptyState, PageHero, meta } from "@/components/site/PageHero";
+import { EmptyState, PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { filterPosts } from "@/lib/article-search";
 import { postsQuery } from "@/lib/public-queries";
 
 export const Route = createFileRoute("/news/")({
-  head: () => meta("News & Media", "Latest news and events from South Apollo Medical College Hospital."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/news", title: "News & Media | South Apollo Medical College Hospital, Barishal", description: "Latest news, events and announcements from South Apollo Medical College Hospital, the private medical college hospital in Jagua, Barishal.", keywords: ["South Apollo news", "Barishal hospital news", "Medical college news Barishal"], crumbs: [{name: "News & Media", path: "/news"}] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(postsQuery("news")),
   component: ListPage,
 });

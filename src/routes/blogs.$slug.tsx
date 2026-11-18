@@ -1,17 +1,33 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ArticleBody } from "@/components/site/Articles";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { articleJsonLd, pageHead, unavailableHead } from "@/lib/seo";
 import { postQuery } from "@/lib/public-queries";
 import { formatDate } from "@/lib/schedule";
 
 export const Route = createFileRoute("/blogs/$slug")({
+  staticData: { sitemap: true },
   loader: async ({ context, params }) => {
     const post = await context.queryClient.ensureQueryData(postQuery("blog", params.slug));
     if (!post) throw notFound();
-    return { title: post.title, excerpt: post.excerpt };
+    return { slug: post.slug, title: post.title, excerpt: post.excerpt, image: post.featured_image, date: post.published_date, author: post.author_name };
   },
-  head: ({ loaderData }) => loaderData ? meta(loaderData.title, loaderData.excerpt || "Health tips and medical insights from South Apollo's specialists.") : { meta: [{ title: "Unavailable" }, { name: "robots", content: "noindex" }] },
+  head: ({ loaderData }) => {
+    if (!loaderData) return unavailableHead("Unavailable");
+    const a = loaderData;
+    const path = `/blogs/${a.slug}`;
+    const description = a.excerpt || "Health tips and medical insights from the specialist doctors of South Apollo Medical College Hospital, Barishal.";
+    return pageHead({
+      path,
+      title: `${a.title} | Health Blog — South Apollo Medical College Hospital`,
+      description,
+      type: "article",
+      image: a.image ?? undefined,
+      crumbs: [{ name: "Health Blog", path: "/blogs" }, { name: a.title, path }],
+      jsonLd: [articleJsonLd({ kind: "BlogPosting", path, title: a.title, description, image: a.image, date: a.date, author: a.author })],
+    });
+  },
   component: ArticlePage,
 });
 

@@ -8,18 +8,21 @@ import { SpecialityCard } from "@/components/specialities/SpecialityCard";
 import { filterSpecialities, toSpeciality } from "@/lib/specialities";
 import { specialityRowsQuery } from "@/lib/public-queries";
 import { validateListingSearch } from "@/lib/site-search";
+import { pageHead } from "@/lib/seo";
 import campus from "@/assets/about-campus-illustration.jpg";
 
 export const Route = createFileRoute("/specialities")({
+  staticData: { sitemap: true },
   validateSearch: validateListingSearch,
-  head: () => ({ meta: [
-    { title: "Our All Specialities | South Apollo Medical College Hospital" },
-    { name: "description", content: "Explore and search the medical specialities at South Apollo Medical College Hospital, from emergency and cardiac care to paediatrics and diagnostics." },
-    { property: "og:title", content: "Our All Specialities | South Apollo Medical College Hospital" },
-    { property: "og:description", content: "Browse the complete medical specialities directory and find the care you are looking for." },
-    { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary_large_image" },
-  ] }),
+  head: () =>
+    pageHead({
+      path: "/specialities",
+      title: "Medical Specialities & Departments | South Apollo Medical College Hospital, Barishal",
+      description:
+        "Explore the medical specialities and departments at South Apollo Medical College Hospital, Barishal: emergency, cardiology, paediatrics, gynaecology, surgery, diagnostics and more.",
+      keywords: ["Medical departments Barishal", "Cardiology Barishal", "Gynaecology Barishal", "Paediatrics Barishal", "Specialist hospital Barishal"],
+      crumbs: [{ name: "Specialities", path: "/specialities" }],
+    }),
   loader: ({ context }) => context.queryClient.ensureQueryData(specialityRowsQuery),
   component: SpecialitiesPage,
 });

@@ -80,13 +80,16 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "South Apollo Medical College Hospital" },
-      { name: "description", content: "South Apollo Medical College Hospital" },
+      { name: "description", content: "South Apollo Medical College Hospital, Jagua, Barishal: the only private medical college hospital in Barishal, with specialist doctors, 24/7 emergency and health checkups." },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "South Apollo Medical College Hospital" },
+      { property: "og:locale", content: "en_BD" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [

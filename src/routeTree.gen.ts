@@ -12,14 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as CareerRouteImport } from './routes/career'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HealthCheckupAllPackagesRouteImport } from './routes/health-checkup-all-packages'
 import { Route as HealthMagazineRouteImport } from './routes/health-magazine'
 import { Route as HospitalAdminPortalRouteImport } from './routes/hospital-admin-portal'
 import { Route as PatientGuideRouteImport } from './routes/patient-guide'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PulseMagazineRouteImport } from './routes/pulse-magazine'
+import { Route as RequestAnAppointmentRouteImport } from './routes/request-an-appointment'
 import { Route as RequestAppointmentRouteImport } from './routes/request-appointment'
 import { Route as SendQueryRouteImport } from './routes/send-query'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SpecialitiesRouteImport } from './routes/specialities'
 import { Route as BlogsIndexRouteImport } from './routes/blogs.index'
 import { Route as BlogsSlugRouteImport } from './routes/blogs.$slug'
@@ -56,6 +59,11 @@ const CareerRoute = CareerRouteImport.update({
   path: '/career',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HealthCheckupAllPackagesRoute =
   HealthCheckupAllPackagesRouteImport.update({
     id: '/health-checkup-all-packages',
@@ -87,6 +95,11 @@ const PulseMagazineRoute = PulseMagazineRouteImport.update({
   path: '/pulse-magazine',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RequestAnAppointmentRoute = RequestAnAppointmentRouteImport.update({
+  id: '/request-an-appointment',
+  path: '/request-an-appointment',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RequestAppointmentRoute = RequestAppointmentRouteImport.update({
   id: '/request-appointment',
   path: '/request-appointment',
@@ -95,6 +108,11 @@ const RequestAppointmentRoute = RequestAppointmentRouteImport.update({
 const SendQueryRoute = SendQueryRouteImport.update({
   id: '/send-query',
   path: '/send-query',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpecialitiesRoute = SpecialitiesRouteImport.update({
@@ -212,14 +230,17 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
+  '/contact': typeof ContactRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/health-magazine': typeof HealthMagazineRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/pulse-magazine': typeof PulseMagazineRoute
+  '/request-an-appointment': typeof RequestAnAppointmentRoute
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
@@ -245,13 +266,16 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
+  '/contact': typeof ContactRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/health-magazine': typeof HealthMagazineRoute
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/pulse-magazine': typeof PulseMagazineRoute
+  '/request-an-appointment': typeof RequestAnAppointmentRoute
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
@@ -278,14 +302,17 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/career': typeof CareerRoute
+  '/contact': typeof ContactRoute
   '/health-checkup-all-packages': typeof HealthCheckupAllPackagesRoute
   '/health-magazine': typeof HealthMagazineRoute
   '/hospital-admin-portal': typeof HospitalAdminPortalRouteWithChildren
   '/patient-guide': typeof PatientGuideRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/pulse-magazine': typeof PulseMagazineRoute
+  '/request-an-appointment': typeof RequestAnAppointmentRoute
   '/request-appointment': typeof RequestAppointmentRoute
   '/send-query': typeof SendQueryRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/specialities': typeof SpecialitiesRoute
   '/blogs/$slug': typeof BlogsSlugRoute
   '/doctors/$id': typeof DoctorsIdRoute
@@ -313,14 +340,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/career'
+    | '/contact'
     | '/health-checkup-all-packages'
     | '/health-magazine'
     | '/hospital-admin-portal'
     | '/patient-guide'
     | '/privacy-policy'
     | '/pulse-magazine'
+    | '/request-an-appointment'
     | '/request-appointment'
     | '/send-query'
+    | '/sitemap.xml'
     | '/specialities'
     | '/blogs/$slug'
     | '/doctors/$id'
@@ -346,13 +376,16 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/career'
+    | '/contact'
     | '/health-checkup-all-packages'
     | '/health-magazine'
     | '/patient-guide'
     | '/privacy-policy'
     | '/pulse-magazine'
+    | '/request-an-appointment'
     | '/request-appointment'
     | '/send-query'
+    | '/sitemap.xml'
     | '/specialities'
     | '/blogs/$slug'
     | '/doctors/$id'
@@ -378,14 +411,17 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/career'
+    | '/contact'
     | '/health-checkup-all-packages'
     | '/health-magazine'
     | '/hospital-admin-portal'
     | '/patient-guide'
     | '/privacy-policy'
     | '/pulse-magazine'
+    | '/request-an-appointment'
     | '/request-appointment'
     | '/send-query'
+    | '/sitemap.xml'
     | '/specialities'
     | '/blogs/$slug'
     | '/doctors/$id'
@@ -412,14 +448,17 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CareerRoute: typeof CareerRoute
+  ContactRoute: typeof ContactRoute
   HealthCheckupAllPackagesRoute: typeof HealthCheckupAllPackagesRoute
   HealthMagazineRoute: typeof HealthMagazineRoute
   HospitalAdminPortalRoute: typeof HospitalAdminPortalRouteWithChildren
   PatientGuideRoute: typeof PatientGuideRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   PulseMagazineRoute: typeof PulseMagazineRoute
+  RequestAnAppointmentRoute: typeof RequestAnAppointmentRoute
   RequestAppointmentRoute: typeof RequestAppointmentRoute
   SendQueryRoute: typeof SendQueryRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SpecialitiesRoute: typeof SpecialitiesRoute
   BlogsSlugRoute: typeof BlogsSlugRoute
   DoctorsIdRoute: typeof DoctorsIdRoute
@@ -453,6 +492,13 @@ declare module '@tanstack/react-router' {
       path: '/career'
       fullPath: '/career'
       preLoaderRoute: typeof CareerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/health-checkup-all-packages': {
@@ -497,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PulseMagazineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/request-an-appointment': {
+      id: '/request-an-appointment'
+      path: '/request-an-appointment'
+      fullPath: '/request-an-appointment'
+      preLoaderRoute: typeof RequestAnAppointmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/request-appointment': {
       id: '/request-appointment'
       path: '/request-appointment'
@@ -509,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/send-query'
       fullPath: '/send-query'
       preLoaderRoute: typeof SendQueryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/specialities': {
@@ -687,14 +747,17 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CareerRoute: CareerRoute,
+  ContactRoute: ContactRoute,
   HealthCheckupAllPackagesRoute: HealthCheckupAllPackagesRoute,
   HealthMagazineRoute: HealthMagazineRoute,
   HospitalAdminPortalRoute: HospitalAdminPortalRouteWithChildren,
   PatientGuideRoute: PatientGuideRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   PulseMagazineRoute: PulseMagazineRoute,
+  RequestAnAppointmentRoute: RequestAnAppointmentRoute,
   RequestAppointmentRoute: RequestAppointmentRoute,
   SendQueryRoute: SendQueryRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SpecialitiesRoute: SpecialitiesRoute,
   BlogsSlugRoute: BlogsSlugRoute,
   DoctorsIdRoute: DoctorsIdRoute,

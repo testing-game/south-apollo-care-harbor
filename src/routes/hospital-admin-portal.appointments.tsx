@@ -20,7 +20,7 @@ import { sendAppointmentSms } from "@/lib/sms.functions";
 import type { SmsResult } from "@/lib/sms";
 import { walkInResultMessage } from "@/lib/walk-in";
 
-export const Route = createFileRoute("/hospital-admin-portal/appointments")({ component: Appointments });
+export const Route = createFileRoute("/hospital-admin-portal/appointments")({ staticData: { sitemap: false }, component: Appointments });
 
 function Appointments() {
   const [date, setDate] = useState(todayInDhaka());

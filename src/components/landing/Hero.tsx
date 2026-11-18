@@ -105,13 +105,13 @@ export function Hero({ banners }: { banners: Banner[] }) {
                   playsInline
                   preload={idx === 0 ? "auto" : "metadata"}
                   poster={s.image_url || undefined}
-                  aria-label={s.title}
+                  aria-label={s.title || "South Apollo Medical College Hospital, Barishal"}
                   className="h-full w-full object-cover"
                 >
                   <source src={s.video_url} type={/\.webm(\?|$)/i.test(s.video_url) ? "video/webm" : "video/mp4"} />
                 </video>
               ) : (
-                <img src={s.image_url} alt={s.title} className="h-full w-full object-cover" />
+                <img src={s.image_url} alt={s.title || "South Apollo Medical College Hospital, Barishal"} className="h-full w-full object-cover" />
               );
             return (
               <div key={`${s.id}-${idx}`} aria-hidden={idx !== pos} className="h-full w-full shrink-0">

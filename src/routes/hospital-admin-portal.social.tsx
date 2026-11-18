@@ -12,7 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { adminSocialLinksQuery } from "@/lib/admin";
 import { SOCIAL_LABELS, SOCIAL_PLATFORMS, socialLinkSchema, type SocialPlatform } from "@/lib/social-links";
 
-export const Route = createFileRoute("/hospital-admin-portal/social")({ component: SocialSettings });
+export const Route = createFileRoute("/hospital-admin-portal/social")({ staticData: { sitemap: false }, component: SocialSettings });
 
 type Draft = { url: string; is_active: boolean };
 

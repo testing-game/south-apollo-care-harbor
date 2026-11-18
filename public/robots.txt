@@ -1,14 +1,21 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /hospital-admin-portal
 
 User-agent: Bingbot
 Allow: /
+Disallow: /hospital-admin-portal
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /hospital-admin-portal
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /hospital-admin-portal
 
 User-agent: *
 Allow: /
+Disallow: /hospital-admin-portal
+
+Sitemap: https://sa.jahidzone.cv/sitemap.xml

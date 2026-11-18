@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ClipboardCheck, Cookie, FileText, Info, Lock, Mail, MapPin, Phone, Share2, ShieldCheck, UserCheck } from "lucide-react";
 import type { ReactNode } from "react";
-import { PageHero, meta } from "@/components/site/PageHero";
+import { PageHero } from "@/components/site/PageHero";
+import { pageHead } from "@/lib/seo";
 import { Callout, CheckList, DocLayout, type DocSection } from "@/components/site/DocLayout";
 
 export const Route = createFileRoute("/privacy-policy")({
-  head: () => meta("Privacy Policy & Patient Confidentiality", "How South Apollo Medical College Hospital collects, uses and protects patient and visitor information on this website."),
+  staticData: { sitemap: true },
+  head: () => pageHead({ path: "/privacy-policy", title: "Privacy Policy & Patient Confidentiality | South Apollo Medical College Hospital", description: "How South Apollo Medical College Hospital, Barishal collects, uses and protects patient and visitor information shared through this website.", keywords: ["South Apollo privacy policy", "Patient confidentiality"], crumbs: [{name: "Privacy Policy", path: "/privacy-policy"}] }),
   component: PrivacyPage,
 });
 

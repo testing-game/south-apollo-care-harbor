@@ -21,7 +21,7 @@ import { ALL_SPECIALITIES, filterAdminDoctors } from "@/lib/admin-filters";
 import { paginate } from "@/lib/query-inbox";
 import { moveDoctor, nextSerial, sortDoctors } from "@/lib/doctor-order";
 
-export const Route = createFileRoute("/hospital-admin-portal/doctors")({ component: DoctorsAdmin });
+export const Route = createFileRoute("/hospital-admin-portal/doctors")({ staticData: { sitemap: false }, component: DoctorsAdmin });
 
 type DoctorInsert = Database["public"]["Tables"]["doctors"]["Insert"];
 const blank: DoctorInsert = { name: "", designation: "", institution: "", degrees: "", department_name: "", image_url: "", visiting_days: [], visiting_hours: "", room_number: "", experience: "", bio: "", consultation_fee: null, speciality_id: null, is_featured: false, is_active: true };

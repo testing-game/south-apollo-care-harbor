@@ -21,7 +21,7 @@ import { paginate } from "@/lib/query-inbox";
 import { toSpeciality } from "@/lib/specialities";
 import { iconFileProblem, iconKind, pngSizeWarning, SPECIALITY_ICON_HINT, uniqueSlug } from "@/lib/speciality-icon";
 
-export const Route = createFileRoute("/hospital-admin-portal/specialities")({ component: SpecialitiesAdmin });
+export const Route = createFileRoute("/hospital-admin-portal/specialities")({ staticData: { sitemap: false }, component: SpecialitiesAdmin });
 
 type Row = Database["public"]["Tables"]["specialities"]["Row"];
 type Form = { id?: string; slug?: string; name: string; description: string; icon_url: string; display_order: number; is_active: boolean };

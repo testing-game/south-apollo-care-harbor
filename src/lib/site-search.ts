@@ -122,7 +122,30 @@ export function enterTarget(groups: SearchGroup[], query: string): SearchTarget 
 }
 
 /** Search params read by the listing pages (?search=...), tolerant of bad input. */
-export function validateListingSearch(search: Record<string, unknown>): { search?: string } {
+export function validateListingSearch(search: Record<string, unknown>): ListingSearch {
   const value = search["search"];
   return typeof value === "string" && value.trim() ? { search: value.slice(0, 100) } : {};
+}
+
+/** URL search params: the shared text filter plus the doctors page's speciality filter. */
+export type ListingSearch = { search?: string; speciality?: string };
+
+/**
+ * Search params read by /doctors: ?search=... plus an optional ?speciality=<name or id>
+ * set by the speciality cards. Blank or non-text values are dropped so a hand-typed URL
+ * can never leave an empty filter behind.
+ */
+export function validateDoctorSearch(search: Record<string, unknown>): ListingSearch {
+  const params = validateListingSearch(search);
+  const value = search["speciality"];
+  const speciality = typeof value === "string" ? value.trim().slice(0, 120) : "";
+  return speciality ? { ...params, speciality } : params;
+}
+
+/** Copy of the /doctors search params with the speciality filter set, or removed when null. */
+export function withSpeciality(search: ListingSearch, speciality: string | null): ListingSearch {
+  const next: ListingSearch = { ...search };
+  if (speciality) next.speciality = speciality;
+  else delete next.speciality;
+  return next;
 }

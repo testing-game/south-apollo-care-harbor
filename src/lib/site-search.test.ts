@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { enterTarget, flatHits, searchSite, validateListingSearch } from "./site-search";
+import { enterTarget, flatHits, searchSite, validateDoctorSearch, validateListingSearch, withSpeciality } from "./site-search";
 
 const price = (p: number | null) => (p ? `৳ ${p}` : "Price on request");
 const data = {
@@ -62,5 +62,19 @@ describe("Global site search", () => {
   it("reads ?search= safely", () => {
     expect(validateListingSearch({ search: "heart" })).toEqual({ search: "heart" });
     expect(validateListingSearch({ search: 4 })).toEqual({});
+  });
+  it("reads ?speciality= alongside ?search= on the doctors page", () => {
+    expect(validateDoctorSearch({ speciality: "Cardiology Care Centre" })).toEqual({ speciality: "Cardiology Care Centre" });
+    expect(validateDoctorSearch({ search: "khan", speciality: "  Cardiology  " })).toEqual({ search: "khan", speciality: "Cardiology" });
+    expect(validateDoctorSearch({ speciality: "   " })).toEqual({});
+    expect(validateDoctorSearch({ speciality: 7 })).toEqual({});
+    expect(validateDoctorSearch({ speciality: "x".repeat(300) }).speciality).toHaveLength(120);
+  });
+  it("sets and clears the speciality param without touching the text filter", () => {
+    expect(withSpeciality({ search: "khan" }, "Cardiology")).toEqual({ search: "khan", speciality: "Cardiology" });
+    expect(withSpeciality({ search: "khan", speciality: "Cardiology" }, null)).toEqual({ search: "khan" });
+    expect(withSpeciality({ search: "khan", speciality: "Cardiology" }, null).speciality).toBeUndefined();
+    expect(withSpeciality({}, "Cardiology")).toEqual({ speciality: "Cardiology" });
+    expect(withSpeciality({}, null)).toEqual({});
   });
 });

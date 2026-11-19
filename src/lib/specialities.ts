@@ -88,3 +88,19 @@ export function filterSpecialities<T extends { title: string }>(list: readonly T
   const normalized = query.trim().toLowerCase();
   return list.filter(({ title }) => title.toLowerCase().includes(normalized));
 }
+
+/** Name form used to match a ?speciality= value: case, spacing and "&" vs "and" are ignored. */
+function normaliseName(name: string): string {
+  return name.trim().toLowerCase().replace(/\s*&\s*/g, " and ").replace(/\s+/g, " ");
+}
+
+/**
+ * Resolve a ?speciality= URL value (set by a speciality card) to its row: an exact id
+ * matches first, otherwise the name is compared case-insensitively. Undefined when
+ * nothing matches, so the listing falls back to showing every doctor.
+ */
+export function findSpecialityByParam<T extends { id: string; name: string }>(rows: readonly T[], param?: string): T | undefined {
+  const wanted = (param ?? "").trim();
+  if (!wanted) return undefined;
+  return rows.find((row) => row.id === wanted) ?? rows.find((row) => normaliseName(row.name) === normaliseName(wanted));
+}

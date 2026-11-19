@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SPECIALITIES, filterSpecialities, iconFileOf, specialityBatch, specialityPageCount, toSpeciality } from "./specialities";
+import { SPECIALITIES, filterSpecialities, findSpecialityByParam, iconFileOf, specialityBatch, specialityPageCount, toSpeciality } from "./specialities";
 
 const list = SPECIALITIES.map((s, i) => toSpeciality({ id: String(i), name: s.title, icon_url: `/__l5e/assets-v1/abc/${s.image}`, description: null }));
 
@@ -44,5 +44,19 @@ describe("Specialities browsing", () => {
     expect(filterSpecialities(list, "  CARDIOLOGY  ").map((s) => s.title)).toEqual(["Cardiology Care Centre", "Paediatric Cardiology"]);
     expect(filterSpecialities(list, "no-such-speciality")).toEqual([]);
     expect(filterSpecialities(list, "")).toHaveLength(44);
+  });
+  it("resolves a ?speciality= URL value to its row for the doctors listing", () => {
+    const rows = [
+      { id: "r1", name: "Cardiology Care Centre" },
+      { id: "r2", name: "Accident & Emergency" },
+      { id: "r3", name: "Paediatrics" },
+    ];
+    expect(findSpecialityByParam(rows, "  caRdIoLoGy care centre  ")?.id).toBe("r1");
+    expect(findSpecialityByParam(rows, "accident and emergency")?.id).toBe("r2");
+    expect(findSpecialityByParam(rows, "Accident&Emergency")?.id).toBe("r2");
+    expect(findSpecialityByParam(rows, "r2")?.id).toBe("r2");
+    expect(findSpecialityByParam(rows, "no-such-speciality")).toBeUndefined();
+    expect(findSpecialityByParam(rows, "   ")).toBeUndefined();
+    expect(findSpecialityByParam(rows, undefined)).toBeUndefined();
   });
 });
